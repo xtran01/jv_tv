@@ -12,7 +12,7 @@
  * EventReceiver::EventReceiver                                           *
 \**************************************************************************/
 EventReceiver::EventReceiver()
-    : node(nullptr), button_pressed(false), current_texture(0),is_mouse_camera_tool_activated(true)
+    : button_pressed(false), current_texture(0),is_mouse_camera_tool_activated(true)
 {
 }
 
@@ -21,16 +21,16 @@ EventReceiver::EventReceiver()
 \*------------------------------------------------------------------------*/
 bool EventReceiver::keyboard_handler()
 {
-    if (!node) return false;
+    if (!personnage->body) return false;
+
+    is::IAnimatedMeshSceneNode *node = personnage->body;
 
     ic::vector3df position = node->getPosition();
     ic::vector3df rotation = node->getRotation();
 
     if(IsKeyPressed(KEY_ESCAPE))
         exit(0);
-    if(is_crouched ) vitesse_deplacement = 1.0f;
-    if(is_running) vitesse_deplacement = 4.0f;
-    if(!is_crouched && !is_running) vitesse_deplacement = 2.0f;
+    if(is_running) vitesse_deplacement = 3.7f;
     if(IsKeyDown(KEY_KEY_Z)){ // Avance
         position.X += vitesse_deplacement * cos(rotation.Y * M_PI / 180.0);
         position.Z += -vitesse_deplacement * sin(rotation.Y * M_PI / 180.0);
@@ -47,32 +47,23 @@ bool EventReceiver::keyboard_handler()
         position.X += -vitesse_deplacement * cos((rotation.Y-90.0) * M_PI / 180.0);
         position.Z += vitesse_deplacement * sin((rotation.Y-90.0) * M_PI / 180.0);
     }
-    if(IsKeyDown(KEY_KEY_C)){ // S'accroupit
-        vitesse_deplacement = 1;
-        button_pressed = false;
-    }
     if(IsKeyPressed(KEY_KEY_A)){ // Active la course
         is_running = !(is_running);
-        is_crouched = 0;
-        if(is_crouched){
-            if (IsKeyPressed(KEY_KEY_Z))
-                node->setMD2Animation(is::EMAT_CROUCH_STAND);
-            else
-                node->setMD2Animation(is::EMAT_CROUCH_WALK);
+        if (is_running && (IsKeyDown(KEY_KEY_Z) || IsKeyDown(KEY_KEY_S) || IsKeyDown(KEY_KEY_Q) || IsKeyDown(KEY_KEY_D))){
+            personnage->setAnimation(personnage->RUN);
         }
-        else{
-            if (IsKeyDown(KEY_KEY_Z) || IsKeyDown(KEY_KEY_S) || IsKeyDown(KEY_KEY_Q) || IsKeyDown(KEY_KEY_D)){
-                node->setMD2Animation(is::EMAT_RUN);
-            }
-            else
-                node->setMD2Animation(is::EMAT_STAND);
-
+        else if(IsKeyDown(KEY_KEY_Z) || IsKeyDown(KEY_KEY_S) || IsKeyDown(KEY_KEY_Q) || IsKeyDown(KEY_KEY_D))
+        {
+            personnage->setAnimation(personnage->WALK);
+        }
+        else
+        {
+            personnage->setAnimation(personnage->STAND);
         }
     }
 
 
     if(IsKeyPressed(KEY_SPACE)){ // Saute
-        //node->setMD2Animation(is::EMAT_JUMP);
         jump = true;
     }
     if (jump){
@@ -88,39 +79,35 @@ bool EventReceiver::keyboard_handler()
     }
 
     if(IsKeyPressed(KEY_KEY_Z) || IsKeyPressed(KEY_KEY_S) || IsKeyPressed(KEY_KEY_Q) || IsKeyPressed(KEY_KEY_D)){
-        if(is_crouched){
-            node->setMD2Animation(is::EMAT_CROUCH_WALK);
+        if(!attack)
+        {
+            if(is_running)
+                personnage->setAnimation(personnage->RUN);
+            else
+                personnage->setAnimation(personnage->WALK);
         }
-        else{
-            node->setMD2Animation(is::EMAT_RUN);
+        else
+        {
+            personnage->setAnimation(personnage->ATTACK);
+        }
+
+    }
+
+    if(!attack && attack_finished)
+    {
+        attack_finished = false;
+        if(IsKeyDown(KEY_KEY_Z) || IsKeyDown(KEY_KEY_S) || IsKeyDown(KEY_KEY_Q) || IsKeyDown(KEY_KEY_D))
+        {
+            if(is_running)
+                personnage->setAnimation(personnage->RUN);
+            else
+                personnage->setAnimation(personnage->WALK);
         }
     }
 
     if(!IsKeyDown(KEY_KEY_Z) && !IsKeyDown(KEY_KEY_S) && !IsKeyDown(KEY_KEY_Q) && !IsKeyDown(KEY_KEY_D)){
-        if(is_crouched)
-            node->setMD2Animation(is::EMAT_CROUCH_STAND);
-        else
-            node->setMD2Animation(is::EMAT_STAND);
-    }
-
-
-    if(IsKeyPressed(KEY_KEY_C)){
-        is_crouched = !(is_crouched);
-        is_running = 0;
-        if(is_crouched){
-            if (IsKeyPressed(KEY_KEY_Z))
-                node->setMD2Animation(is::EMAT_CROUCH_STAND);
-            else
-                node->setMD2Animation(is::EMAT_CROUCH_WALK);
-        }
-        else{
-            if (IsKeyDown(KEY_KEY_Z) || IsKeyDown(KEY_KEY_S) || IsKeyDown(KEY_KEY_Q) || IsKeyDown(KEY_KEY_D)){
-                node->setMD2Animation(is::EMAT_RUN);
-            }
-            else
-                node->setMD2Animation(is::EMAT_STAND);
-
-        }
+        if(!(*this).attack)
+            personnage->setAnimation(personnage->STAND);
     }
 
     if(IsKeyPressed(KEY_KEY_P)){
@@ -139,34 +126,21 @@ bool EventReceiver::keyboard_handler()
 \*------------------------------------------------------------------------*/
 bool EventReceiver::mouse_handler(const SEvent &event)
 {
+  is::IAnimatedMeshSceneNode *node = personnage->body;
   switch(event.MouseInput.Event)
   {
     case EMIE_LMOUSE_PRESSED_DOWN:
-      node->setMD2Animation(is::EMAT_ATTACK);
-      button_pressed = true;
+      personnage->setAnimation(personnage->ATTACK);
+      //button_pressed = true;
+      attack = true;
+      attack_finished = true;
       old_x = event.MouseInput.X;
       old_y = event.MouseInput.Y;
       break;
     case EMIE_LMOUSE_LEFT_UP:
       button_pressed = false;
       break;
-    case EMIE_MOUSE_MOVED:
-      if (button_pressed)
-      {
-          ic::vector3df rotation = node->getRotation();
-          rotation.Y += (event.MouseInput.X - old_x);
-          node->setRotation(rotation);
-          old_x = event.MouseInput.X;
-          old_y = event.MouseInput.Y;
-
-      }
-      break;
-    case EMIE_MOUSE_WHEEL:
-      current_texture = (current_texture + 1) % textures.size();
-      node->setMaterialTexture(0, textures[current_texture]);
-      break;
-    default:
-      ;
+    default:;
   }
 
   return false;
@@ -369,9 +343,9 @@ bool EventReceiver::OnEvent(const SEvent &event)
 /**************************************************************************\
  * EventReceiver::set_node                                                *
 \**************************************************************************/
-void EventReceiver::set_node(irr::scene::IAnimatedMeshSceneNode *n)
+void EventReceiver::set_personnage(Character *perso)
 {
-    node = n;
+    personnage = perso;
 }
 
 /**************************************************************************\
@@ -390,4 +364,19 @@ bool EventReceiver::is_mouse_pressed(int &x, int &y)
     return true;
   }
   return false;
+}
+/**************************************************************************\
+ * EventReceiver::get_attack()                                               *
+\**************************************************************************/
+bool EventReceiver::get_attack()
+{
+    return attack;
+}
+
+/**************************************************************************\
+ * EventReceiver::set_attack()                                               *
+\**************************************************************************/
+void EventReceiver::set_attack(bool is_attacking)
+{
+    (*this).attack = is_attacking;
 }

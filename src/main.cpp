@@ -17,8 +17,8 @@ f32 direction;
 f32 zdirection;
 const int MAP_ID = 1;
 const int ENEMY_ID = 42;
-const int HEIGHT_WINDOW = 480;
-const int WIDTH_WINDOW = 640;
+const int HEIGHT_WINDOW = 960;
+const int WIDTH_WINDOW = 1280;
 void moveCameraControl(IrrlichtDevice *device,
                        is::IAnimatedMeshSceneNode *perso,
                        EventReceiver receiver)
@@ -48,9 +48,10 @@ void moveCameraControl(IrrlichtDevice *device,
         f32 zf = playerPos.Z + sin( direction * M_PI / 180.0f ) * 64.0f;
 
         camera->setPosition( core::vector3df( xf, yf+10.0f, zf ) );
-        camera->setTarget( core::vector3df( playerPos.X, playerPos.Y + 40.0f,
+        camera->setTarget( core::vector3df( playerPos.X, playerPos.Y + 70.0f,
                                             playerPos.Z ) );
         perso->setRotation( core::vector3df( 0, direction, 0 ) );
+
     }
 
 
@@ -135,6 +136,21 @@ static void create_window(ig::IGUIEnvironment *gui)
                     WINDOW_SPIN_BOX);
 }
 
+void is_attacking(EventReceiver& receiver, int& compteur_attack)
+{
+    bool attacking = receiver.get_attack();
+    if(attacking)
+    {
+        compteur_attack++;
+        if(compteur_attack > 12)
+        {
+            compteur_attack = 0;
+            receiver.set_attack(false);
+        }
+    }
+
+}
+
 int main()
 {
     EventReceiver receiver;
@@ -150,10 +166,6 @@ int main()
     is::ISceneManager *smgr = device->getSceneManager();
     ig::IGUIEnvironment *gui = device->getGUIEnvironment();
 
-    textures.push_back(driver->getTexture("../data/base.pcx"));
-    textures.push_back(driver->getTexture("../data/red_texture.pcx"));
-    textures.push_back(driver->getTexture("../data/blue_texture.pcx"));
-
 
 
 
@@ -164,7 +176,8 @@ int main()
     is::IMeshSceneNode *node_map ;
     node_map = smgr->addOctreeSceneNode(mesh_map->getMesh (0), nullptr , -1 , 1024);
     // Translation pour que nos personnages soient dans le décor
-    node_map->setPosition (core::vector3df( -300 , -20 , -500));
+    node_map->setPosition (core::vector3df( 200 , -100 , -500));
+    //node_map->setRotation(core::vector3df( 0 , 180 , 0));
     node_map->setID(MAP_ID);
     // Création du triangle selector
     scene::ITriangleSelector *selector;
@@ -172,21 +185,25 @@ int main()
     node_map->setTriangleSelector(selector);
 
 
-    textures.push_back(driver->getTexture("../data/base.pcx"));
-    textures.push_back(driver->getTexture("../data/red_texture.pcx"));
-    textures.push_back(driver->getTexture("../data/blue_texture.pcx"));
-
+    textures.push_back(driver->getTexture("../data/Chaingunner/chaingunner_body.png"));
+    textures.push_back(driver->getTexture("../data/Chaingunner/chaingunner_weapon.png"));
+    textures.push_back(driver->getTexture("../data/Chaingunner/chaingunner_head1.png"));
 
 
 
 
     //create Main character
     Character main_character(smgr);
-    main_character.addCharacterMeshToScene(smgr, textures[0]);
+
+
+    main_character.addCharacterMeshToScene(smgr, textures);
+    main_character.setAnimation(main_character.RUN);
     main_character.addCharacterCollider(smgr,selector);
 
+
+
     receiver.set_gui(gui);
-    receiver.set_node(main_character.node);
+    receiver.set_personnage(&main_character);
     receiver.set_textures(textures);
 
 
@@ -197,27 +214,26 @@ int main()
 
     receiver.init_Key();
 
-
-
-
-
-
-
     // Chargement des textures pour le reticule
     iv::ITexture *scope_tex;
     scope_tex= driver->getTexture("../data/scope.png");
-    ig::IGUIImage *scope = gui->addImage(ic::rect<s32>(WIDTH_WINDOW/2 -15,HEIGHT_WINDOW/2-15,  WIDTH_WINDOW/2+15,HEIGHT_WINDOW/2+15)); scope->setScaleImage(true);
 
-
+    int compteur_attack = 0;
 
     while(device->run())
     {
         //set image for the "viseur"
+
+        ig::IGUIImage *scope = gui->addImage(ic::rect<s32>(driver->getScreenSize().Width/2 -15,driver->getScreenSize().Height/2-15,  driver->getScreenSize().Width/2+15,driver->getScreenSize().Height/2+15)); scope->setScaleImage(true);
         scope->setImage(scope_tex);
+
+        is_attacking(receiver,compteur_attack);
 
         receiver.keyboard_handler();
         driver->beginScene(true, true, iv::SColor(100,150,200,255));
-        moveCameraControl(device,main_character.node, receiver);
+        moveCameraControl(device,main_character.body, receiver);
+
+
 
         // Dessin de la scène :
         smgr->drawAll();
