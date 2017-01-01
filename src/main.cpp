@@ -38,6 +38,7 @@ void moveCameraControl(IrrlichtDevice *device,
         if( zdirection > 5 ) //Controle l'orientation verticale max
             zdirection = 5;
 
+
     if(receiver.is_mouse_camera_tool_activated){
         device->getCursorControl()->setPosition( 0.5f, 0.5f );
 
@@ -153,6 +154,9 @@ void is_attacking(EventReceiver& receiver, int& compteur_attack)
 
 int main()
 {
+
+
+
     EventReceiver receiver;
     std::vector<iv::ITexture*> textures;
     // Création de la fenêtre et du système de rendu.
@@ -190,6 +194,16 @@ int main()
     textures.push_back(driver->getTexture("../data/Chaingunner/chaingunner_head1.png"));
 
 
+    //create enemy
+    Enemy e1(smgr,device->getRandomizer());
+    e1.addEnemyMeshToScene();
+    io::path path = "../data/red_texture.pcx";
+    e1.setTexture(path, driver);
+    e1.create_collision_with_map(selector);
+    e1.move_randomely_arround_waiting_position();
+
+
+
 
 
     //create Main character
@@ -207,7 +221,9 @@ int main()
     receiver.set_textures(textures);
 
 
-    is::ICameraSceneNode *camera = smgr->addCameraSceneNode(0, core::vector3df(0.0f,0.0f,0.0f) , core::vector3df(0.0f,0.0f,0.0f), -1);
+    is::ICameraSceneNode *camera = smgr->
+            addCameraSceneNode(0,core::vector3df(0.0f,0.0f,0.0f) ,
+                               core::vector3df(0.0f,0.0f,0.0f), -1);
     direction = 0.0f; zdirection=0.0f;
     device->getCursorControl()->setVisible(false);
     receiver.camera_node = camera;
@@ -217,6 +233,7 @@ int main()
     // Chargement des textures pour le reticule
     iv::ITexture *scope_tex;
     scope_tex= driver->getTexture("../data/scope.png");
+
 
     int compteur_attack = 0;
 
@@ -234,6 +251,10 @@ int main()
         moveCameraControl(device,main_character.body, receiver);
 
 
+
+        receiver.keyboard_handler();
+        driver->beginScene(true, true, iv::SColor(100,150,200,255));
+        //camera->setTarget(perso->getPosition() + ic::vector3df (0 , 20 + 4*receiver.rotation_cam , 0));
 
         // Dessin de la scène :
         smgr->drawAll();
