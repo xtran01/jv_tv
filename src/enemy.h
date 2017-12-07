@@ -9,6 +9,7 @@
 using namespace irr;
 namespace is = irr::scene;
 namespace iv = irr::video;
+namespace ic = irr::core;
 
 class Enemy
 {
@@ -17,8 +18,11 @@ private:
     is::IAnimatedMesh * mesh;
     //Noeud qui mermet de manipuler le maillage
     is::IAnimatedMeshSceneNode *node;
+    ic::vector3df waiting_position_center;
 
 public:
+    Enemy(is::ISceneManager *smgr);
+
 
     void addEnemyMeshToScene(is::ISceneManager *smgr);
 
@@ -35,7 +39,10 @@ public:
      * - texture set to the node
      * */
     void setTexture(io::path path, iv::IVideoDriver *driver);
-    Enemy(is::ISceneManager *smgr);
+    void move_randomely_arround_waiting_position(is::ISceneManager *smgr);
+
+
+
 };
 
 #endif // ENEMY_H

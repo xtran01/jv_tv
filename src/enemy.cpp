@@ -16,4 +16,13 @@ void Enemy::setTexture(io::path path, iv::IVideoDriver *driver){
 Enemy::Enemy(is::ISceneManager *smgr)
 {
     mesh = smgr->getMesh("../data/tris.md2");
+    waiting_position_center = {0.0f,0.0f,0.0f};
+}
+
+void Enemy::move_randomely_arround_waiting_position(is::ISceneManager *smgr)
+{
+    is::ISceneNodeAnimator *anim =  smgr->
+            createFlyCircleAnimator(waiting_position_center,
+                                    200.f);
+    node->addAnimator(anim);
 }
