@@ -54,6 +54,7 @@ public:
   float rotation_cam =0.0f;
   irr::scene::IAnimatedMeshSceneNode *node;
   irr::scene::ICameraSceneNode *camera_node;
+    void init_Key();
   bool keyboard_handler();
   bool mouse_handler(const irr::SEvent &event);
   bool OnEvent(const irr::SEvent &event);
