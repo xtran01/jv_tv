@@ -2,6 +2,7 @@
 #include "events.hpp"
 #include "gui_ids.h"
 #include <iostream>
+#include "enemy.h"
 
 
 using namespace irr;
@@ -145,7 +146,6 @@ int main()
     textures.push_back(driver->getTexture("../data/red_texture.pcx"));
     textures.push_back(driver->getTexture("../data/blue_texture.pcx"));
     perso->setMaterialTexture(0, textures[0]);
-    std::cout<<"HHHHERREEE********************************";
     receiver.set_gui(gui);
     receiver.set_node(perso);
     receiver.set_textures(textures);
@@ -218,6 +218,12 @@ int main()
   billboard->setMaterialFlag(irr::video::EMF_LIGHTING, false);
   billboard->setMaterialType(irr::video::EMT_TRANSPARENT_ALPHA_CHANNEL);
   billboard->setMaterialTexture(0, driver->getTexture("../data/tree.png"));
+
+  //create enemy
+  Enemy e1(smgr);
+  e1.addEnemyMeshToScene(smgr);
+  io::path path = "../data/red_texture.pcx";
+  e1.setTexture(path, driver);
 
   receiver.init_Key();
   int score = 0;
