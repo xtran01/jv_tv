@@ -16,32 +16,7 @@ float zdirection;
 
 void moveCameraControl(IrrlichtDevice *device, is::IAnimatedMeshSceneNode *perso)
 {
-<<<<<<< HEAD
-    ic::vector2d<float> cursorPos = device->getCursorControl()->getRelativePosition();
-    scene::ICameraSceneNode* camera = device->getSceneManager()->getActiveCamera();
-    core::vector3df cameraPos = camera->getAbsolutePosition();
 
-    float change_x = ( cursorPos.X - 0.5 ) * 256.0f;
-    float change_y = ( cursorPos.Y - 0.5 ) * 256.0f;
-    direction += change_x;
-    zdirection -= change_y;
-    if( zdirection <- 90 )
-        zdirection = -90;
-    else
-        if( zdirection > 2 ) //Controle l'orientation verticale max
-            zdirection = 2;
-    device->getCursorControl()->setPosition( 0.5f, 0.5f );
-
-    core::vector3df playerPos = perso->getPosition();
-
-    float xf = playerPos.X - cos( direction * M_PI / 180.0f ) * 64.0f;
-    float yf = playerPos.Y - sin( zdirection * M_PI / 180.0f ) * 64.0f;
-    float zf = playerPos.Z + sin( direction * M_PI / 180.0f ) * 64.0f;
-
-    camera->setPosition( core::vector3df( xf, yf, zf ) );
-    camera->setTarget( core::vector3df( playerPos.X, playerPos.Y + 25.0f, playerPos.Z ) );
-    perso->setRotation( core::vector3df( 0, direction, 0 ) );
-=======
      ic::vector2d<float> cursorPos = device->getCursorControl()->getRelativePosition();
      scene::ICameraSceneNode* camera = device->getSceneManager()->getActiveCamera();
      core::vector3df cameraPos = camera->getAbsolutePosition();
@@ -65,7 +40,6 @@ void moveCameraControl(IrrlichtDevice *device, is::IAnimatedMeshSceneNode *perso
      camera->setPosition( core::vector3df( xf, yf, zf ) );
      camera->setTarget( core::vector3df( playerPos.X, playerPos.Y + 25.0f, playerPos.Z ) );
      perso->setRotation( core::vector3df( 0, direction, 0 ) );
->>>>>>> 52ea765c97dd455215e86ec28f55dbfd39d66a41
 }
 /*===========================================================================*\
  * create_menu                                                               *
@@ -185,92 +159,7 @@ int main()
     perso_ligne->setMaterialTexture(0, textures[1]);
     is::ISceneNodeAnimator *anim =
             smgr->createFlyStraightAnimator(ic::vector3df(-80,0,20),
-<<<<<<< HEAD
-                                            ic::vector3df(0,0,20), 5000, true,true);
-    perso_ligne->addAnimator(anim);
 
-    //is::ICameraSceneNode *camera = smgr->addCameraSceneNode(perso , ic::vector3df (-20 , 30 , 0) , ic::vector3df (0 , 15 , 0));//smgr->addCameraSceneNodeFPS();
-
-    is::ICameraSceneNode *camera = smgr->addCameraSceneNode
-            (0,core::vector3df(0.0f,0.0f,0.0f) , core::vector3df(0.0f,0.0f,0.0f),
-             -1);
-    direction = 0.0f; zdirection=0.0f;
-    device->getCursorControl()->setVisible(false);
-    receiver.camera_node = camera;
-
-
-    // Ajout de l ’ archive qui contient entre autres un niveau complet
-    device->getFileSystem()->addFileArchive("../data/cf.pk3");
-    // On charge un bsp ( un niveau ) en particulier :
-    mesh = smgr->getMesh ("cf.bsp");
-    is::IMeshSceneNode *node2 ;
-    node2 = smgr->addOctreeSceneNode( mesh->getMesh (0), nullptr , -1 , 1024);
-    // Translation pour que nos personnages soient dans le décor
-    node2->setPosition (core::vector3df( -300 , -20 , -500));
-
-    // Création du triangle selector
-    scene::ITriangleSelector *selector;
-    selector = smgr->createOctreeTriangleSelector(node2->getMesh(), node2);
-    node2->setTriangleSelector(selector);
-
-    // Et l'animateur/collisionneur
-    scene::ISceneNodeAnimator *anim1;
-    const core::aabbox3d<f32>& box = perso->getBoundingBox();
-    core::vector3df radius = 1.2*(box.MaxEdge - box.getCenter());
-    anim1 = smgr->createCollisionResponseAnimator(selector,
-                                                  perso,  // Le noeud que l'on veut gérer
-                                                  radius, // "rayons" de la caméra
-                                                  ic::vector3df(0, -10, 0),  // gravité
-                                                  ic::vector3df(0, 0, 0));  // décalage du centre
-
-    perso->addAnimator(anim1);
-
-    // Création de notre Gui
-    // Choix de la police de caractères
-    ig::IGUISkin* skin = gui->getSkin();
-    ig::IGUIFont* font = gui->getFont("../data/fontlucida.png");
-    skin->setFont(font);
-
-    // La barre de menu
-    create_menu(gui);
-
-    // Une fenêtre pour différents réglages
-    //create_window(gui);
-
-
-    // Ajout d'un arbre billboard
-    is::IBillboardSceneNode *billboard;
-    billboard = smgr->addBillboardSceneNode(nullptr,
-                                            ic::dimension2d<f32>(50, 80),
-                                            ic::vector3df(0, 0, 50));
-    billboard->setMaterialFlag(irr::video::EMF_LIGHTING, false);
-    billboard->setMaterialType(irr::video::EMT_TRANSPARENT_ALPHA_CHANNEL);
-    billboard->setMaterialTexture(0, driver->getTexture("../data/tree.png"));
-
-
-    int score = 0;
-
-    while(device->run())
-    {
-        // Work out a frame delta time.
-
-        receiver.keyboard_handler();
-
-        driver->beginScene(true, true, iv::SColor(100,150,200,255));
-        //camera->setTarget(perso->getPosition() + ic::vector3df (0 , 20 + 4*receiver.rotation_cam , 0));
-        moveCameraControl(device,perso);
-
-        // Dessin de la scène :
-        smgr->drawAll();
-        //
-        gui->drawAll();
-
-        driver->endScene();
-    }
-    device->drop();
-
-    return 0;
-=======
             ic::vector3df(0,0,20), 5000, true,true);
   perso_ligne->addAnimator(anim);
 
@@ -353,5 +242,4 @@ int main()
   device->drop();
 
   return 0;
->>>>>>> 52ea765c97dd455215e86ec28f55dbfd39d66a41
 }
