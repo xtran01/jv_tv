@@ -201,28 +201,7 @@ int main()
                                                ic::vector3df(0, -10, 0));  // décalage du centre
 
   perso->addAnimator(anim1);
-/*
-  // Création de notre Gui
-  // Choix de la police de caractères
-  ig::IGUISkin* skin = gui->getSkin();
-  ig::IGUIFont* font = gui->getFont("../data/fontlucida.png");
-  skin->setFont(font);
 
-  // La barre de menu
-  create_menu(gui);
-
-  // Une fenêtre pour différents réglages
-  //create_window(gui);
-
-
-  // Ajout d'un arbre billboard
-  is::IBillboardSceneNode *billboard;
-  billboard = smgr->addBillboardSceneNode(nullptr,
-                                              ic::dimension2d<f32>(50, 80),
-                                              ic::vector3df(0, 0, 50));
-  billboard->setMaterialFlag(irr::video::EMF_LIGHTING, false);
-  billboard->setMaterialType(irr::video::EMT_TRANSPARENT_ALPHA_CHANNEL);
-  billboard->setMaterialTexture(0, driver->getTexture("../dataf/tree.png"));*/
 
   //create enemy
   Enemy e1(smgr);

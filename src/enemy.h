@@ -19,7 +19,21 @@ private:
     is::IAnimatedMeshSceneNode *node;
 
 public:
+
     void addEnemyMeshToScene(is::ISceneManager *smgr);
+
+    /**
+     * Function setTexture
+     * *******************
+     * Set a texture for the node of the enemy
+     * require:
+     * *******
+     * - a path for the texture of type string
+     * - the video driver of type driver
+     * ensure:
+     * ******
+     * - texture set to the node
+     * */
     void setTexture(io::path path, iv::IVideoDriver *driver);
     Enemy(is::ISceneManager *smgr);
 };
