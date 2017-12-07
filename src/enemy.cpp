@@ -6,12 +6,11 @@ void Enemy::addEnemyMeshToScene(is::ISceneManager *smgr){
     node -> setMD2Animation(irr::scene::EMAT_STAND);
 }
 
-void Enemy::setTexture(std::string path, IrrlichtDevice *device){
-    if(!node){
-        throw "Unable to set texture of node not defined";
-    }
-}
 
+void Enemy::setTexture(io::path path, iv::IVideoDriver *driver){
+    assert(node != NULL);
+    node->setMaterialTexture(0, driver->getTexture(path));
+}
 
 
 Enemy::Enemy(is::ISceneManager *smgr)

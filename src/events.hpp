@@ -20,7 +20,7 @@ class EventReceiver : public irr::IEventReceiver
   bool button_pressed = true;
   bool is_crouched =false;
   bool is_running =false;
-  float vitesse_deplacement = 2;
+  f32 vitesse_deplacement = 2;
   is::EMD2_ANIMATION_TYPE last_pos = is::EMAT_STAND ;
 
   int  old_x, old_y;
@@ -47,11 +47,11 @@ class EventReceiver : public irr::IEventReceiver
   bool IsKeyPressed(EKEY_CODE keyCode) const;
   bool IsKeyReleased(EKEY_CODE keyCode) const;
   bool jump = false;
-  float height_jump =0.0f;
+  f32 height_jump =0.0f;
 
 public:
   EventReceiver();
-  float rotation_cam =0.0f;
+  f32 rotation_cam =0.0f;
   irr::scene::IAnimatedMeshSceneNode *node;
   irr::scene::ICameraSceneNode *camera_node;
     void init_Key();

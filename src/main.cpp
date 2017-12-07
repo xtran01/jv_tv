@@ -2,6 +2,9 @@
 #include "events.hpp"
 #include "gui_ids.h"
 #include <iostream>
+#include "enemy.h"
+
+
 using namespace irr;
 namespace iv = irr::video;
 namespace is = irr::scene;
@@ -9,20 +12,20 @@ namespace ic = irr::core;
 namespace ig = irr::gui;
 
 
-float direction;
-float zdirection;
+f32 direction;
+f32 zdirection;
 const int ENEMY_ID = 42;
 const int HEIGHT_WINDOW = 480;
 const int WIDTH_WINDOW = 640;
 void moveCameraControl(IrrlichtDevice *device, is::IAnimatedMeshSceneNode *perso)
 {
 
-     ic::vector2d<float> cursorPos = device->getCursorControl()->getRelativePosition();
+     ic::vector2d<f32> cursorPos = device->getCursorControl()->getRelativePosition();
      scene::ICameraSceneNode* camera = device->getSceneManager()->getActiveCamera();
      core::vector3df cameraPos = camera->getAbsolutePosition();
 
-     float change_x = ( cursorPos.X - 0.5 ) * 100.0f;
-     float change_y = ( cursorPos.Y - 0.5 ) * 100.0f;
+     f32 change_x = ( cursorPos.X - 0.5 ) * 100.0f;
+     f32 change_y = ( cursorPos.Y - 0.5 ) * 100.0f;
      direction += change_x;
      zdirection -= change_y;
      if( zdirection < -90 )
@@ -34,9 +37,9 @@ void moveCameraControl(IrrlichtDevice *device, is::IAnimatedMeshSceneNode *perso
 
      core::vector3df playerPos = perso->getPosition();
 
-     float xf = playerPos.X - cos( direction * M_PI / 180.0f ) * 64.0f;
-     float yf = playerPos.Y - sin( zdirection * M_PI / 180.0f ) * 134.0f;
-     float zf = playerPos.Z + sin( direction * M_PI / 180.0f ) * 64.0f;
+     f32 xf = playerPos.X - cos( direction * M_PI / 180.0f ) * 64.0f;
+     f32 yf = playerPos.Y - sin( zdirection * M_PI / 180.0f ) * 134.0f;
+     f32 zf = playerPos.Z + sin( direction * M_PI / 180.0f ) * 64.0f;
 
      camera->setPosition( core::vector3df( xf, yf+10.0f, zf ) );
      camera->setTarget( core::vector3df( playerPos.X, playerPos.Y + 40.0f, playerPos.Z ) );
@@ -199,28 +202,14 @@ int main()
                                                ic::vector3df(0, -10, 0));  // décalage du centre
 
   perso->addAnimator(anim1);
-/*
-  // Création de notre Gui
-  // Choix de la police de caractères
-  ig::IGUISkin* skin = gui->getSkin();
-  ig::IGUIFont* font = gui->getFont("../data/fontlucida.png");
-  skin->setFont(font);
-
-  // La barre de menu
-  create_menu(gui);
-
-  // Une fenêtre pour différents réglages
-  //create_window(gui);
 
 
-  // Ajout d'un arbre billboard
-  is::IBillboardSceneNode *billboard;
-  billboard = smgr->addBillboardSceneNode(nullptr,
-                                              ic::dimension2d<f32>(50, 80),
-                                              ic::vector3df(0, 0, 50));
-  billboard->setMaterialFlag(irr::video::EMF_LIGHTING, false);
-  billboard->setMaterialType(irr::video::EMT_TRANSPARENT_ALPHA_CHANNEL);
-  billboard->setMaterialTexture(0, driver->getTexture("../data/tree.png"));*/
+
+  //create enemy
+  Enemy e1(smgr);
+  e1.addEnemyMeshToScene(smgr);
+  io::path path = "../data/red_texture.pcx";
+  e1.setTexture(path, driver);
 
   receiver.init_Key();
 
