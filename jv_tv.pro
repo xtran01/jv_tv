@@ -8,11 +8,13 @@ INCLUDEPATH += /usr/include/irrlicht
 LIBS += -lIrrlicht
 
 SOURCES += src/main.cpp \
-         src/events.cpp
+         src/events.cpp \
+    src/enemy.cpp
 
 
 HEADERS += src/events.hpp \
-           src/gui_ids.h
+           src/gui_ids.h \
+    src/enemy.h
 
 
 
