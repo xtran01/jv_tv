@@ -39,6 +39,10 @@ public:
      * - texture set to the node
      * */
     void setTexture(io::path path, iv::IVideoDriver *driver);
+
+    void create_collision_with_map(is::ITriangleSelector *world,
+                                          is::ISceneManager *smgr);
+
     void move_randomely_arround_waiting_position(is::ISceneManager *smgr);
 
 

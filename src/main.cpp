@@ -200,6 +200,7 @@ int main()
     e1.addEnemyMeshToScene(smgr);
     io::path path = "../data/red_texture.pcx";
     e1.setTexture(path, driver);
+    e1.create_collision_with_map(selector,smgr);
     e1.move_randomely_arround_waiting_position(smgr);
 
     receiver.init_Key();

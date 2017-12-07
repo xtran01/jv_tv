@@ -26,3 +26,14 @@ void Enemy::move_randomely_arround_waiting_position(is::ISceneManager *smgr)
                                     200.f);
     node->addAnimator(anim);
 }
+
+void Enemy::create_collision_with_map(is::ITriangleSelector *world,
+                                      is::ISceneManager *smgr)
+{
+    const ic::aabbox3d<f32>& box = node->getBoundingBox();
+    ic::vector3df radius = box.MaxEdge - box.getCenter();
+    is::ISceneNodeAnimator *anim = smgr
+            ->createCollisionResponseAnimator(world,node,radius,
+                                              ic::vector3df(0,-10,0));
+    node->addAnimator(anim);
+}
