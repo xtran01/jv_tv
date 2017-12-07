@@ -12,19 +12,19 @@ namespace ic = irr::core;
 namespace ig = irr::gui;
 
 
-float direction;
-float zdirection;
+f32 direction;
+f32 zdirection;
 const int ENEMY_ID = 42;
 
 void moveCameraControl(IrrlichtDevice *device, is::IAnimatedMeshSceneNode *perso)
 {
 
-     ic::vector2d<float> cursorPos = device->getCursorControl()->getRelativePosition();
+     ic::vector2d<f32> cursorPos = device->getCursorControl()->getRelativePosition();
      scene::ICameraSceneNode* camera = device->getSceneManager()->getActiveCamera();
      core::vector3df cameraPos = camera->getAbsolutePosition();
 
-     float change_x = ( cursorPos.X - 0.5 ) * 100.0f;
-     float change_y = ( cursorPos.Y - 0.5 ) * 100.0f;
+     f32 change_x = ( cursorPos.X - 0.5 ) * 100.0f;
+     f32 change_y = ( cursorPos.Y - 0.5 ) * 100.0f;
      direction += change_x;
      zdirection -= change_y;
      if( zdirection < -90 )
@@ -36,9 +36,9 @@ void moveCameraControl(IrrlichtDevice *device, is::IAnimatedMeshSceneNode *perso
 
      core::vector3df playerPos = perso->getPosition();
 
-     float xf = playerPos.X - cos( direction * M_PI / 180.0f ) * 64.0f;
-     float yf = playerPos.Y - sin( zdirection * M_PI / 180.0f ) * 134.0f;
-     float zf = playerPos.Z + sin( direction * M_PI / 180.0f ) * 64.0f;
+     f32 xf = playerPos.X - cos( direction * M_PI / 180.0f ) * 64.0f;
+     f32 yf = playerPos.Y - sin( zdirection * M_PI / 180.0f ) * 134.0f;
+     f32 zf = playerPos.Z + sin( direction * M_PI / 180.0f ) * 64.0f;
 
      camera->setPosition( core::vector3df( xf, yf+10.0f, zf ) );
      camera->setTarget( core::vector3df( playerPos.X, playerPos.Y + 40.0f, playerPos.Z ) );
@@ -222,7 +222,7 @@ int main()
                                               ic::vector3df(0, 0, 50));
   billboard->setMaterialFlag(irr::video::EMF_LIGHTING, false);
   billboard->setMaterialType(irr::video::EMT_TRANSPARENT_ALPHA_CHANNEL);
-  billboard->setMaterialTexture(0, driver->getTexture("../data/tree.png"));*/
+  billboard->setMaterialTexture(0, driver->getTexture("../dataf/tree.png"));*/
 
   //create enemy
   Enemy e1(smgr);
