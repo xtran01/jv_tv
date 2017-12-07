@@ -61,6 +61,8 @@ public:
   void set_gui(irr::gui::IGUIEnvironment *gui);
   void set_node(irr::scene::IAnimatedMeshSceneNode *node);
   void set_textures(const std::vector<irr::video::ITexture *> &tex){textures=tex;}
+  bool is_mouse_pressed(int &x, int &y);
+
 };
 
 #endif
