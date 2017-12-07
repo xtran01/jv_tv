@@ -1,6 +1,8 @@
 #include <irrlicht.h>
 #include "events.hpp"
 #include "gui_ids.h"
+#include <iostream>
+
 
 using namespace irr;
 namespace iv = irr::video;
@@ -122,17 +124,17 @@ int main()
 
   //smgr->addCameraSceneNode(nullptr , ic::vector3df (0 , 30 , -40) , ic::vector3df (0 , 5 , 0));
 
-  is::IAnimatedMesh *mesh = smgr->getMesh("data/tris.md2");
+  is::IAnimatedMesh *mesh = smgr->getMesh("../data/tris.md2");
   is::IAnimatedMeshSceneNode *perso = smgr->addAnimatedMeshSceneNode(mesh);
 
 
   perso->setMaterialFlag(iv::EMF_LIGHTING, false);
   perso->setMD2Animation(is::EMAT_STAND);
-  textures.push_back(driver->getTexture("data/base.pcx"));
-  textures.push_back(driver->getTexture("data/red_texture.pcx"));
-  textures.push_back(driver->getTexture("data/blue_texture.pcx"));
+  textures.push_back(driver->getTexture("../data/base.pcx"));
+  textures.push_back(driver->getTexture("../data/red_texture.pcx"));
+  textures.push_back(driver->getTexture("../data/blue_texture.pcx"));
   perso->setMaterialTexture(0, textures[0]);
-
+  std::cout<<"HHHHERREEE********************************";
   receiver.set_gui(gui);
   receiver.set_node(perso);
   receiver.set_textures(textures);
@@ -158,7 +160,7 @@ int main()
 
 
   // Ajout de l ’ archive qui contient entre autres un niveau complet
-  device->getFileSystem()->addFileArchive("data/cf.pk3");
+  device->getFileSystem()->addFileArchive("../data/cf.pk3");
   // On charge un bsp ( un niveau ) en particulier :
   mesh = smgr->getMesh ("cf.bsp");
   is::IMeshSceneNode *node2 ;
@@ -186,7 +188,7 @@ int main()
   // Création de notre Gui
   // Choix de la police de caractères
   ig::IGUISkin* skin = gui->getSkin();
-  ig::IGUIFont* font = gui->getFont("data/fontlucida.png");
+  ig::IGUIFont* font = gui->getFont("../data/fontlucida.png");
   skin->setFont(font);
 
   // La barre de menu
@@ -203,7 +205,7 @@ int main()
                                               ic::vector3df(0, 0, 50));
   billboard->setMaterialFlag(irr::video::EMF_LIGHTING, false);
   billboard->setMaterialType(irr::video::EMT_TRANSPARENT_ALPHA_CHANNEL);
-  billboard->setMaterialTexture(0, driver->getTexture("data/tree.png"));
+  billboard->setMaterialTexture(0, driver->getTexture("../data/tree.png"));
 
 
   int score = 0;
