@@ -36,7 +36,6 @@ void moveCameraControl(IrrlichtDevice *device, is::IAnimatedMeshSceneNode *perso
      float xf = playerPos.X - cos( direction * M_PI / 180.0f ) * 64.0f;
      float yf = playerPos.Y - sin( zdirection * M_PI / 180.0f ) * 64.0f;
      float zf = playerPos.Z + sin( direction * M_PI / 180.0f ) * 64.0f;
-
      camera->setPosition( core::vector3df( xf, yf, zf ) );
      camera->setTarget( core::vector3df( playerPos.X, playerPos.Y + 25.0f, playerPos.Z ) );
      perso->setRotation( core::vector3df( 0, direction, 0 ) );
@@ -207,7 +206,7 @@ int main()
   billboard->setMaterialType(irr::video::EMT_TRANSPARENT_ALPHA_CHANNEL);
   billboard->setMaterialTexture(0, driver->getTexture("../data/tree.png"));
 
-
+  receiver.init_Key();
   int score = 0;
 
   while(device->run())

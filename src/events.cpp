@@ -320,6 +320,12 @@ bool EventReceiver::update_key_event(const SEvent &event)
     return event.KeyInput.PressedDown;
 
 }
+void EventReceiver::init_Key() {
+    for (u32 i = 0; i<KEY_KEY_CODES_COUNT; i++){
+        KeyIsDown[i] = false;
+        KeyEvent[i]=false;
+    }
+}
 void EventReceiver::init_KeyEvent() {
     for (u32 i = 0; i<KEY_KEY_CODES_COUNT; i++)
         KeyEvent[i] = false;
