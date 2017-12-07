@@ -135,39 +135,38 @@ bool EventReceiver::keyboard_handler()
 \*------------------------------------------------------------------------*/
 bool EventReceiver::mouse_handler(const SEvent &event)
 {
-    if (!node) return false;
-    switch (event.MouseInput.Event)
-    {
+  switch(event.MouseInput.Event)
+  {
     case EMIE_LMOUSE_PRESSED_DOWN:
-        node->setMD2Animation(is::EMAT_ATTACK);
-        button_pressed = true;
-        break;
+      node->setMD2Animation(is::EMAT_ATTACK);
+      button_pressed = true;
+      old_x = event.MouseInput.X;
+      old_y = event.MouseInput.Y;
+      break;
     case EMIE_LMOUSE_LEFT_UP:
-        button_pressed = true;
-        break;
+      button_pressed = false;
+      break;
     case EMIE_MOUSE_MOVED:
-        if (button_pressed){
-            ic::vector3df rotation = node->getRotation();
-            rotation.Y += (event.MouseInput.X - old_x);
-            old_x = event.MouseInput.X;
-            old_y = event.MouseInput.Y;
-            node->setRotation(rotation);
+      if (button_pressed)
+      {
+          ic::vector3df rotation = node->getRotation();
+          rotation.Y += (event.MouseInput.X - old_x);
+          node->setRotation(rotation);
+          old_x = event.MouseInput.X;
+          old_y = event.MouseInput.Y;
 
-            //rotation_cam += (event.MouseInput.Y - old_y);
-
-        }
-        break;
+      }
+      break;
     case EMIE_MOUSE_WHEEL:
-        current_texture = (current_texture + 1) % textures.size();
-        node->setMaterialTexture(0, textures[current_texture]);
-        break;
-    default:;
-    }
+      current_texture = (current_texture + 1) % textures.size();
+      node->setMaterialTexture(0, textures[current_texture]);
+      break;
+    default:
+      ;
+  }
 
-    return false;
-
+  return false;
 }
-
 /*------------------------------------------------------------------------*\
  * EventReceiver::gui_handler                                             *
 \*------------------------------------------------------------------------*/
@@ -366,6 +365,8 @@ bool EventReceiver::IsClicReleased(EMOUSE_INPUT_EVENT mouseInput) const {
     return (!ClicIsDown[mouseInput] && KeyEvent[mouseInput]);
 }*/
 
+
+
 /**************************************************************************\
  * EventReceiver::OnEvent                                                 *
 \**************************************************************************/
@@ -400,4 +401,14 @@ void EventReceiver::set_node(irr::scene::IAnimatedMeshSceneNode *n)
 void EventReceiver::set_gui(irr::gui::IGUIEnvironment *g)
 {
     gui = g;
+}
+bool EventReceiver::is_mouse_pressed(int &x, int &y)
+{
+  if (button_pressed)
+  {
+    x = old_x;
+    y = old_y;
+    return true;
+  }
+  return false;
 }
