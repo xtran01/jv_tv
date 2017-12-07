@@ -12,7 +12,8 @@ namespace ig = irr::gui;
 float direction;
 float zdirection;
 const int ENEMY_ID = 42;
-
+const int HEIGHT_WINDOW = 480;
+const int WIDTH_WINDOW = 640;
 void moveCameraControl(IrrlichtDevice *device, is::IAnimatedMeshSceneNode *perso)
 {
 
@@ -75,7 +76,7 @@ static void create_menu(ig::IGUIEnvironment *gui)
 static void create_window(ig::IGUIEnvironment *gui)
 {
     // La fenêtre
-    ig::IGUIWindow *window = gui->addWindow(ic::rect<s32>(420,25, 620,460),
+    ig::IGUIWindow *window = gui->addWindow(ic::rect<s32>(420,25, WIDTH_WINDOW+20,HEIGHT_WINDOW-20),
                                             false, L"Settings");
 
     // Une zone d'édition de texte, précédée d'un label
@@ -125,7 +126,7 @@ int main()
     std::vector<iv::ITexture*> textures;
     // Création de la fenêtre et du système de rendu.
     IrrlichtDevice *device = createDevice(iv::EDT_OPENGL,
-                                          ic::dimension2d < u32 >(640 , 480) ,
+                                          ic::dimension2d < u32 >(WIDTH_WINDOW , HEIGHT_WINDOW) ,
                                           16 , false , false , false , &receiver);
 
     iv::IVideoDriver  *driver = device->getVideoDriver();
@@ -135,38 +136,22 @@ int main()
 
     //smgr->addCameraSceneNode(nullptr , ic::vector3df (0 , 30 , -40) , ic::vector3df (0 , 5 , 0));
 
-<<<<<<< HEAD
-  is::IAnimatedMesh *mesh = smgr->getMesh("data/tris.md2");
+  is::IAnimatedMesh *mesh = smgr->getMesh("../data/tris.md2");
   is::IAnimatedMeshSceneNode *perso = smgr->addAnimatedMeshSceneNode(mesh);
 
 
   perso->setMaterialFlag(iv::EMF_LIGHTING, false);
   perso->setMD2Animation(is::EMAT_STAND);
-  textures.push_back(driver->getTexture("data/base.pcx"));
-  textures.push_back(driver->getTexture("data/red_texture.pcx"));
-  textures.push_back(driver->getTexture("data/blue_texture.pcx"));
+  textures.push_back(driver->getTexture("../data/base.pcx"));
+  textures.push_back(driver->getTexture("../data/red_texture.pcx"));
+  textures.push_back(driver->getTexture("../data/blue_texture.pcx"));
   perso->setMaterialTexture(0, textures[0]);
   perso->setPosition(ic::vector3df(0, 0, 0));
 
   receiver.set_gui(gui);
   receiver.set_node(perso);
   receiver.set_textures(textures);
-=======
-    is::IAnimatedMesh *mesh = smgr->getMesh("../data/tris.md2");
-    is::IAnimatedMeshSceneNode *perso = smgr->addAnimatedMeshSceneNode(mesh);
 
-
-    perso->setMaterialFlag(iv::EMF_LIGHTING, false);
-    perso->setMD2Animation(is::EMAT_STAND);
-    textures.push_back(driver->getTexture("../data/base.pcx"));
-    textures.push_back(driver->getTexture("../data/red_texture.pcx"));
-    textures.push_back(driver->getTexture("../data/blue_texture.pcx"));
-    perso->setMaterialTexture(0, textures[0]);
-    std::cout<<"HHHHERREEE********************************";
-    receiver.set_gui(gui);
-    receiver.set_node(perso);
-    receiver.set_textures(textures);
->>>>>>> a5b6ded4ece1f8761cdc6d480c23be5d6c5e4286
 
     //perso->setDebugDataVisible(is::EDS_NORMALS | is::EDS_BBOX);
 
@@ -185,12 +170,12 @@ int main()
 
   is::ICameraSceneNode *camera = smgr->addCameraSceneNode(0, core::vector3df(0.0f,0.0f,0.0f) , core::vector3df(0.0f,0.0f,0.0f), -1);
   direction = 0.0f; zdirection=0.0f;
-  //device->getCursorControl()->setVisible(false);
+  device->getCursorControl()->setVisible(false);
   receiver.camera_node = camera;
 
 
   // Ajout de l ’ archive qui contient entre autres un niveau complet
-  device->getFileSystem()->addFileArchive("data/cf.pk3");
+  device->getFileSystem()->addFileArchive("../data/cf.pk3");
   // On charge un bsp ( un niveau ) en particulier :
   is::IAnimatedMesh *mesh_map = smgr->getMesh ("cf.bsp");
   is::IMeshSceneNode *node_map ;
@@ -218,7 +203,7 @@ int main()
   // Création de notre Gui
   // Choix de la police de caractères
   ig::IGUISkin* skin = gui->getSkin();
-  ig::IGUIFont* font = gui->getFont("data/fontlucida.png");
+  ig::IGUIFont* font = gui->getFont("../data/fontlucida.png");
   skin->setFont(font);
 
   // La barre de menu
@@ -235,7 +220,7 @@ int main()
                                               ic::vector3df(0, 0, 50));
   billboard->setMaterialFlag(irr::video::EMF_LIGHTING, false);
   billboard->setMaterialType(irr::video::EMT_TRANSPARENT_ALPHA_CHANNEL);
-  billboard->setMaterialTexture(0, driver->getTexture("data/tree.png"));*/
+  billboard->setMaterialTexture(0, driver->getTexture("../data/tree.png"));*/
 
   receiver.init_Key();
 
@@ -258,8 +243,15 @@ int main()
 
   is::ISceneCollisionManager *collision_manager = smgr->getSceneCollisionManager();
 
+
+  // Chargement des textures pour les chiffres
+  iv::ITexture *scope_tex;
+  scope_tex= driver->getTexture("../data/scope.png");
+  ig::IGUIImage *score_10000 = gui->addImage(ic::rect<s32>(WIDTH_WINDOW/2 -15,HEIGHT_WINDOW/2-15,  WIDTH_WINDOW/2+15,HEIGHT_WINDOW/2+15)); score_10000->setScaleImage(true);
+
   while(device->run())
    {
+      score_10000->setImage(scope_tex);
       int mouse_x, mouse_y;
       if (receiver.is_mouse_pressed(mouse_x, mouse_y))
       {
