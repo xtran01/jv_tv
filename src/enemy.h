@@ -4,7 +4,7 @@
 #include <string>
 #include <assert.h>
 #include <iostream>
-
+#include "mycollisionresponse.h"
 
 using namespace irr;
 namespace is = irr::scene;
@@ -19,8 +19,6 @@ private:
     //Noeud qui mermet de manipuler le maillage
     is::IAnimatedMeshSceneNode *node;
 
-    // Response of the collision with the world
-    is::ISceneNodeAnimatorCollisionResponse *worldCollisionResponse;
 
     ic::vector3df waiting_position_center;
 
@@ -29,6 +27,7 @@ public:
 
 
     void addEnemyMeshToScene(is::ISceneManager *smgr);
+    void setPosition(ic::vector3df vec3);
 
     /**
      * Function setTexture

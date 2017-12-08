@@ -6,6 +6,11 @@ void Enemy::addEnemyMeshToScene(is::ISceneManager *smgr){
     node -> setMD2Animation(irr::scene::EMAT_STAND);
 }
 
+void Enemy::setPosition(ic::vector3df vec3){
+    node -> setPosition(vec3);
+}
+
+
 
 void Enemy::setTexture(io::path path, iv::IVideoDriver *driver){
     assert(node != NULL);
@@ -24,10 +29,8 @@ void Enemy::move_randomely_arround_waiting_position(is::ISceneManager *smgr)
     is::ISceneNodeAnimator *anim =  smgr->
             createFlyCircleAnimator(waiting_position_center,
                                     200.f);
-    ic::vector3df position = node->getPosition();
-    bool collisionOccured =
-    position += ic::vector3df(0.5f,0.0,0.0);
-    node->setPosition(position);
+
+    node->addAnimator(anim);
 }
 
 void Enemy::create_collision_with_map(is::ITriangleSelector *world,
@@ -35,9 +38,12 @@ void Enemy::create_collision_with_map(is::ITriangleSelector *world,
 {
     const ic::aabbox3d<f32>& box = node->getBoundingBox();
     ic::vector3df radius = box.MaxEdge - box.getCenter();
-    is::ISceneNodeAnimator *anim = smgr
+    is::ISceneNodeAnimatorCollisionResponse *world_collision_response = smgr
             ->createCollisionResponseAnimator(world,node,radius,
-                                             ic::vector3df(0,-10,0));
-    worldCollisionResponse = anim;
-    //node->addAnimator(anim);
+                                              ic::vector3df(0,-10,0));
+    std::cout<<"SETTING COLLISION RESPONSE"<<std::endl ;
+    MyCollisionResponse *collisionResponse;
+    world_collision_response->setCollisionCallback(collisionResponse);
+            //worldCollisionResponse = anim;
+//    node->addAnimator(world_collision_response);
 }

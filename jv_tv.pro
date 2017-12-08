@@ -9,12 +9,16 @@ LIBS += -lIrrlicht
 
 SOURCES += src/main.cpp \
          src/events.cpp \
-    src/enemy.cpp
+    src/enemy.cpp \
+    src/character.cpp \
+    src/mycollisionresponse.cpp
 
 
 HEADERS += src/events.hpp \
            src/gui_ids.h \
-    src/enemy.h
+    src/enemy.h \
+    src/character.h \
+    src/mycollisionresponse.h
 
 
 
