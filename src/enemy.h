@@ -9,7 +9,7 @@
 using namespace irr;
 namespace is = irr::scene;
 namespace iv = irr::video;
-
+namespace ic = irr::core;
 class Enemy
 {
 private:
@@ -21,7 +21,7 @@ private:
 public:
 
     void addEnemyMeshToScene(is::ISceneManager *smgr);
-
+    void setPosition(ic::vector3df vec3);
     /**
      * Function setTexture
      * *******************

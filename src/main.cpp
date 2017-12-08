@@ -3,6 +3,7 @@
 #include "gui_ids.h"
 #include <iostream>
 #include "enemy.h"
+#include "character.h"
 
 
 using namespace irr;
@@ -14,36 +15,37 @@ namespace ig = irr::gui;
 
 f32 direction;
 f32 zdirection;
+const int MAP_ID = 1;
 const int ENEMY_ID = 42;
 const int HEIGHT_WINDOW = 480;
 const int WIDTH_WINDOW = 640;
 void moveCameraControl(IrrlichtDevice *device, is::IAnimatedMeshSceneNode *perso)
 {
 
-     ic::vector2d<f32> cursorPos = device->getCursorControl()->getRelativePosition();
-     scene::ICameraSceneNode* camera = device->getSceneManager()->getActiveCamera();
-     core::vector3df cameraPos = camera->getAbsolutePosition();
+    ic::vector2d<f32> cursorPos = device->getCursorControl()->getRelativePosition();
+    scene::ICameraSceneNode* camera = device->getSceneManager()->getActiveCamera();
+    core::vector3df cameraPos = camera->getAbsolutePosition();
 
-     f32 change_x = ( cursorPos.X - 0.5 ) * 100.0f;
-     f32 change_y = ( cursorPos.Y - 0.5 ) * 100.0f;
-     direction += change_x;
-     zdirection -= change_y;
-     if( zdirection < -90 )
-         zdirection = -90;
-     else
-     if( zdirection > 5 ) //Controle l'orientation verticale max
-         zdirection = 5;
-     device->getCursorControl()->setPosition( 0.5f, 0.5f );
+    f32 change_x = ( cursorPos.X - 0.5 ) * 100.0f;
+    f32 change_y = ( cursorPos.Y - 0.5 ) * 100.0f;
+    direction += change_x;
+    zdirection -= change_y;
+    if( zdirection < -90 )
+        zdirection = -90;
+    else
+        if( zdirection > 5 ) //Controle l'orientation verticale max
+            zdirection = 5;
+    device->getCursorControl()->setPosition( 0.5f, 0.5f );
 
-     core::vector3df playerPos = perso->getPosition();
+    core::vector3df playerPos = perso->getPosition();
 
-     f32 xf = playerPos.X - cos( direction * M_PI / 180.0f ) * 64.0f;
-     f32 yf = playerPos.Y - sin( zdirection * M_PI / 180.0f ) * 134.0f;
-     f32 zf = playerPos.Z + sin( direction * M_PI / 180.0f ) * 64.0f;
+    f32 xf = playerPos.X - cos( direction * M_PI / 180.0f ) * 64.0f;
+    f32 yf = playerPos.Y - sin( zdirection * M_PI / 180.0f ) * 134.0f;
+    f32 zf = playerPos.Z + sin( direction * M_PI / 180.0f ) * 64.0f;
 
-     camera->setPosition( core::vector3df( xf, yf+10.0f, zf ) );
-     camera->setTarget( core::vector3df( playerPos.X, playerPos.Y + 40.0f, playerPos.Z ) );
-     perso->setRotation( core::vector3df( 0, direction, 0 ) );
+    camera->setPosition( core::vector3df( xf, yf+10.0f, zf ) );
+    camera->setTarget( core::vector3df( playerPos.X, playerPos.Y + 40.0f, playerPos.Z ) );
+    perso->setRotation( core::vector3df( 0, direction, 0 ) );
 }
 /*===========================================================================*\
  * create_menu                                                               *
@@ -136,143 +138,136 @@ int main()
     is::ISceneManager *smgr = device->getSceneManager();
     ig::IGUIEnvironment *gui = device->getGUIEnvironment();
 
-
-    //smgr->addCameraSceneNode(nullptr , ic::vector3df (0 , 30 , -40) , ic::vector3df (0 , 5 , 0));
-
-  is::IAnimatedMesh *mesh = smgr->getMesh("../data/tris.md2");
-  is::IAnimatedMeshSceneNode *perso = smgr->addAnimatedMeshSceneNode(mesh);
+    textures.push_back(driver->getTexture("../data/base.pcx"));
+    textures.push_back(driver->getTexture("../data/red_texture.pcx"));
+    textures.push_back(driver->getTexture("../data/blue_texture.pcx"));
 
 
-  perso->setMaterialFlag(iv::EMF_LIGHTING, false);
-  perso->setMD2Animation(is::EMAT_STAND);
-  textures.push_back(driver->getTexture("../data/base.pcx"));
-  textures.push_back(driver->getTexture("../data/red_texture.pcx"));
-  textures.push_back(driver->getTexture("../data/blue_texture.pcx"));
-  perso->setMaterialTexture(0, textures[0]);
-  perso->setPosition(ic::vector3df(0, 0, 0));
 
-  receiver.set_gui(gui);
-  receiver.set_node(perso);
-  receiver.set_textures(textures);
+    // Ajout de l ’ archive qui contient entre autres un niveau complet
+    device->getFileSystem()->addFileArchive("../data/cf.pk3");
+    // On charge un bsp ( un niveau ) en particulier :
+    is::IAnimatedMesh *mesh_map = smgr->getMesh ("cf.bsp");
+    is::IMeshSceneNode *node_map ;
+    node_map = smgr->addOctreeSceneNode(mesh_map->getMesh (0), nullptr , -1 , 1024);
+    // Translation pour que nos personnages soient dans le décor
+    node_map->setPosition (core::vector3df( -300 , -20 , -500));
+    node_map->setID(MAP_ID);
+    // Création du triangle selector
+    scene::ITriangleSelector *selector;
+    selector = smgr->createOctreeTriangleSelector(node_map->getMesh(), node_map);
+    node_map->setTriangleSelector(selector);
 
 
-    //perso->setDebugDataVisible(is::EDS_NORMALS | is::EDS_BBOX);
+    //create Main character
+    Character main_character(smgr);
+    main_character.addCharacterMeshToScene(smgr, textures[0]);
+    main_character.addCharacterCollider(smgr,selector);
+
+    receiver.set_gui(gui);
+    receiver.set_node(main_character.node);
+    receiver.set_textures(textures);
 
 
+    is::IAnimatedMesh *mesh = smgr->getMesh ("../data/tris.md2");
     is::IAnimatedMeshSceneNode *perso_ligne = smgr->addAnimatedMeshSceneNode(mesh);
     perso_ligne->setMaterialFlag(iv::EMF_LIGHTING, false);
-    perso_ligne->setMD2Animation(is::EMAT_CROUCH_WALK  );
+    perso_ligne->setMD2Animation(is::EMAT_CROUCH_WALK );
     perso_ligne->setMaterialTexture(0, textures[1]);
     is::ISceneNodeAnimator *anim =
             smgr->createFlyStraightAnimator(ic::vector3df(-80,0,20),
 
-            ic::vector3df(0,0,20), 5000, true,true);
-  perso_ligne->addAnimator(anim);
-
-  //is::ICameraSceneNode *camera = smgr->addCameraSceneNode(perso , ic::vector3df (-20 , 30 , 0) , ic::vector3df (0 , 15 , 0));//smgr->addCameraSceneNodeFPS();
-
-  is::ICameraSceneNode *camera = smgr->addCameraSceneNode(0, core::vector3df(0.0f,0.0f,0.0f) , core::vector3df(0.0f,0.0f,0.0f), -1);
-  direction = 0.0f; zdirection=0.0f;
-  device->getCursorControl()->setVisible(false);
-  receiver.camera_node = camera;
+                                            ic::vector3df(0,0,20), 5000, true,true);
+    perso_ligne->addAnimator(anim);
 
 
-  // Ajout de l ’ archive qui contient entre autres un niveau complet
-  device->getFileSystem()->addFileArchive("../data/cf.pk3");
-  // On charge un bsp ( un niveau ) en particulier :
-  is::IAnimatedMesh *mesh_map = smgr->getMesh ("cf.bsp");
-  is::IMeshSceneNode *node_map ;
-  node_map = smgr->addOctreeSceneNode(mesh_map->getMesh (0), nullptr , -1 , 1024);
-  // Translation pour que nos personnages soient dans le décor
-  node_map->setPosition (core::vector3df( -300 , -20 , -500));
-
-  // Création du triangle selector
-  scene::ITriangleSelector *selector;
-  selector = smgr->createOctreeTriangleSelector(node_map->getMesh(), node_map);
-  node_map->setTriangleSelector(selector);
-  node_map->setID(0);
-  // Et l'animateur/collisionneur
-  scene::ISceneNodeAnimator *anim1;
-  const core::aabbox3d<f32>& box = perso->getBoundingBox();
-          core::vector3df radius = 1.1*(box.MaxEdge - box.getCenter());
-  anim1 = smgr->createCollisionResponseAnimator(selector,
-                                               perso,  // Le noeud que l'on veut gérer
-                                               radius, // "rayons" de la caméra
-                                               ic::vector3df(0, -10, 0),  // gravité
-                                               ic::vector3df(0, -10, 0));  // décalage du centre
-
-  perso->addAnimator(anim1);
+    is::ICameraSceneNode *camera = smgr->addCameraSceneNode(0, core::vector3df(0.0f,0.0f,0.0f) , core::vector3df(0.0f,0.0f,0.0f), -1);
+    direction = 0.0f; zdirection=0.0f;
+    device->getCursorControl()->setVisible(false);
+    receiver.camera_node = camera;
 
 
 
-  //create enemy
-  Enemy e1(smgr);
-  e1.addEnemyMeshToScene(smgr);
-  io::path path = "../data/red_texture.pcx";
-  e1.setTexture(path, driver);
-
-  receiver.init_Key();
-
-  // Création de plusieurs personnages
-  is::IAnimatedMeshSceneNode *node_ennemy;
-
-  for (int i = -100; i <= 100; i += 40)
-  {
-    node_ennemy = smgr->addAnimatedMeshSceneNode(mesh);
-    node_ennemy->setMaterialFlag(iv::EMF_LIGHTING, false);
-    node_ennemy->setMD2Animation(is::EMAT_STAND);
-    node_ennemy->setMaterialTexture(0, textures[0]);
-    node_ennemy->setPosition(ic::vector3df(i, 0, 30));
-    node_ennemy->setRotation(ic::vector3df(0, 90, 0));
-    node_ennemy->setID(ENEMY_ID);
-    is::ITriangleSelector *selector = smgr->createTriangleSelector(node_ennemy);
-    node_ennemy->setTriangleSelector(selector);
-    selector->drop();
-  }
-
-  is::ISceneCollisionManager *collision_manager = smgr->getSceneCollisionManager();
 
 
-  // Chargement des textures pour les chiffres
-  iv::ITexture *scope_tex;
-  scope_tex= driver->getTexture("../data/scope.png");
-  ig::IGUIImage *score_10000 = gui->addImage(ic::rect<s32>(WIDTH_WINDOW/2 -15,HEIGHT_WINDOW/2-15,  WIDTH_WINDOW/2+15,HEIGHT_WINDOW/2+15)); score_10000->setScaleImage(true);
 
-  while(device->run())
-   {
-      score_10000->setImage(scope_tex);
-      int mouse_x, mouse_y;
-      if (receiver.is_mouse_pressed(mouse_x, mouse_y))
-      {
-        ic::line3d<f32> ray;
-        ray = collision_manager->getRayFromScreenCoordinates(ic::position2d<s32>(mouse_x, mouse_y));
-        ic::vector3df intersection;
-        ic::triangle3df hit_triangle;
 
-        is::ISceneNode *selected_scene_node =
-              collision_manager->getSceneNodeAndCollisionPointFromRay(
-                      ray,
-                      intersection, // On récupère ici les coordonnées 3D de l'intersection
-                      hit_triangle, // et le triangle intersecté
-                      ENEMY_ID); // On ne veut que des noeuds avec cet identifiant
+    receiver.init_Key();
+    // Création de plusieurs personnages
+    is::IAnimatedMeshSceneNode *node_ennemy;
 
-        if (selected_scene_node)
-          selected_scene_node->setMaterialTexture(0, textures[1]);
-      }
+    for (int i = -100; i <= 100; i += 40)
+    {
+        node_ennemy = smgr->addAnimatedMeshSceneNode(mesh);
+        node_ennemy->setMaterialFlag(iv::EMF_LIGHTING, false);
+        node_ennemy->setMD2Animation(is::EMAT_STAND);
+        node_ennemy->setMaterialTexture(0, textures[0]);
+        node_ennemy->setPosition(ic::vector3df(i, 0, 30));
+        node_ennemy->setRotation(ic::vector3df(0, 90, 0));
+        node_ennemy->setID(ENEMY_ID);
+        is::ITriangleSelector *selector = smgr->createTriangleSelector(node_ennemy);
+        node_ennemy->setTriangleSelector(selector);
+        selector->drop();
+    }
 
-    receiver.keyboard_handler();
-    driver->beginScene(true, true, iv::SColor(100,150,200,255));
-    //camera->setTarget(perso->getPosition() + ic::vector3df (0 , 20 + 4*receiver.rotation_cam , 0));
-    moveCameraControl(device,perso);
+    is::ISceneCollisionManager *collision_manager = smgr->getSceneCollisionManager();
 
-    // Dessin de la scène :
-    smgr->drawAll();
-    //
-    gui->drawAll();
 
-    driver->endScene();
-  }
-  device->drop();
+    // Chargement des textures pour le reticule
+    iv::ITexture *scope_tex;
+    scope_tex= driver->getTexture("../data/scope.png");
+    ig::IGUIImage *scope = gui->addImage(ic::rect<s32>(WIDTH_WINDOW/2 -15,HEIGHT_WINDOW/2-15,  WIDTH_WINDOW/2+15,HEIGHT_WINDOW/2+15)); scope->setScaleImage(true);
 
-  return 0;
+
+    // Chargement des textures pour le reticule
+    iv::ITexture *gunhole_tex;
+    gunhole_tex= driver->getTexture("../data/gunhole.png");
+    ig::IGUIImage *gunhole ;
+
+    while(device->run())
+    {
+        scope->setImage(scope_tex);
+        int mouse_x, mouse_y;
+        if (receiver.is_mouse_pressed(mouse_x, mouse_y))
+        {
+            ic::line3d<f32> ray;
+            ray = collision_manager->getRayFromScreenCoordinates(ic::position2d<s32>(mouse_x, mouse_y));
+            ic::vector3df intersection;
+            ic::triangle3df hit_triangle;
+
+            is::ISceneNode *selected_scene_node =
+                    collision_manager->getSceneNodeAndCollisionPointFromRay(
+                        ray,
+                        intersection, // On récupère ici les coordonnées 3D de l'intersection
+                        hit_triangle, // et le triangle intersecté
+                        ENEMY_ID); // On ne veut que des noeuds avec cet identifiant
+
+            if (selected_scene_node)
+                selected_scene_node->setMaterialTexture(0, textures[1]);
+
+
+            if (selected_scene_node){
+                gunhole = gui->addImage(ic::rect<s32>(intersection.X-15,intersection.Z-15,  intersection.X+15,intersection.Z+15)); gunhole->setScaleImage(true);
+                gunhole->setImage(gunhole_tex);
+                std::cout<<intersection.X<<"   "<<intersection.Z<<std::endl;
+
+            }
+
+        }
+
+        receiver.keyboard_handler();
+        driver->beginScene(true, true, iv::SColor(100,150,200,255));
+        //camera->setTarget(perso->getPosition() + ic::vector3df (0 , 20 + 4*receiver.rotation_cam , 0));
+        moveCameraControl(device,main_character.node);
+
+        // Dessin de la scène :
+        smgr->drawAll();
+        //
+        gui->drawAll();
+
+        driver->endScene();
+    }
+    device->drop();
+
+    return 0;
 }

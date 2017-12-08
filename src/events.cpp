@@ -80,7 +80,8 @@ bool EventReceiver::keyboard_handler()
         if(height_jump<HAUTEUR_SAUT){
             position.Y+=(HAUTEUR_SAUT-height_jump);
         }
-        else if(height_jump>60){
+        //Eviter le double saut
+        else if(height_jump>45){
             height_jump = 0.0f;
             jump = false;
         }
