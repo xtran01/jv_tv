@@ -201,7 +201,6 @@ int main()
     io::path path = "../data/red_texture.pcx";
     e1.setTexture(path, driver);
     e1.create_collision_with_map(selector,smgr);
-    e1.move_randomely_arround_waiting_position(smgr);
 
     receiver.init_Key();
 
@@ -215,6 +214,8 @@ int main()
 
     while(device->run())
     {
+        e1.move_randomely_arround_waiting_position(smgr);
+
         score_10000->setImage(scope_tex);
         int mouse_x, mouse_y;
         if (receiver.is_mouse_pressed(mouse_x, mouse_y))

@@ -24,7 +24,10 @@ void Enemy::move_randomely_arround_waiting_position(is::ISceneManager *smgr)
     is::ISceneNodeAnimator *anim =  smgr->
             createFlyCircleAnimator(waiting_position_center,
                                     200.f);
-    node->addAnimator(anim);
+    ic::vector3df position = node->getPosition();
+    bool collisionOccured =
+    position += ic::vector3df(0.5f,0.0,0.0);
+    node->setPosition(position);
 }
 
 void Enemy::create_collision_with_map(is::ITriangleSelector *world,
@@ -34,6 +37,7 @@ void Enemy::create_collision_with_map(is::ITriangleSelector *world,
     ic::vector3df radius = box.MaxEdge - box.getCenter();
     is::ISceneNodeAnimator *anim = smgr
             ->createCollisionResponseAnimator(world,node,radius,
-                                              ic::vector3df(0,-10,0));
-    node->addAnimator(anim);
+                                             ic::vector3df(0,-10,0));
+    worldCollisionResponse = anim;
+    //node->addAnimator(anim);
 }

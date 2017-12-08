@@ -18,6 +18,10 @@ private:
     is::IAnimatedMesh * mesh;
     //Noeud qui mermet de manipuler le maillage
     is::IAnimatedMeshSceneNode *node;
+
+    // Response of the collision with the world
+    is::ISceneNodeAnimatorCollisionResponse *worldCollisionResponse;
+
     ic::vector3df waiting_position_center;
 
 public:
