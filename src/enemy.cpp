@@ -41,12 +41,11 @@ void Enemy::create_collision_with_map(is::ITriangleSelector *world,
 {
     const ic::aabbox3d<f32>& box = node->getBoundingBox();
     ic::vector3df radius = box.MaxEdge - box.getCenter();
-    is::ISceneNodeAnimatorCollisionResponse *world_collision_response = smgr
+    is::ISceneNodeAnimatorCollisionResponse *world_collision_anim_response = smgr
             ->createCollisionResponseAnimator(world,node,radius,
                                               ic::vector3df(0,-10,0));
-    std::cout<<"SETTING COLLISION RESPONSE"<<std::endl ;
-    MyCollisionResponse *collisionResponse;
-    world_collision_response->setCollisionCallback(collisionResponse);
-            //worldCollisionResponse = anim;
-//    node->;
+
+    world_collision_anim_response->setCollisionCallback(&world_collision_response);
+    node->addAnimator(world_collision_anim_response);
+
 }

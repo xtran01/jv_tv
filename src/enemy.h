@@ -4,7 +4,7 @@
 #include <string>
 #include <assert.h>
 #include <iostream>
-#include "mycollisionresponse.h"
+#include "enemycollisionhandler.h"
 
 using namespace irr;
 namespace is = irr::scene;
@@ -19,6 +19,7 @@ private:
     //Noeud qui mermet de manipuler le maillage
     is::IAnimatedMeshSceneNode *node;
 
+    EnemyCollisionHandler world_collision_response;
 
     ic::vector3df waiting_position_center;
 
@@ -44,7 +45,7 @@ public:
     void setTexture(io::path path, iv::IVideoDriver *driver);
 
     void create_collision_with_map(is::ITriangleSelector *world,
-                                          is::ISceneManager *smgr);
+                                   is::ISceneManager *smgr);
 
     void move_randomely_arround_waiting_position(is::ISceneManager *smgr);
 
