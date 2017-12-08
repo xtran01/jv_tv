@@ -36,7 +36,8 @@ void moveCameraControl(IrrlichtDevice *device, is::IAnimatedMeshSceneNode *perso
         if( zdirection > 5 ) //Controle l'orientation verticale max
             zdirection = 5;
     device->getCursorControl()->setPosition( 0.5f, 0.5f );
-
+    // disable mouse cursor
+    device->getCursorControl()->setVisible(false);
     core::vector3df playerPos = perso->getPosition();
 
     f32 xf = playerPos.X - cos( direction * M_PI / 180.0f ) * 64.0f;
@@ -50,33 +51,6 @@ void moveCameraControl(IrrlichtDevice *device, is::IAnimatedMeshSceneNode *perso
 /*===========================================================================*\
  * create_menu                                                               *
 \*===========================================================================*/
-static void create_menu(ig::IGUIEnvironment *gui)
-{
-    ig::IGUIContextMenu *submenu;
-
-    // Les trois entrées principales :
-    ig::IGUIContextMenu *menu = gui->addMenu();
-    menu->addItem(L"File", -1, true, true);
-    menu->addItem(L"Debug", -1, true, true);
-    menu->addItem(L"Help", -1, true, true);
-
-    // Le contenu du menu File :
-    submenu = menu->getSubMenu(0);
-    submenu->addItem(L"New game...", MENU_NEW_GAME);
-    submenu->addSeparator();
-    submenu->addItem(L"Quit", MENU_QUIT);
-
-    // Le contenu du menu Debug :
-    submenu = menu->getSubMenu(1);
-    submenu->addItem(L"Bounding Box",   MENU_BOUNDING_BOX);
-    submenu->addItem(L"Show Normals",   MENU_NORMALS);
-    submenu->addItem(L"Show Triangles", MENU_TRIANGLES);
-    submenu->addItem(L"Transparency",   MENU_TRANSPARENCY);
-
-    // Le contenu du menu Help :
-    submenu = menu->getSubMenu(2);
-    submenu->addItem(L"About...", MENU_ABOUT);
-}
 
 static void create_window(ig::IGUIEnvironment *gui)
 {
@@ -143,7 +117,6 @@ int main()
     textures.push_back(driver->getTexture("../data/blue_texture.pcx"));
 
 
-
     // Ajout de l ’ archive qui contient entre autres un niveau complet
     device->getFileSystem()->addFileArchive("../data/cf.pk3");
     // On charge un bsp ( un niveau ) en particulier :
@@ -157,7 +130,6 @@ int main()
     scene::ITriangleSelector *selector;
     selector = smgr->createOctreeTriangleSelector(node_map->getMesh(), node_map);
     node_map->setTriangleSelector(selector);
-
 
     //create Main character
     Character main_character(smgr);
@@ -175,39 +147,30 @@ int main()
     perso_ligne->setMD2Animation(is::EMAT_CROUCH_WALK );
     perso_ligne->setMaterialTexture(0, textures[1]);
     is::ISceneNodeAnimator *anim =
-            smgr->createFlyStraightAnimator(ic::vector3df(-80,0,20),
+            smgr->createFlyStraightAnimator(ic::vector3df(-80,0,90),
 
-                                            ic::vector3df(0,0,20), 5000, true,true);
+                                            ic::vector3df(0,0,90), 5000, true,true);
     perso_ligne->addAnimator(anim);
 
 
     is::ICameraSceneNode *camera = smgr->addCameraSceneNode(0, core::vector3df(0.0f,0.0f,0.0f) , core::vector3df(0.0f,0.0f,0.0f), -1);
     direction = 0.0f; zdirection=0.0f;
-    device->getCursorControl()->setVisible(false);
+
     receiver.camera_node = camera;
 
 
-
-
-
-
-
     receiver.init_Key();
+
     // Création de plusieurs personnages
     is::IAnimatedMeshSceneNode *node_ennemy;
-
     for (int i = -100; i <= 100; i += 40)
     {
         node_ennemy = smgr->addAnimatedMeshSceneNode(mesh);
-        node_ennemy->setMaterialFlag(iv::EMF_LIGHTING, false);
-        node_ennemy->setMD2Animation(is::EMAT_STAND);
-        node_ennemy->setMaterialTexture(0, textures[0]);
-        node_ennemy->setPosition(ic::vector3df(i, 0, 30));
-        node_ennemy->setRotation(ic::vector3df(0, 90, 0));
+        node_ennemy->setMaterialFlag(iv::EMF_LIGHTING, false);node_ennemy->setMD2Animation(is::EMAT_STAND);
+        node_ennemy->setMaterialTexture(0, textures[0]);node_ennemy->setPosition(ic::vector3df(i, 0, 30)); node_ennemy->setRotation(ic::vector3df(0, 0, 0));
         node_ennemy->setID(ENEMY_ID);
         is::ITriangleSelector *selector = smgr->createTriangleSelector(node_ennemy);
-        node_ennemy->setTriangleSelector(selector);
-        selector->drop();
+        node_ennemy->setTriangleSelector(selector);selector->drop();
     }
 
     is::ISceneCollisionManager *collision_manager = smgr->getSceneCollisionManager();
@@ -218,11 +181,58 @@ int main()
     scope_tex= driver->getTexture("../data/scope.png");
     ig::IGUIImage *scope = gui->addImage(ic::rect<s32>(WIDTH_WINDOW/2 -15,HEIGHT_WINDOW/2-15,  WIDTH_WINDOW/2+15,HEIGHT_WINDOW/2+15)); scope->setScaleImage(true);
 
-
     // Chargement des textures pour le reticule
     iv::ITexture *gunhole_tex;
     gunhole_tex= driver->getTexture("../data/gunhole.png");
     ig::IGUIImage *gunhole ;
+
+
+    // add light 2 (red)
+        scene::ISceneNode* light2 =
+            smgr->addLightSceneNode(0, core::vector3df(0,0,0),
+            video::SColorf(1.0f, 0.2f, 0.2f, 0.0f), 800.0f);
+
+        // add fly circle animator to light 2
+        anim = smgr->createFlyCircleAnimator(core::vector3df(0,150,0), 200.0f,
+                0.001f, core::vector3df(0.2f, 0.9f, 0.f));
+        light2->addAnimator(anim);
+        anim->drop();
+
+
+        scene::IBillboardSceneNode* bill = smgr->addBillboardSceneNode(light2, core::dimension2d<f32>(120, 120));
+        bill->setMaterialFlag(video::EMF_LIGHTING, false);
+        bill->setMaterialFlag(video::EMF_ZWRITE_ENABLE, false);
+        bill->setMaterialType(video::EMT_TRANSPARENT_ADD_COLOR);
+        bill->setMaterialTexture(0, driver->getTexture("../data/particlered.bmp"));
+
+        // add particle system
+        scene::IParticleSystemSceneNode* ps =
+            smgr->addParticleSystemSceneNode(false, light2);
+
+        // create and set emitter
+        scene::IParticleEmitter* em = ps->createBoxEmitter(
+            core::aabbox3d<f32>(-3,0,-3,3,1,3),
+            core::vector3df(0.0f,0.03f,0.0f),
+            80,100,
+            video::SColor(10,255,255,255), video::SColor(10,255,255,255),
+            400,1100);
+        em->setMinStartSize(core::dimension2d<f32>(30.0f, 40.0f));
+        em->setMaxStartSize(core::dimension2d<f32>(30.0f, 40.0f));
+
+        ps->setEmitter(em);
+        em->drop();
+
+        // create and set affector
+        scene::IParticleAffector* paf = ps->createFadeOutParticleAffector();
+        ps->addAffector(paf);
+        paf->drop();
+
+        // adjust some material settings
+        ps->setMaterialFlag(video::EMF_LIGHTING, false);
+        ps->setMaterialFlag(video::EMF_ZWRITE_ENABLE, false);
+        ps->setMaterialTexture(0, driver->getTexture("../data/fireball.bmp"));
+        ps->setMaterialType(video::EMT_TRANSPARENT_ADD_COLOR);
+
 
     while(device->run())
     {
@@ -257,14 +267,11 @@ int main()
 
         receiver.keyboard_handler();
         driver->beginScene(true, true, iv::SColor(100,150,200,255));
-        //camera->setTarget(perso->getPosition() + ic::vector3df (0 , 20 + 4*receiver.rotation_cam , 0));
         moveCameraControl(device,main_character.node);
 
         // Dessin de la scène :
         smgr->drawAll();
-        //
         gui->drawAll();
-
         driver->endScene();
     }
     device->drop();
