@@ -190,6 +190,7 @@ int main()
 
 
 
+
     //create Main character
     Character main_character(smgr);
     main_character.addCharacterMeshToScene(smgr, textures[0]);
