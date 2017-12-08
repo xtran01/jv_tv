@@ -29,10 +29,6 @@ void Enemy::move_randomely_arround_waiting_position(is::ISceneManager *smgr)
     is::ISceneNodeAnimator *anim =  smgr->
             createFlyCircleAnimator(waiting_position_center,
                                     200.f);
-//    ic::vector3df position = node->getPosition();
-//    position += ic::vector3df(0.5f,0.0,0.0);
-//    node->setPosition(position);
-
     node->addAnimator(anim);
 }
 
