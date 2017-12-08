@@ -12,7 +12,7 @@
  * EventReceiver::EventReceiver                                           *
 \**************************************************************************/
 EventReceiver::EventReceiver()
-    : node(nullptr), button_pressed(false), current_texture(0)
+    : node(nullptr), button_pressed(false), current_texture(0),is_mouse_camera_tool_activated(true)
 {
 }
 
@@ -122,6 +122,9 @@ bool EventReceiver::keyboard_handler()
         }
     }
 
+    if(IsKeyPressed(KEY_KEY_P)){
+        is_mouse_camera_tool_activated = !is_mouse_camera_tool_activated;
+    }
     node->setPosition(position);
     node->setRotation(rotation);
     init_KeyEvent();
@@ -339,31 +342,6 @@ bool EventReceiver::IsKeyPressed(EKEY_CODE keyCode) const {
 bool EventReceiver::IsKeyReleased(EKEY_CODE keyCode) const {
     return (!KeyIsDown[keyCode] && KeyEvent[keyCode]);
 }
-
-/*------------------------------------------------------------------------*\
- * EventReceiver::update_mouse_event                                             *
-\*------------------------------------------------------------------------*/
-/*bool EventReceiver::update_mouse_event(const SEvent &event)
-{
-    ClicEvent[event.MouseInput.Event] = ClicIsDown[event.MouseInput.Event] != event.KeyInput.PressedDown;
-    ClicIsDown[event.MouseInput.Event] = event.MouseInput.PressedDown;
-    return event.MouseInput.PressedDown;
-
-}
-void EventReceiver::init_ClicEvent() {
-    for (u32 i = 0; i<KEY_KEY_CODES_COUNT; i++)
-        ClicEvent[i] = false;
-}
-bool EventReceiver::IsClicDown(EMOUSE_INPUT_EVENT mouseInput) const {
-    return ClicIsDown[mouseInput];
-}
-
-bool EventReceiver::IsClicPressed(EMOUSE_INPUT_EVENT mouseInput) const {
-    return (ClicIsDown[mouseInput] && KeyEvent[mouseInput]);
-}
-bool EventReceiver::IsClicReleased(EMOUSE_INPUT_EVENT mouseInput) const {
-    return (!ClicIsDown[mouseInput] && KeyEvent[mouseInput]);
-}*/
 
 
 
