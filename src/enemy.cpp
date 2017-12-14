@@ -44,11 +44,6 @@ void Enemy::move_randomely_arround_waiting_position()
     node ->setMD2Animation(is::EMAT_RUN);
     node->addAnimator(anim);
 
-
-
-
-
-
 //    node->addAnimator(anim);
 }
 

@@ -132,7 +132,7 @@ bool EventReceiver::mouse_handler(const SEvent &event)
   {
     case EMIE_LMOUSE_PRESSED_DOWN:
       personnage->setAnimation(personnage->ATTACK);
-      //button_pressed = true;
+      button_pressed = true;
       attack = true;
       attack_finished = true;
       old_x = event.MouseInput.X;
