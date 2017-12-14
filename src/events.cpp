@@ -32,6 +32,7 @@ bool EventReceiver::keyboard_handler()
     if(IsKeyPressed(KEY_ESCAPE))
         exit(0);
     if(is_running) vitesse_deplacement = 3.7f;
+    else vitesse_deplacement = 2.0f;
     if(IsKeyDown(KEY_KEY_Z)){ // Avance
         position.X += vitesse_deplacement * cos(rotation.Y * M_PI / 180.0);
         position.Z += -vitesse_deplacement * sin(rotation.Y * M_PI / 180.0);
@@ -53,7 +54,7 @@ bool EventReceiver::keyboard_handler()
         if (is_running && (IsKeyDown(KEY_KEY_Z) || IsKeyDown(KEY_KEY_S) || IsKeyDown(KEY_KEY_Q) || IsKeyDown(KEY_KEY_D))){
             personnage->setAnimation(personnage->RUN);
         }
-        else if(IsKeyDown(KEY_KEY_Z) || IsKeyDown(KEY_KEY_S) || IsKeyDown(KEY_KEY_Q) || IsKeyDown(KEY_KEY_D))
+        else if(!is_running && (IsKeyDown(KEY_KEY_Z) || IsKeyDown(KEY_KEY_S) || IsKeyDown(KEY_KEY_Q) || IsKeyDown(KEY_KEY_D)))
         {
             personnage->setAnimation(personnage->WALK);
         }
