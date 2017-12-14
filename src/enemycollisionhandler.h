@@ -7,7 +7,6 @@ class EnemyCollisionHandler : public irr::scene::ICollisionCallback
 {
 
 public:
-    EnemyCollisionHandler();
     bool onCollision(const irr::scene::ISceneNodeAnimatorCollisionResponse &animator);
 
 };

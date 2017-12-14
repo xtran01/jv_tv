@@ -138,6 +138,9 @@ static void create_window(ig::IGUIEnvironment *gui)
 
 int main()
 {
+
+
+
     EventReceiver receiver;
     std::vector<iv::ITexture*> textures;
     // Création de la fenêtre et du système de rendu.
@@ -180,7 +183,7 @@ int main()
 
 
     //create enemy
-    Enemy e1(smgr);
+    Enemy e1(smgr,device->getRandomizer());
     e1.addEnemyMeshToScene();
     io::path path = "../data/red_texture.pcx";
     e1.setTexture(path, driver);

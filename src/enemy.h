@@ -6,6 +6,7 @@
 #include <iostream>
 #include "enemycollisionhandler.h"
 
+
 using namespace irr;
 namespace is = irr::scene;
 namespace iv = irr::video;
@@ -23,6 +24,8 @@ private:
     is::IAnimatedMesh * mesh;
     //Noeud qui mermet de manipuler le maillage
     is::IAnimatedMeshSceneNode *node;
+    //pointer to a random number generator
+    irr::IRandomizer *random_generator;
 
     EnemyCollisionHandler world_collision_response;
 
@@ -30,7 +33,8 @@ private:
 
 
 public:
-    Enemy(is::ISceneManager* smgr_param);
+    Enemy(is::ISceneManager* smgr_param,
+          irr::IRandomizer *random_generator_param);
 
 
     void addEnemyMeshToScene();
