@@ -10,11 +10,13 @@ void Enemy::setPosition(ic::vector3df vec3){
     node -> setPosition(vec3);
 }
 
+void Enemy::setID(s32 id){
+    node -> setID(id);
+}
 
-
-void Enemy::setTexture(io::path path, iv::IVideoDriver *driver){
+void Enemy::setTexture(iv::ITexture *tex){
     assert(node != NULL);
-    node->setMaterialTexture(0, driver->getTexture(path));
+    node->setMaterialTexture(0, tex);
 }
 
 

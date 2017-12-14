@@ -20,6 +20,7 @@ public:
     is::IAnimatedMeshSceneNode *node;
     void addCharacterMeshToScene(is::ISceneManager *smgr, iv::ITexture *tex);
     void addCharacterCollider(is::ISceneManager *smgr, scene::ITriangleSelector *selector);
+    void remove();
 
 
     Character(is::ISceneManager *smgr);

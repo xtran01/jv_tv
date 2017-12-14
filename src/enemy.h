@@ -19,7 +19,7 @@ private:
     is::IAnimatedMeshSceneNode *node;
 
 public:
-
+    int health_point = 4;
     void addEnemyMeshToScene(is::ISceneManager *smgr);
     void setPosition(ic::vector3df vec3);
     /**
@@ -34,7 +34,8 @@ public:
      * ******
      * - texture set to the node
      * */
-    void setTexture(io::path path, iv::IVideoDriver *driver);
+    void setTexture(video::ITexture *tex);
+    void setID(s32 id);
     Enemy(is::ISceneManager *smgr);
 };
 

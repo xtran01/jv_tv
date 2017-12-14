@@ -5,7 +5,7 @@
 #include "enemy.h"
 #include "character.h"
 #include "particle.h"
-
+ #include <queue>
 
 using namespace irr;
 namespace iv = irr::video;
@@ -193,13 +193,20 @@ int main()
     scope_tex= driver->getTexture("../data/scope.png");
     ig::IGUIImage *scope = gui->addImage(ic::rect<s32>(WIDTH_WINDOW/2 -15,HEIGHT_WINDOW/2-15,  WIDTH_WINDOW/2+15,HEIGHT_WINDOW/2+15)); scope->setScaleImage(true);
 
-    // Chargement des textures pour le reticule
-    iv::ITexture *gunhole_tex;
-    gunhole_tex= driver->getTexture("../data/gunhole.png");
-    ig::IGUIImage *gunhole ;
-
     Particle part(driver->getTexture("../data/particlered.bmp"), driver->getTexture("../data/fireball.bmp"));
+    Particle list_part[200];
+    for(int i=0;i<200;i++){
+        list_part[i].initializeParticle(driver->getTexture("../data/particlered.bmp"), driver->getTexture("../data/fireball.bmp"));
+    }
+    int i_FIFO = 0;
+    bool rempli = false;
 
+
+    Enemy e1(smgr);
+    e1.addEnemyMeshToScene(smgr);
+    e1.setTexture(driver->getTexture("../data/blue_texture.pcx"));
+    e1.setPosition(ic::vector3df(60, 0, 100));
+    e1.setID(ENEMY_ID);
 
     while(device->run())
     {
@@ -208,7 +215,6 @@ int main()
 
         receiver.keyboard_handler();
         driver->beginScene(true, true, iv::SColor(100,150,200,255));
-
         moveCameraControl(device,main_character.node, receiver);
 
         int mouse_x, mouse_y;
@@ -226,11 +232,32 @@ int main()
                         hit_triangle, // et le triangle intersecté
                         ENEMY_ID); // On ne veut que des noeuds avec cet identifiant
 
-          if (selected_scene_node)
+          if (selected_scene_node){
+            //selected_scene_node->
             selected_scene_node->setMaterialTexture(0, textures[1]);
-            part.addParticleToScene(smgr,main_character.node->getPosition(),intersection);
+            part.addParticleToScene(smgr,main_character.node->getPosition(),intersection);}
+            //part.remove();
+
+          selected_scene_node =
+                collision_manager->getSceneNodeAndCollisionPointFromRay(
+                        ray,
+                        intersection, // On récupère ici les coordonnées 3D de l'intersection
+                        hit_triangle, // et le triangle intersecté
+                        MAP_ID); // On ne veut que des noeuds avec cet identifiant
+          if (selected_scene_node){
+            if (rempli){ list_part[i_FIFO].remove();}
+
+            list_part[i_FIFO].addParticleToScene(smgr,main_character.node->getPosition(),intersection);
+            i_FIFO++;
+
+            if (i_FIFO==200){i_FIFO = 0; rempli = true;}
+
+
+          }
 
         }
+
+
         // Dessin de la scène :
         smgr->drawAll();
         gui->drawAll();
