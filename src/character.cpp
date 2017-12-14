@@ -14,23 +14,23 @@ void Character::addCharacterMeshToScene(is::ISceneManager *smgr, std::vector<iv:
     mesh_body = smgr->getMesh("../data/Chaingunner/chaingunner_body.md2");
     mesh_weapon = smgr->getMesh("../data/Chaingunner/chaingunner_weapon.md2");
     mesh_head = smgr->getMesh("../data/Chaingunner/chaingunner_head.md2");
+    mesh_mf = smgr->getMesh("../data/Chaingunner/chaingunner_mf.md2");
     body = smgr->addAnimatedMeshSceneNode(mesh_body,0,-1);
     weapon = smgr->addAnimatedMeshSceneNode(mesh_weapon,body,-1,core::vector3df(0,0,0),core::vector3df(0,0,0));
     head = smgr->addAnimatedMeshSceneNode(mesh_head,body,-1,core::vector3df(0,0,0),core::vector3df(0,0,0));
+    mf = smgr->addAnimatedMeshSceneNode(mesh_mf,body,-1,core::vector3df(0,0,0),core::vector3df(0,0,0));
 
     body->setMaterialFlag(iv::EMF_LIGHTING, false);
-    //body->setFrameLoop(0,10);
-
     weapon->setMaterialFlag(iv::EMF_LIGHTING, false);
-    //weapon->setMD2Animation(is::EMAT_STAND);
-
     head->setMaterialFlag(iv::EMF_LIGHTING, false);
-    //head->setMD2Animation(is::EMAT_STAND);
-
+    mf->setMaterialFlag(iv::EMF_LIGHTING, false);
 
     body->setMaterialTexture(0, textures[0]);
     weapon->setMaterialTexture(0, textures[1]);
     head->setMaterialTexture(0, textures[2]);
+    mf->setMaterialTexture(0, textures[4]);
+
+    mf->setVisible(false);
 }
 
 void Character::addCharacterCollider(is::ISceneManager *smgr, scene::ITriangleSelector *selector){
@@ -41,7 +41,7 @@ void Character::addCharacterCollider(is::ISceneManager *smgr, scene::ITriangleSe
                                                   body,  // Le noeud que l'on veut gérer
                                                   radius, // "rayons" de la caméra
                                                   ic::vector3df(0, -10, 0),  // gravité
-                                                  ic::vector3df(0, -31.5, 0));  // décalage du centre
+                                                  ic::vector3df(0, 0, 0));  // décalage du centre
 
     body->addAnimator(anim);
 }
@@ -97,4 +97,13 @@ void Character::setAnimation(Animation anim)
         weapon->setFrameLoop(0,0);
         break;
     }
+}
+
+void Character::change_texture_weapon_fire(std::vector<iv::ITexture*>& textures)
+{
+    weapon->setMaterialTexture(0, textures[3]);
+}
+void Character::change_texture_weapon_rest(std::vector<iv::ITexture*>& textures)
+{
+    weapon->setMaterialTexture(0, textures[1]);
 }

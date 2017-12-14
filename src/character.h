@@ -18,15 +18,22 @@ private:
     is::IAnimatedMesh *mesh_body;
     is::IAnimatedMesh *mesh_head;
     is::IAnimatedMesh *mesh_weapon;
+    is::IAnimatedMesh *mesh_mf;
+
 public:
     enum Animation { RUN, WALK, ATTACK, DEATH, STAND };
     //Noeud qui mermet de manipuler le maillage
     is::IAnimatedMeshSceneNode *body;
     is::IAnimatedMeshSceneNode *head;
     is::IAnimatedMeshSceneNode *weapon;
+    is::IAnimatedMeshSceneNode *mf;
+
     void addCharacterMeshToScene(is::ISceneManager *smgr, std::vector<video::ITexture *> tex);
     void addCharacterCollider(is::ISceneManager *smgr, scene::ITriangleSelector *selector);
     void setAnimation(Animation anim);
+
+    void change_texture_weapon_fire(std::vector<iv::ITexture*>& textures);
+    void change_texture_weapon_rest(std::vector<iv::ITexture*>& textures);
 
     Character(is::ISceneManager *smgr);
 

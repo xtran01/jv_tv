@@ -138,16 +138,20 @@ static void create_window(ig::IGUIEnvironment *gui)
                     WINDOW_SPIN_BOX);
 }
 
-void is_attacking(EventReceiver& receiver, int& compteur_attack)
+void is_attacking(Character& character,std::vector<iv::ITexture*>& textures, EventReceiver& receiver, int& compteur_attack)
 {
     bool attacking = receiver.get_attack();
     if(attacking)
     {
+        character.change_texture_weapon_fire(textures);
+        character.mf->setVisible(true);
         compteur_attack++;
         if(compteur_attack > 12)
         {
             compteur_attack = 0;
             receiver.set_attack(false);
+            character.change_texture_weapon_rest(textures);
+            character.mf->setVisible(false);
         }
     }
 
@@ -193,6 +197,8 @@ int main()
     textures.push_back(driver->getTexture("../data/Chaingunner/chaingunner_body.png"));
     textures.push_back(driver->getTexture("../data/Chaingunner/chaingunner_weapon.png"));
     textures.push_back(driver->getTexture("../data/Chaingunner/chaingunner_head1.png"));
+    textures.push_back(driver->getTexture("../data/Chaingunner/chaingunner_fire_weapon.png"));
+    textures.push_back(driver->getTexture("../data/Chaingunner/chaingunner_mf0.png"));
 
 
     //create enemy
@@ -256,7 +262,7 @@ int main()
         ig::IGUIImage *scope = gui->addImage(ic::rect<s32>(driver->getScreenSize().Width/2 -15,driver->getScreenSize().Height/2-15,  driver->getScreenSize().Width/2+15,driver->getScreenSize().Height/2+15)); scope->setScaleImage(true);
         scope->setImage(scope_tex);
 
-        is_attacking(receiver,compteur_attack);
+        is_attacking(main_character, textures, receiver, compteur_attack);
 
         receiver.keyboard_handler();
         driver->beginScene(true, true, iv::SColor(100,150,200,255));
