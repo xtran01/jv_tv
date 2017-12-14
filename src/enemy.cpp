@@ -1,6 +1,13 @@
 #include "enemy.h"
 
-void Enemy::addEnemyMeshToScene(is::ISceneManager *smgr){
+Enemy::Enemy(is::ISceneManager *smgr_param)
+{
+    smgr = smgr_param;
+    mesh = smgr->getMesh("../data/tris.md2");
+    waiting_position_center = {0.0f,0.0f,0.0f};
+}
+
+void Enemy::addEnemyMeshToScene(){
     node = smgr->addAnimatedMeshSceneNode(mesh);
     node -> setMaterialFlag(irr::video::EMF_LIGHTING,false);
     node -> setMD2Animation(irr::scene::EMAT_STAND);
@@ -10,21 +17,12 @@ void Enemy::setPosition(ic::vector3df vec3){
     node -> setPosition(vec3);
 }
 
-
-
 void Enemy::setTexture(io::path path, iv::IVideoDriver *driver){
     assert(node != NULL);
     node->setMaterialTexture(0, driver->getTexture(path));
 }
 
-
-Enemy::Enemy(is::ISceneManager *smgr)
-{
-    mesh = smgr->getMesh("../data/tris.md2");
-    waiting_position_center = {0.0f,0.0f,0.0f};
-}
-
-void Enemy::move_randomely_arround_waiting_position(is::ISceneManager *smgr)
+void Enemy::move_randomely_arround_waiting_position()
 {
     is::ISceneNodeAnimator *anim =  smgr->
             createFlyCircleAnimator(waiting_position_center,
@@ -32,8 +30,7 @@ void Enemy::move_randomely_arround_waiting_position(is::ISceneManager *smgr)
     node->addAnimator(anim);
 }
 
-void Enemy::create_collision_with_map(is::ITriangleSelector *world,
-                                      is::ISceneManager *smgr)
+void Enemy::create_collision_with_map(is::ITriangleSelector *world)
 {
     const ic::aabbox3d<f32>& box = node->getBoundingBox();
     ic::vector3df radius = box.MaxEdge - box.getCenter();

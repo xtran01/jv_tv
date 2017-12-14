@@ -10,10 +10,15 @@ using namespace irr;
 namespace is = irr::scene;
 namespace iv = irr::video;
 namespace ic = irr::core;
-
+/**
+ * Class to describe an enemy
+ * @brief The Enemy class
+ */
 class Enemy
 {
 private:
+     //pointer to the scene manager
+     is::ISceneManager *smgr;
     //Mesh associated to the enemy
     is::IAnimatedMesh * mesh;
     //Noeud qui mermet de manipuler le maillage
@@ -23,11 +28,12 @@ private:
 
     ic::vector3df waiting_position_center;
 
+
 public:
-    Enemy(is::ISceneManager *smgr);
+    Enemy(is::ISceneManager* smgr_param);
 
 
-    void addEnemyMeshToScene(is::ISceneManager *smgr);
+    void addEnemyMeshToScene();
     void setPosition(ic::vector3df vec3);
 
     /**
@@ -44,10 +50,9 @@ public:
      * */
     void setTexture(io::path path, iv::IVideoDriver *driver);
 
-    void create_collision_with_map(is::ITriangleSelector *world,
-                                   is::ISceneManager *smgr);
+    void create_collision_with_map(is::ITriangleSelector *world);
 
-    void move_randomely_arround_waiting_position(is::ISceneManager *smgr);
+    void move_randomely_arround_waiting_position();
 
 
 
