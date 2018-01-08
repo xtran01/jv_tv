@@ -4,8 +4,8 @@ CONFIG -= qt
 
 QMAKE_CXXFLAGS += -std=c++11
 
-#INCLUDEPATH += /usr/include/irrlicht
-INCLUDEPATH += /usr/local/include
+INCLUDEPATH += /usr/include/irrlicht
+#INCLUDEPATH += /usr/local/include
 #DEPENDPATH +=  /usr/local/lib
 LIBS += -lIrrlicht -lGL -lX11 -lXxf86vm
 #LIBS += -L"/usr/local/lib" -lIrrlicht
