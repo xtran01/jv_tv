@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['init_5fkey',['init_Key',['../class_event_receiver.html#aedad995f4bda0149f57ca8b4c97a1681',1,'EventReceiver']]],
-  ['initializeparticle',['initializeParticle',['../class_particle.html#a8d7ae76e033e514a7c4be4319b564966',1,'Particle']]]
+  ['enemy',['Enemy',['../class_enemy.html#a87cb947faddc761a7ed82158b0e597f4',1,'Enemy']]]
 ];

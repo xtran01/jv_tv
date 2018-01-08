@@ -32,7 +32,7 @@ void Particle::addParticleToScene(is::ISceneManager *smgr, ic::vector3df positio
     bill->setMaterialFlag(video::EMF_ZWRITE_ENABLE, false);
     bill->setMaterialType(video::EMT_TRANSPARENT_ADD_COLOR);
     bill->setMaterialTexture(0, light_tex);
-    // add fly circle animator to light
+    // add fly straight animator to light
     is::ISceneNodeAnimator *anim = smgr->createFlyStraightAnimator(position_fire,
                                                                    position_aim, position_fire.getDistanceFrom(position_aim)/2.5f,false,false);
 

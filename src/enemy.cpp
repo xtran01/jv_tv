@@ -13,6 +13,9 @@ void Enemy::addEnemyMeshToScene(){
     node = smgr->addAnimatedMeshSceneNode(mesh);
     node -> setMaterialFlag(irr::video::EMF_LIGHTING,false);
     node -> setMD2Animation(irr::scene::EMAT_STAND);
+    is::ITriangleSelector* selector = smgr->createTriangleSelector(node);
+    node->setTriangleSelector(selector);
+    selector->drop(); // We're done with this selector, so drop it now.
 }
 
 void Enemy::setPosition(ic::vector3df vec3){
@@ -26,6 +29,16 @@ void Enemy::setTexture(iv::ITexture *texture){
 void Enemy::setID(int id){
     node ->setID(id);
 }
+
+void Enemy::being_hit(){
+    if (health_point > 0){
+        health_point--;
+    }
+    if (health_point <= 0){
+        node->drop();
+    }
+}
+
 
 void Enemy::move_randomely_arround_waiting_position()
 {

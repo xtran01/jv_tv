@@ -27,6 +27,11 @@ private:
      * @brief mesh : Mesh associated to the enemy
      */
     is::IAnimatedMesh * mesh;
+
+    /**
+    * @brief node : Node of the enemy
+    */
+    is::IAnimatedMeshSceneNode *node;
     /**
      * @brief random_generator : pointer to a random number generator
      */
@@ -38,6 +43,8 @@ private:
 
 
 public:
+
+    u32 health_point = 8;
     /**
      * @brief Enemy : Constructor of the Enemy
      * @param smgr_param : pointer to the scene manager
@@ -46,8 +53,6 @@ public:
     Enemy(is::ISceneManager* smgr_param,
           irr::IRandomizer *random_generator_param);
 
-    //Noeud qui mermet de manipuler le maillage
-    is::IAnimatedMeshSceneNode *node;
     void addEnemyMeshToScene();
     void setPosition(ic::vector3df vec3);
 
@@ -62,6 +67,11 @@ public:
      * @param id : An ID number
      */
     void setID(int id);
+
+    /**
+     * @brief being_hit : Reduce health point of the enemy and destroy it if equal 0
+     */
+    void being_hit();
     /**
      * @brief create_collision_with_map
      * @param world
