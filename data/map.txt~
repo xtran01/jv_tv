@@ -1,0 +1,7 @@
+cf : 
+node_map->setPosition (core::vector3df( -300 , -20 , -500));
+
+polo3dm5:
+
+node_map->setPosition (core::vector3df( 300 , -1000 , -500));
+    node_map->setRotation(core::vector3df( 0 , 180 , 0));
