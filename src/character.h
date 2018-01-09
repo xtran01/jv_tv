@@ -22,6 +22,8 @@ private:
     is::IAnimatedMesh *mesh_head;
     is::IAnimatedMesh *mesh_weapon;
     is::IAnimatedMesh *mesh_mf;
+    u32 munition = 10;
+    u32 stock = 20;
 
 public:
     /**
@@ -72,6 +74,10 @@ public:
      * @param textures : Texture array containing all the textures needed (body, head, weapon, mf)
      */
     void change_texture_weapon_rest(std::vector<iv::ITexture*>& textures);
+    u32 get_nb_stock()const;
+    u32 get_nb_munition()const;
+    void use_munition();
+    void reload();
 
     /**
      * @brief Character : Constructor of the character in the smgr

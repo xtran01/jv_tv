@@ -108,3 +108,26 @@ void Character::change_texture_weapon_rest(std::vector<iv::ITexture*>& textures)
     weapon->setMaterialTexture(0, textures[1]);
 }
 
+u32 Character::get_nb_stock() const
+{
+    return stock;
+}
+
+u32 Character::get_nb_munition() const
+{
+    return munition;
+}
+
+void Character::use_munition()
+{
+    munition--;
+}
+void Character::reload()
+{
+    if (stock >= 10-munition-1 && stock !=0){
+        stock -= (10 - munition);
+        munition = 10;
+    }
+
+
+}

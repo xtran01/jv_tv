@@ -33,6 +33,9 @@ bool EventReceiver::keyboard_handler()
         exit(0);
     if(is_running) vitesse_deplacement = 3.7f;
     else vitesse_deplacement = 2.0f;
+    if(IsKeyDown(KEY_KEY_R)){ // Recharge
+        personnage->reload();
+    }
     if(IsKeyDown(KEY_KEY_Z)){ // Avance
         position.X += vitesse_deplacement * cos(rotation.Y * M_PI / 180.0);
         position.Z += -vitesse_deplacement * sin(rotation.Y * M_PI / 180.0);

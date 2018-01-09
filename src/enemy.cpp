@@ -1,5 +1,5 @@
 #include "enemy.h"
-
+#include <irrlicht.h>
 Enemy::Enemy(is::ISceneManager *smgr_param,
              irr::IRandomizer *random_generator_param)
 {
@@ -39,7 +39,8 @@ bool Enemy::being_hit(iv::ITexture* texture_hit){
     }
     if (health_point == 0){
         node->setVisible(false);
-
+       /** A MODIFIER ! FAIRE MOURIR LES ENEMIS PLUTOT **/
+        //node->setMD2Animation(is::EMAT_DEATH_FALLBACKSLOW);
         return true;
     }
     return false;

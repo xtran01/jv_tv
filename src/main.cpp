@@ -110,7 +110,12 @@ static void create_window(ig::IGUIEnvironment *gui)
                     WINDOW_SPIN_BOX);
 }
 
-void is_attacking(Character& character,std::vector<iv::ITexture*>& textures, EventReceiver& receiver, int& compteur_attack)
+static void create_GUI_munition(ig::IGUIEnvironment *gui){
+
+}
+
+void is_attacking(Character& character,std::vector<iv::ITexture*>& textures,
+                  EventReceiver& receiver, int& compteur_attack)
 {
     bool attacking = receiver.get_attack();
     if(attacking)
@@ -118,7 +123,7 @@ void is_attacking(Character& character,std::vector<iv::ITexture*>& textures, Eve
         character.change_texture_weapon_fire(textures);
         character.mf->setVisible(true);
         compteur_attack++;
-        if(compteur_attack > 12)
+        if(compteur_attack > 12  || character.get_nb_munition() == 0)
         {
             compteur_attack = 0;
             receiver.set_attack(false);
@@ -130,7 +135,6 @@ void is_attacking(Character& character,std::vector<iv::ITexture*>& textures, Eve
 
 int main()
 {
-
     EventReceiver receiver;
     std::vector<iv::ITexture*> textures;
     // Création de la fenêtre et du système de rendu.
@@ -142,9 +146,30 @@ int main()
 
     iv::IVideoDriver  *driver = device->getVideoDriver();
     is::ISceneManager *smgr = device->getSceneManager();
-    ig::IGUIEnvironment *gui = device->getGUIEnvironment();
+    ig::IGUIEnvironment *gui  = device->getGUIEnvironment();
 
+    // Chargement des textures pour les chiffres
+    iv::ITexture *digits[10];
+    digits[0] = driver->getTexture("../data/0.png");
+    digits[1] = driver->getTexture("../data/1.png");
+    digits[2] = driver->getTexture("../data/2.png");
+    digits[3] = driver->getTexture("../data/3.png");
+    digits[4] = driver->getTexture("../data/4.png");
+    digits[5] = driver->getTexture("../data/5.png");
+    digits[6] = driver->getTexture("../data/6.png");
+    digits[7] = driver->getTexture("../data/7.png");
+    digits[8] = driver->getTexture("../data/8.png");
+    digits[9] = driver->getTexture("../data/9.png");
+    iv::ITexture *slash_tex = driver->getTexture("../data/slash.png");
 
+    // Création des places pour les chiffres
+    ig::IGUIImage *munition_10  = gui->addImage(ic::rect<s32>(WIDTH_WINDOW-210,HEIGHT_WINDOW-60, WIDTH_WINDOW-210+40,HEIGHT_WINDOW+40-60)); munition_10->setScaleImage(true);
+    ig::IGUIImage *munition_1   = gui->addImage(ic::rect<s32>(WIDTH_WINDOW-210+40,HEIGHT_WINDOW-60, WIDTH_WINDOW-210+80,HEIGHT_WINDOW+40-60)); munition_1->setScaleImage(true);
+
+    ig::IGUIImage *stock_10  = gui->addImage(ic::rect<s32>(WIDTH_WINDOW-100,HEIGHT_WINDOW-60, WIDTH_WINDOW-100+40,HEIGHT_WINDOW+40-60)); stock_10->setScaleImage(true);
+    ig::IGUIImage *stock_1   = gui->addImage(ic::rect<s32>(WIDTH_WINDOW-100+40,HEIGHT_WINDOW-60, WIDTH_WINDOW-100+80,HEIGHT_WINDOW+40-60)); stock_1->setScaleImage(true);
+
+     ig::IGUIImage *slash   = gui->addImage(ic::rect<s32>(WIDTH_WINDOW-170+40,HEIGHT_WINDOW-60, WIDTH_WINDOW-170+70,HEIGHT_WINDOW+40-60)); slash->setScaleImage(true);
 
     // Ajout de l ’ archive qui contient entre autres un niveau complet
     device->getFileSystem()->addFileArchive("../data/cf.pk3");
@@ -182,7 +207,7 @@ int main()
     e2.addEnemyMeshToScene();
     e2.setTexture(driver->getTexture("../data/blue_texture.pcx"));
     //e2.create_collision_with_map(selector);
-    e2.setPosition(core::vector3df( 100 , -0, -100));
+    e2.setPosition(core::vector3df( 100 , 0, -100));
     e2.setID(ENEMY_2_ID);
 
     //create Main character
@@ -257,7 +282,7 @@ int main()
         {
             if (receiver.button_pressed != last_attack && receiver.button_pressed == true)
                 attack_one_tic = true;
-            if(attack_one_tic)
+            if(attack_one_tic && main_character.get_nb_munition() > 0)
             {
                 ic::line3d<f32> ray;
                 ray = collision_manager->getRayFromScreenCoordinates(ic::position2d<s32>(mouse_x, mouse_y));
@@ -284,7 +309,8 @@ int main()
 
                     list_part2[j_FIFO].addParticleToScene(smgr,main_character.body->getPosition(),intersection,selected_scene_node);
                     j_FIFO++;
-                    if (j_FIFO==NB_PARTICULE_MAX){j_FIFO = 0; rempli = true;}                        e2.being_hit(driver->getTexture("../data/red_texture.pcx"));
+                    if (j_FIFO==NB_PARTICULE_MAX){j_FIFO = 0; rempli = true;}
+                    e2.being_hit(driver->getTexture("../data/red_texture.pcx"));
                     break;
                 case MAP_ID :
                     if (rempli){ list_part[i_FIFO].remove();}
@@ -295,10 +321,8 @@ int main()
                 default:;
                 }
 
-
-
                 attack_one_tic =false;
-
+                main_character.use_munition();
 
             }
 
@@ -310,6 +334,14 @@ int main()
         }
 
         last_attack = receiver.button_pressed;
+
+        munition_10->setImage(digits[(main_character.get_nb_munition() / 10) % 10]);
+        munition_1->setImage(digits[(main_character.get_nb_munition() / 1) % 10]);
+
+        stock_10->setImage(digits[(main_character.get_nb_stock() / 10) % 10]);
+        stock_1->setImage(digits[(main_character.get_nb_stock() / 1) % 10]);
+
+        slash->setImage(slash_tex);
         // Dessin de la scène :
         smgr->drawAll();
         gui->drawAll();
