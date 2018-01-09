@@ -2,6 +2,7 @@
 #define RANDOMWALKNODEANIMATOR_H
 #include <irrlicht.h>
 
+
 class RandomWalkNodeAnimator : public irr::scene::ISceneNodeAnimator
 {
 public:
