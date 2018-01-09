@@ -104,9 +104,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a4b4440fdc3a53c8ebbe2f419ac3f1e2b"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_particle.html#a4b4440fdc3a53c8ebbe2f419ac3f1e2b">Particle</a> (iv::ITexture *light_texture, iv::ITexture *material_texture)</td></tr>
 <tr class="memdesc:a4b4440fdc3a53c8ebbe2f419ac3f1e2b"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="class_particle.html" title="The Particle class. ">Particle</a> : Constructor of particle.  <a href="#a4b4440fdc3a53c8ebbe2f419ac3f1e2b">More...</a><br /></td></tr>
 <tr class="separator:a4b4440fdc3a53c8ebbe2f419ac3f1e2b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4451adbc799ab3dda1edc9762279972a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_particle.html#a4451adbc799ab3dda1edc9762279972a">addParticleToScene</a> (is::ISceneManager *smgr, ic::vector3df position_fire, ic::vector3df position_aim)</td></tr>
-<tr class="memdesc:a4451adbc799ab3dda1edc9762279972a"><td class="mdescLeft">&#160;</td><td class="mdescRight">addParticleToScene : Function adding a particle in the scene  <a href="#a4451adbc799ab3dda1edc9762279972a">More...</a><br /></td></tr>
-<tr class="separator:a4451adbc799ab3dda1edc9762279972a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeba73ae8ba6f042d6c6d44a34c9e6d7b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_particle.html#aeba73ae8ba6f042d6c6d44a34c9e6d7b">addParticleToScene</a> (is::ISceneManager *smgr, ic::vector3df position_fire, ic::vector3df position_aim, scene::ISceneNode *node)</td></tr>
+<tr class="memdesc:aeba73ae8ba6f042d6c6d44a34c9e6d7b"><td class="mdescLeft">&#160;</td><td class="mdescRight">addParticleToScene : Function adding a particle in the scene  <a href="#aeba73ae8ba6f042d6c6d44a34c9e6d7b">More...</a><br /></td></tr>
+<tr class="separator:aeba73ae8ba6f042d6c6d44a34c9e6d7b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6da608d7ebddeb737d483f31c93663e1"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a6da608d7ebddeb737d483f31c93663e1"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_particle.html#a6da608d7ebddeb737d483f31c93663e1">remove</a> ()</td></tr>
 <tr class="memdesc:a6da608d7ebddeb737d483f31c93663e1"><td class="mdescLeft">&#160;</td><td class="mdescRight">remove : Unshow the particle <br /></td></tr>
@@ -117,12 +117,18 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
-<tr class="memitem:aa4793e8f5ad2de338260efa76fd12087"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa4793e8f5ad2de338260efa76fd12087"></a>
-scene::ISceneNode *&#160;</td><td class="memItemRight" valign="bottom"><b>light</b></td></tr>
-<tr class="separator:aa4793e8f5ad2de338260efa76fd12087"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3a451f09fbd0183bdd434ce1fbceac47"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a3a451f09fbd0183bdd434ce1fbceac47"></a>
-scene::IBillboardSceneNode *&#160;</td><td class="memItemRight" valign="bottom"><b>bill</b></td></tr>
-<tr class="separator:a3a451f09fbd0183bdd434ce1fbceac47"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a615c35eba433b6540d9c23d732b0b76e"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a615c35eba433b6540d9c23d732b0b76e"></a>
+is::ISceneNode *&#160;</td><td class="memItemRight" valign="bottom"><b>light</b></td></tr>
+<tr class="separator:a615c35eba433b6540d9c23d732b0b76e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac27f4e515e72ad8ed4e69ee18566ebcc"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ac27f4e515e72ad8ed4e69ee18566ebcc"></a>
+is::IBillboardSceneNode *&#160;</td><td class="memItemRight" valign="bottom"><b>bill</b></td></tr>
+<tr class="separator:ac27f4e515e72ad8ed4e69ee18566ebcc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adbe6664787984dbc63726bd5d50aef4a"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="adbe6664787984dbc63726bd5d50aef4a"></a>
+is::IParticleSystemSceneNode *&#160;</td><td class="memItemRight" valign="bottom"><b>ps</b></td></tr>
+<tr class="separator:adbe6664787984dbc63726bd5d50aef4a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a55e0666ee7d512ede9cf48a72b39af5e"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a55e0666ee7d512ede9cf48a72b39af5e"></a>
+is::IAnimatedMeshSceneNode *&#160;</td><td class="memItemRight" valign="bottom"><b>fire_particle</b></td></tr>
+<tr class="separator:a55e0666ee7d512ede9cf48a72b39af5e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>The <a class="el" href="class_particle.html" title="The Particle class. ">Particle</a> class. </p>
@@ -163,7 +169,7 @@ scene::IBillboardSceneNode *&#160;</td><td class="memItemRight" valign="bottom">
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="a4451adbc799ab3dda1edc9762279972a"></a>
+<a class="anchor" id="aeba73ae8ba6f042d6c6d44a34c9e6d7b"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -183,7 +189,13 @@ scene::IBillboardSceneNode *&#160;</td><td class="memItemRight" valign="bottom">
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">ic::vector3df&#160;</td>
-          <td class="paramname"><em>position_aim</em>&#160;</td>
+          <td class="paramname"><em>position_aim</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">scene::ISceneNode *&#160;</td>
+          <td class="paramname"><em>node</em>&#160;</td>
         </tr>
         <tr>
           <td></td>

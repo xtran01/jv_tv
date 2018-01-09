@@ -30,13 +30,16 @@ void Enemy::setID(int id){
     node ->setID(id);
 }
 
-void Enemy::being_hit(){
+bool Enemy::being_hit(iv::ITexture* texture_hit){
     if (health_point > 0){
         health_point--;
+       // node->setMaterialTexture(0, texture_hit);
     }
     if (health_point <= 0){
         node->drop();
+        return true;
     }
+    return false;
 }
 
 
@@ -73,3 +76,25 @@ void Enemy::create_collision_with_map(is::ITriangleSelector *world)
     node->addAnimator(world_collision_anim_response);
 
 }
+
+
+/*
+bool Enemy::getCollision()
+{
+        ic::list< scene::ISceneNodeAnimator*>::ConstIterator begin = mesh->getAnimators().begin();
+        ic::list< scene::ISceneNodeAnimator*>::ConstIterator end   = mesh->getAnimators().end();
+
+        for(; begin != end; ++begin)
+        {
+                 scene::ISceneNodeAnimator* anm = *begin;
+
+                if(anm->getType() == ESNAT_COLLISION_RESPONSE)
+                {
+                        if( ((scene::ISceneNodeAnimatorCollisionResponse*)anm)->collisionOccurred())
+                                return true;
+                }
+        }
+
+        return false;
+}*/
+

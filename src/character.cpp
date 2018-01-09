@@ -107,3 +107,4 @@ void Character::change_texture_weapon_rest(std::vector<iv::ITexture*>& textures)
 {
     weapon->setMaterialTexture(0, textures[1]);
 }
+

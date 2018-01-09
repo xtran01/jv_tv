@@ -16,12 +16,14 @@ class Particle
 {
 
     iv::ITexture *light_tex, *material_tex;
-    scene::IParticleSystemSceneNode* ps;
-    scene::IParticleEmitter* em;
+
+    is::IParticleEmitter* em;
 
 public:
-    scene::ISceneNode* light;
-    scene::IBillboardSceneNode* bill;
+    is::ISceneNode* light;
+    is::IBillboardSceneNode* bill;
+    is::IParticleSystemSceneNode* ps;
+    is::IAnimatedMeshSceneNode *fire_particle;
     /**
      * @brief Particle : Constructor of particle
      * @param light_texture : Texture of the light
@@ -29,14 +31,13 @@ public:
      */
     Particle(iv::ITexture *light_texture, iv::ITexture *material_texture);
     Particle();
-
     /**
      * @brief addParticleToScene : Function adding a particle in the scene
      * @param smgr
      * @param position_fire : Position of the gun (where the particle is supposed to appear first)
      * @param position_aim : Position of the aim (where the particle is supposed to be at the end)
      */
-    void addParticleToScene(is::ISceneManager *smgr, ic::vector3df position_fire, ic::vector3df position_aim);
+    void addParticleToScene(is::ISceneManager *smgr, ic::vector3df position_fire, ic::vector3df position_aim, scene::ISceneNode *node);
     /**
      * @brief remove : Unshow the particle
      */
@@ -47,7 +48,6 @@ public:
      * @param material_texture : Texture of the material
      */
     void initializeParticle(iv::ITexture *light_texture, iv::ITexture *material_texture);
-
 };
 
 #endif // PARTICLE_H

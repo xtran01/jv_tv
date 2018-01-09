@@ -5,6 +5,7 @@
 #include "enemy.h"
 #include "character.h"
 #include "particle.h"
+#include <unistd.h>
 
 using namespace irr;
 namespace iv = irr::video;
@@ -157,6 +158,7 @@ int main()
     node_map->setPosition (core::vector3df( 200 , -100 , -500));
     //node_map->setRotation(core::vector3df( 0 , 180 , 0));
     node_map->setID(MAP_ID);
+
     // Création du triangle selector
     scene::ITriangleSelector *selector;
     selector = smgr->createOctreeTriangleSelector(node_map->getMesh(), node_map);
@@ -267,22 +269,22 @@ int main()
 
                 if (selected_scene_node){
                     if(selected_scene_node->getID()==ENEMY_1_ID){
-                        e1.being_hit();
-                        //std::cout<<"Touché"<<std::endl;
-                        part.addParticleToScene(smgr,main_character.body->getPosition(),intersection);
-                        selected_scene_node->setMaterialTexture(0, driver->getTexture("../data/red_texture.pcx"));
+                        e1.being_hit(driver->getTexture("../data/red_texture.pcx"));
+                        part.addParticleToScene(smgr,main_character.body->getPosition(),intersection,selected_scene_node);
 
                     }
                     if(selected_scene_node->getID()==ENEMY_2_ID){
-                        part.addParticleToScene(smgr,main_character.body->getPosition(),intersection);
-                        e2.being_hit();
-                        selected_scene_node->setMaterialTexture(0, driver->getTexture("../data/red_texture.pcx"));
+                        e2.being_hit(driver->getTexture("../data/red_texture.pcx"));
+
+                        part.addParticleToScene(smgr,main_character.body->getPosition(),intersection,selected_scene_node);
+                        // if(part.bill->getPosition() == intersection)
+                        //if(part.fire_particle->hasFinished()) part.remove();
 
                     }
                     if(selected_scene_node->getID()==MAP_ID){
                         if (rempli){ list_part[i_FIFO].remove();}
 
-                        list_part[i_FIFO].addParticleToScene(smgr,main_character.body->getPosition(),intersection);
+                        list_part[i_FIFO].addParticleToScene(smgr,main_character.body->getPosition(),intersection,selected_scene_node);
                         i_FIFO++;
 
                         if (i_FIFO==NB_PARTICULE_MAX){i_FIFO = 0; rempli = true;}

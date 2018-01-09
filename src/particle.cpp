@@ -15,6 +15,7 @@ Particle::Particle()
 void Particle::initializeParticle(iv::ITexture *light_texture, iv::ITexture *material_texture){
     light_tex=(light_texture);
     material_tex=(material_texture);
+  //  fire_particle = new scene::IAnimatedMeshSceneNode();
 }
 
 void Particle::remove()
@@ -23,7 +24,8 @@ void Particle::remove()
     ps->setVisible((false));
 }
 
-void Particle::addParticleToScene(is::ISceneManager *smgr, ic::vector3df position_fire, ic::vector3df position_aim){
+void Particle::addParticleToScene(is::ISceneManager *smgr, ic::vector3df position_fire, ic::vector3df position_aim,
+                                  is::ISceneNode *node){
 
     light = smgr->addLightSceneNode(0, core::vector3df(0,0,0),
                                     video::SColorf(1.0f, 0.2f, 0.2f, 0.0f), 300.0f);
@@ -37,10 +39,12 @@ void Particle::addParticleToScene(is::ISceneManager *smgr, ic::vector3df positio
                                                                    position_aim, position_fire.getDistanceFrom(position_aim)/2.5f,false,false);
 
     light->addAnimator(anim);
+
+    //fire_particle->addAnimator(anim);
     anim->drop();
 
     // add particle system
-    ps =smgr->addParticleSystemSceneNode(false, light);
+    ps = smgr->addParticleSystemSceneNode(false, light);
     // create and set emitter
     em = ps->createBoxEmitter(
                 core::aabbox3d<f32>(-3,0,-3,3,1,3),
@@ -64,5 +68,6 @@ void Particle::addParticleToScene(is::ISceneManager *smgr, ic::vector3df positio
     ps->setMaterialFlag(video::EMF_ZWRITE_ENABLE, false);
     ps->setMaterialTexture(0, material_tex);
     ps->setMaterialType(video::EMT_TRANSPARENT_ADD_COLOR);
+
 
 }

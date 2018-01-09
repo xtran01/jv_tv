@@ -52,8 +52,14 @@ public:
      */
     Enemy(is::ISceneManager* smgr_param,
           irr::IRandomizer *random_generator_param);
-
+    /**
+     * @brief addEnemyMeshToScene
+     */
     void addEnemyMeshToScene();
+    /**
+     * @brief setPosition : Set the position of the enemy
+     * @param vec3 : New position of the mesh
+     */
     void setPosition(ic::vector3df vec3);
 
     /**
@@ -69,9 +75,11 @@ public:
     void setID(int id);
 
     /**
-     * @brief being_hit : Reduce health point of the enemy and destroy it if equal 0
+     * @brief being_hit : Set a texture
+     * @param texture_hit : Texture of the hitten enemy
+     * @return true if the enemy depop
      */
-    void being_hit();
+    bool being_hit(video::ITexture *texture_hit);
     /**
      * @brief create_collision_with_map
      * @param world
@@ -81,8 +89,7 @@ public:
      * @brief move_randomely_arround_waiting_position
      */
     void move_randomely_arround_waiting_position();
-
-
+    bool getCollision();
 
 };
 
