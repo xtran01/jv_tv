@@ -5,6 +5,7 @@
 #include <assert.h>
 #include <iostream>
 #include "enemycollisionhandler.h"
+#include "randomwalknodeanimator.h"
 
 
 using namespace irr;

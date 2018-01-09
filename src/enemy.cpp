@@ -39,8 +39,9 @@ void Enemy::move_randomely_arround_waiting_position()
         points.push_back(position);
     }
 
-    is::ISceneNodeAnimator *anim = smgr->createFollowSplineAnimator(0.0f,
-                                points,0.5f);
+  //  is::ISceneNodeAnimator *anim = smgr->createFollowSplineAnimator(0.0f,
+    //                            points,0.5f);
+    is::ISceneNodeAnimator *anim = new RandomWalkNodeAnimator();
     node ->setMD2Animation(is::EMAT_RUN);
     node->addAnimator(anim);
 
