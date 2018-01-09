@@ -1,6 +1,13 @@
 #ifndef RANDOMWALKNODEANIMATOR_H
 #define RANDOMWALKNODEANIMATOR_H
 #include <irrlicht.h>
+using namespace irr;
+
+
+namespace ic = irr::core;
+namespace is = irr::scene;
+namespace iv = irr::video;
+namespace ig = irr::gui;
 
 
 class RandomWalkNodeAnimator : public irr::scene::ISceneNodeAnimator

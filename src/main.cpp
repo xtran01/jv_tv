@@ -19,7 +19,7 @@ const int MAP_ID = 1;
 const int ENEMY_ID = 42;
 const int HEIGHT_WINDOW = 480;
 const int WIDTH_WINDOW = 640;
-const int NB_PARTICULE_MAX = 50;
+const int NB_PARTICULE_MAX = 20;
 void moveCameraControl(IrrlichtDevice *device,
                        is::IAnimatedMeshSceneNode *perso,
                        EventReceiver receiver)

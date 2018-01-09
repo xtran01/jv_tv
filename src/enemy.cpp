@@ -51,6 +51,7 @@ void Enemy::create_collision_with_map(is::ITriangleSelector *world)
 {
     const ic::aabbox3d<f32>& box = node->getBoundingBox();
     ic::vector3df radius = box.MaxEdge - box.getCenter();
+
     is::ISceneNodeAnimatorCollisionResponse *world_collision_anim_response = smgr
             ->createCollisionResponseAnimator(world,node,radius,
                                               ic::vector3df(0,-10,0));
