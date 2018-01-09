@@ -11,3 +11,8 @@ void RandomWalkNodeAnimator::animateNode(irr::scene::ISceneNode *node,irr::u32 t
   node->setPosition(position);
 }
 
+irr::scene::ISceneNodeAnimator* RandomWalkNodeAnimator :: createClone(irr::scene::ISceneNode *node,
+                                                          irr::scene::ISceneManager *newManager){
+
+}
+

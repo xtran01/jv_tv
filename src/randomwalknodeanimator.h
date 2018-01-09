@@ -7,7 +7,8 @@ class RandomWalkNodeAnimator : public irr::scene::ISceneNodeAnimator
 {
 public:
     RandomWalkNodeAnimator();
-    virtual void animateNode(irr::scene::ISceneNode *node,irr::u32 timeMs);
+    void animateNode(irr::scene::ISceneNode *node,irr::u32 timeMs);
+    ISceneNodeAnimator* createClone(irr::scene::ISceneNode *node, irr::scene::ISceneManager *newManager);
 };
 
 #endif // RANDOMWALKNODEANIMATOR_H
