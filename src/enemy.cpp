@@ -32,11 +32,14 @@ void Enemy::setID(int id){
 
 bool Enemy::being_hit(iv::ITexture* texture_hit){
     if (health_point > 0){
+        std::cout<<health_point<<std::endl;
+
         health_point--;
-       // node->setMaterialTexture(0, texture_hit);
+        // node->setMaterialTexture(0, texture_hit);
     }
-    if (health_point <= 0){
-        node->drop();
+    if (health_point == 0){
+        node->setVisible(false);
+
         return true;
     }
     return false;
@@ -59,7 +62,7 @@ void Enemy::move_randomely_arround_waiting_position()
     }
 
     is::ISceneNodeAnimator *anim = smgr->createFollowSplineAnimator(0.0f,
-                                points,0.5f);
+                                                                    points,0.5f);
     node ->setMD2Animation(is::EMAT_RUN);
     node->addAnimator(anim);
 }

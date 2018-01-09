@@ -136,11 +136,15 @@ bool EventReceiver::mouse_handler(const SEvent &event)
       button_pressed = true;
       attack = true;
       attack_finished = true;
+
+      attack_inter = true;
+
       old_x = event.MouseInput.X;
       old_y = event.MouseInput.Y;
       break;
     case EMIE_LMOUSE_LEFT_UP:
       button_pressed = false;
+
       break;
     default:;
   }

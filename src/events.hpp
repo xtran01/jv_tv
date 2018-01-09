@@ -21,7 +21,6 @@ namespace ig = irr::gui;
 class EventReceiver : public irr::IEventReceiver
 {
     irr::gui::IGUIEnvironment *gui;
-    bool button_pressed = true;
     bool is_running =false;
 
     f32 vitesse_deplacement = 2;
@@ -54,7 +53,11 @@ class EventReceiver : public irr::IEventReceiver
 
 public:
     EventReceiver();
+    bool button_pressed = true;
+
     bool attack = false;
+    bool attack_inter = false;
+
     f32 rotation_cam =0.0f;
     irr::scene::IAnimatedMeshSceneNode *node;
     Character *personnage;

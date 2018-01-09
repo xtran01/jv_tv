@@ -24,6 +24,7 @@ public:
     is::IBillboardSceneNode* bill;
     is::IParticleSystemSceneNode* ps;
     is::IAnimatedMeshSceneNode *fire_particle;
+    int frame_time_life;
     /**
      * @brief Particle : Constructor of particle
      * @param light_texture : Texture of the light

@@ -21,7 +21,7 @@ const int ENEMY_1_ID = 1<<1;
 const int ENEMY_2_ID = 1<<2;
 const int HEIGHT_WINDOW = 480;
 const int WIDTH_WINDOW = 640;
-const int NB_PARTICULE_MAX = 50;
+const int NB_PARTICULE_MAX = 10;
 
 
 void moveCameraControl(IrrlichtDevice *device,
@@ -126,9 +126,7 @@ void is_attacking(Character& character,std::vector<iv::ITexture*>& textures, Eve
             character.mf->setVisible(false);
         }
     }
-
 }
-
 
 int main()
 {
@@ -184,7 +182,7 @@ int main()
     e2.addEnemyMeshToScene();
     e2.setTexture(driver->getTexture("../data/blue_texture.pcx"));
     //e2.create_collision_with_map(selector);
-    e2.setPosition(core::vector3df( 100 , -0 , -100));
+    e2.setPosition(core::vector3df( 100 , -0, -100));
     e2.setID(ENEMY_2_ID);
 
     //create Main character
@@ -224,15 +222,20 @@ int main()
 
     Particle part(driver->getTexture("../data/particlered.bmp"), driver->getTexture("../data/fireball.bmp"));
     Particle list_part[NB_PARTICULE_MAX];
+    Particle list_part2[NB_PARTICULE_MAX];
     for(int i=0;i<NB_PARTICULE_MAX;i++){
         list_part[i].initializeParticle(driver->getTexture("../data/particlered.bmp"), driver->getTexture("../data/fireball.bmp"));
+        list_part2[i].initializeParticle(driver->getTexture("../data/particlered.bmp"), driver->getTexture("../data/fireball.bmp"));
     }
     int i_FIFO = 0;
     bool rempli = false;
+    int j_FIFO  = 0;
+    bool list_part2_rempli = false;
 
 
     int compteur_attack = 0;
-
+    bool attack_one_tic = false;
+    bool last_attack = false;
     while(device->run())
     {
         //set image for the "viseur"
@@ -252,8 +255,9 @@ int main()
         int mouse_x, mouse_y;
         if (receiver.is_mouse_pressed(mouse_x, mouse_y))
         {
-            bool attacking = receiver.get_attack();
-            if(attacking)
+            if (receiver.button_pressed != last_attack && receiver.button_pressed == true)
+                attack_one_tic = true;
+            if(attack_one_tic)
             {
                 ic::line3d<f32> ray;
                 ray = collision_manager->getRayFromScreenCoordinates(ic::position2d<s32>(mouse_x, mouse_y));
@@ -266,34 +270,46 @@ int main()
                             intersection, // On récupère ici les coordonnées 3D de l'intersection
                             hit_triangle, // et le triangle intersecté
                             0); // On ne veut que des noeuds avec cet identifiant
+                switch(selected_scene_node->getID()){
+                case ENEMY_1_ID :
+                    if (list_part2_rempli){ list_part[i_FIFO].remove();}
 
-                if (selected_scene_node){
-                    if(selected_scene_node->getID()==ENEMY_1_ID){
-                        e1.being_hit(driver->getTexture("../data/red_texture.pcx"));
-                        part.addParticleToScene(smgr,main_character.body->getPosition(),intersection,selected_scene_node);
+                    list_part2[j_FIFO].addParticleToScene(smgr,main_character.body->getPosition(),intersection,selected_scene_node);
+                    j_FIFO++;
+                    if (j_FIFO==NB_PARTICULE_MAX){j_FIFO = 0; rempli = true;}
+                    e1.being_hit(driver->getTexture("../data/red_texture.pcx"));
+                    break;
+                case ENEMY_2_ID :
+                    if (list_part2_rempli){ list_part[i_FIFO].remove();}
 
-                    }
-                    if(selected_scene_node->getID()==ENEMY_2_ID){
-                        e2.being_hit(driver->getTexture("../data/red_texture.pcx"));
+                    list_part2[j_FIFO].addParticleToScene(smgr,main_character.body->getPosition(),intersection,selected_scene_node);
+                    j_FIFO++;
+                    if (j_FIFO==NB_PARTICULE_MAX){j_FIFO = 0; rempli = true;}                        e2.being_hit(driver->getTexture("../data/red_texture.pcx"));
+                    break;
+                case MAP_ID :
+                    if (rempli){ list_part[i_FIFO].remove();}
+                    list_part[i_FIFO].addParticleToScene(smgr,main_character.body->getPosition(),intersection,selected_scene_node);
+                    i_FIFO++;
+                    if (i_FIFO==NB_PARTICULE_MAX){i_FIFO = 0; rempli = true;}
+                    break;
+                default:;
+                }
 
-                        part.addParticleToScene(smgr,main_character.body->getPosition(),intersection,selected_scene_node);
-                        // if(part.bill->getPosition() == intersection)
-                        //if(part.fire_particle->hasFinished()) part.remove();
 
-                    }
-                    if(selected_scene_node->getID()==MAP_ID){
-                        if (rempli){ list_part[i_FIFO].remove();}
 
-                        list_part[i_FIFO].addParticleToScene(smgr,main_character.body->getPosition(),intersection,selected_scene_node);
-                        i_FIFO++;
+                attack_one_tic =false;
 
-                        if (i_FIFO==NB_PARTICULE_MAX){i_FIFO = 0; rempli = true;}
 
-                    }
             }
 
-            }
         }
+        for (int k = 0; k<NB_PARTICULE_MAX; k++){
+            list_part2[k].frame_time_life--;
+            if(list_part2[k].frame_time_life == 0)
+                list_part2[k].remove();
+        }
+
+        last_attack = receiver.button_pressed;
         // Dessin de la scène :
         smgr->drawAll();
         gui->drawAll();

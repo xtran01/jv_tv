@@ -2,7 +2,7 @@
 
 Particle::Particle(iv::ITexture *light_texture, iv::ITexture *material_texture):light_tex(light_texture),material_tex(material_texture)
 {
-
+    frame_time_life = 0;
 
 }
 
@@ -27,6 +27,7 @@ void Particle::remove()
 void Particle::addParticleToScene(is::ISceneManager *smgr, ic::vector3df position_fire, ic::vector3df position_aim,
                                   is::ISceneNode *node){
 
+    frame_time_life = 30;
     light = smgr->addLightSceneNode(0, core::vector3df(0,0,0),
                                     video::SColorf(1.0f, 0.2f, 0.2f, 0.0f), 300.0f);
     bill = smgr->addBillboardSceneNode(light, core::dimension2d<f32>(10, 10));

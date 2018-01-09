@@ -44,7 +44,7 @@ private:
 
 public:
 
-    u32 health_point = 8;
+    u32 health_point = 2;
     /**
      * @brief Enemy : Constructor of the Enemy
      * @param smgr_param : pointer to the scene manager
