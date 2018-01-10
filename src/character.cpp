@@ -130,7 +130,7 @@ void Character::use_munition()
 void Character::reload()
 {
 
-    if(reloading_cooldown == 0){
+    if(reloading_cooldown == 0 && munition !=10){
         if ((stock >= 10-munition-1) && stock !=0){
             stock -= (10 - munition);
             munition = 10;
