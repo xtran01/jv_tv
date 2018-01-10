@@ -16,6 +16,7 @@ public:
     RandomWalkNodeAnimator();
     void animateNode(irr::scene::ISceneNode *node,irr::u32 timeMs);
     ISceneNodeAnimator* createClone(irr::scene::ISceneNode *node, irr::scene::ISceneManager *newManager);
+    bool is_following_main_character = false;
 };
 
 #endif // RANDOMWALKNODEANIMATOR_H

@@ -37,6 +37,10 @@ private:
 
     ic::vector3df waiting_position_center;
 
+    is::ISceneNodeAnimator *random_walk_animator;
+
+    ic::vector3df *position_main_character;
+
 
 public:
     /**
@@ -72,6 +76,12 @@ public:
      * @brief move_randomely_arround_waiting_position
      */
     void move_randomely_arround_waiting_position();
+
+    /**
+     * @brief follow_main_character
+     * Follow the main character
+     */
+    void follow_main_character();
 
 
 
