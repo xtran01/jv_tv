@@ -20,6 +20,7 @@ const int ENEMY_ID = 42;
 const int HEIGHT_WINDOW = 480;
 const int WIDTH_WINDOW = 640;
 const int NB_PARTICULE_MAX = 20;
+
 void moveCameraControl(IrrlichtDevice *device,
                        is::IAnimatedMeshSceneNode *perso,
                        EventReceiver receiver)
@@ -55,9 +56,8 @@ void moveCameraControl(IrrlichtDevice *device,
         perso->setRotation( core::vector3df( 0, direction, 0 ) );
 
     }
-
-
 }
+
 /*===========================================================================*\
  * create_menu                                                               *
 \*===========================================================================*/
@@ -157,6 +157,47 @@ void is_attacking(Character& character,std::vector<iv::ITexture*>& textures, Eve
 
 }
 
+void generate_particle(int &mouse_x, int &mouse_y, EventReceiver& receiver, int &i_FIFO, bool &rempli, std::vector<iv::ITexture*> textures,
+                       is::ISceneCollisionManager *collision_manager,is::ISceneManager *smgr,Particle part,Character main_character,Particle list_part[NB_PARTICULE_MAX]){
+    bool attacking = receiver.get_attack();
+    if(attacking)
+    {
+    ic::line3d<f32> ray;
+    ray = collision_manager->getRayFromScreenCoordinates(ic::position2d<s32>(mouse_x, mouse_y));
+    ic::vector3df intersection;
+    ic::triangle3df hit_triangle;
+
+    is::ISceneNode *selected_scene_node =
+            collision_manager->getSceneNodeAndCollisionPointFromRay(
+                ray,
+                intersection, // On récupère ici les coordonnées 3D de l'intersection
+                hit_triangle, // et le triangle intersecté
+                ENEMY_ID); // On ne veut que des noeuds avec cet identifiant
+
+    if (selected_scene_node){
+        selected_scene_node->setMaterialTexture(0, textures[1]);
+        std::cout<<"Touché"<<std::endl;
+        part.addParticleToScene(smgr,main_character.body->getPosition(),intersection);}
+
+    selected_scene_node =
+            collision_manager->getSceneNodeAndCollisionPointFromRay(
+                ray,
+                intersection, // On récupère ici les coordonnées 3D de l'intersection
+                hit_triangle, // et le triangle intersecté
+                MAP_ID); // On ne veut que des noeuds avec cet identifiant
+
+
+    if (selected_scene_node){
+        if (rempli){ list_part[i_FIFO].remove();}
+
+        list_part[i_FIFO].addParticleToScene(smgr,main_character.body->getPosition(),intersection);
+        i_FIFO++;
+
+        if (i_FIFO==NB_PARTICULE_MAX){i_FIFO = 0; rempli = true;}
+    }
+    }
+}
+
 int main()
 {
 
@@ -204,14 +245,17 @@ int main()
     //create enemy
     Enemy e1(smgr,device->getRandomizer());
     e1.addEnemyMeshToScene();
-    io::path path = "../data/red_texture.pcx";
-    e1.setTexture(path, driver);
+    e1.setTexture(driver->getTexture("../data/blue_texture.pcx"));
     e1.create_collision_with_map(selector);
     e1.move_randomely_arround_waiting_position();
+    e1.setID(ENEMY_ID);
 
-
-
-
+    Enemy e2(smgr,device->getRandomizer());
+    e2.addEnemyMeshToScene();
+    e2.setTexture(driver->getTexture("../data/blue_texture.pcx"));
+    //e2.create_collision_with_map(selector);
+    e2.setPosition(core::vector3df( 100 , -0 , -100));
+    e2.setID(ENEMY_ID);
 
     //create Main character
     Character main_character(smgr);
@@ -241,11 +285,15 @@ int main()
     iv::ITexture *scope_tex;
     scope_tex= driver->getTexture("../data/scope.png");
 
+
+
+    /***************
+     * Gestion des particules
+     ***************/
     is::ISceneCollisionManager *collision_manager = smgr->getSceneCollisionManager();
 
     Particle part(driver->getTexture("../data/particlered.bmp"), driver->getTexture("../data/fireball.bmp"));
     Particle list_part[NB_PARTICULE_MAX];
-
     for(int i=0;i<NB_PARTICULE_MAX;i++){
         list_part[i].initializeParticle(driver->getTexture("../data/particlered.bmp"), driver->getTexture("../data/fireball.bmp"));
     }
@@ -264,8 +312,8 @@ int main()
 
         is_attacking(main_character, textures, receiver, compteur_attack);
 
-        receiver.keyboard_handler();
-        driver->beginScene(true, true, iv::SColor(100,150,200,255));
+        //receiver.keyboard_handler();
+        //driver->beginScene(true, true, iv::SColor(100,150,200,255));
         moveCameraControl(device,main_character.body, receiver);
 
         receiver.keyboard_handler();
@@ -274,38 +322,7 @@ int main()
         int mouse_x, mouse_y;
         if (receiver.is_mouse_pressed(mouse_x, mouse_y))
         {
-            ic::line3d<f32> ray;
-            ray = collision_manager->getRayFromScreenCoordinates(ic::position2d<s32>(mouse_x, mouse_y));
-            ic::vector3df intersection;
-            ic::triangle3df hit_triangle;
-
-            is::ISceneNode *selected_scene_node =
-                    collision_manager->getSceneNodeAndCollisionPointFromRay(
-                        ray,
-                        intersection, // On récupère ici les coordonnées 3D de l'intersection
-                        hit_triangle, // et le triangle intersecté
-                        ENEMY_ID); // On ne veut que des noeuds avec cet identifiant
-
-            if (selected_scene_node){
-                selected_scene_node->setMaterialTexture(0, textures[1]);
-                part.addParticleToScene(smgr,main_character.body->getPosition(),intersection);}
-
-            selected_scene_node =
-                    collision_manager->getSceneNodeAndCollisionPointFromRay(
-                        ray,
-                        intersection, // On récupère ici les coordonnées 3D de l'intersection
-                        hit_triangle, // et le triangle intersecté
-                        MAP_ID); // On ne veut que des noeuds avec cet identifiant
-
-
-            if (selected_scene_node){
-                if (rempli){ list_part[i_FIFO].remove();}
-
-                list_part[i_FIFO].addParticleToScene(smgr,main_character.body->getPosition(),intersection);
-                i_FIFO++;
-
-                if (i_FIFO==NB_PARTICULE_MAX){i_FIFO = 0; rempli = true;}
-            }
+            generate_particle(mouse_x, mouse_y,receiver,i_FIFO,rempli,textures,collision_manager,smgr,part,main_character,list_part);
         }
         // Dessin de la scène :
         smgr->drawAll();

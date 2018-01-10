@@ -2,6 +2,7 @@
 
 bool EnemyCollisionHandler::onCollision(
         const irr::scene::ISceneNodeAnimatorCollisionResponse &animator){
+
 //    irr::f32 distance_to_previous_position = animator.getCollisionResultPosition()
 //            .getDistanceFrom(previous_resulting_position);
 //    if(distance_to_previous_position < 1){

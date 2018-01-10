@@ -15,7 +15,9 @@ namespace ic = irr::core;
 namespace is = irr::scene;
 namespace iv = irr::video;
 namespace ig = irr::gui;
-
+/**
+ * @brief The EventReceiver class
+ */
 class EventReceiver : public irr::IEventReceiver
 {
     irr::gui::IGUIEnvironment *gui;
@@ -30,8 +32,6 @@ class EventReceiver : public irr::IEventReceiver
     int current_texture;
 
     bool attack_finished = false;
-
-
     bool ClicIsDown[KEY_KEY_CODES_COUNT];
     bool ClicEvent[KEY_KEY_CODES_COUNT];
     bool update_mouse_event(const SEvent &event);
@@ -59,8 +59,20 @@ public:
     irr::scene::IAnimatedMeshSceneNode *node;
     Character *personnage;
     irr::scene::ICameraSceneNode *camera_node;
+    /**
+     * @brief init_Key : Initialize all the key in the arrays
+     */
     void init_Key();
+    /**
+     * @brief keyboard_handler : Handle all the action linked to a key
+     * @return false everytime
+     */
     bool keyboard_handler();
+    /**
+     * @brief mouse_handler : Handle all the action linked to the mouse
+     * @param event : click event
+     * @return false everytime
+     */
     bool mouse_handler(const irr::SEvent &event);
     bool OnEvent(const irr::SEvent &event);
     void set_gui(irr::gui::IGUIEnvironment *gui);

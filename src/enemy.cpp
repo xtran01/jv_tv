@@ -19,9 +19,12 @@ void Enemy::setPosition(ic::vector3df vec3){
     node -> setPosition(vec3);
 }
 
-void Enemy::setTexture(io::path path, iv::IVideoDriver *driver){
+void Enemy::setTexture(iv::ITexture *texture){
     assert(node != NULL);
-    node->setMaterialTexture(0, driver->getTexture(path));
+    node->setMaterialTexture(0, texture);
+}
+void Enemy::setID(int id){
+    node ->setID(id);
 }
 
 void Enemy::move_randomely_arround_waiting_position()
@@ -44,7 +47,6 @@ void Enemy::move_randomely_arround_waiting_position()
     is::ISceneNodeAnimator *anim = new RandomWalkNodeAnimator();
     node ->setMD2Animation(is::EMAT_RUN);
     node->addAnimator(anim);
-
 }
 
 void Enemy::create_collision_with_map(is::ITriangleSelector *world)
