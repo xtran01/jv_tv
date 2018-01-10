@@ -7,6 +7,7 @@ Enemy::Enemy(is::ISceneManager *smgr_param,
     random_generator = random_generator_param;
     mesh = smgr->getMesh("../data/tris.md2");
     waiting_position_center = {0.0f,0.0f,0.0f};
+
 }
 
 void Enemy::addEnemyMeshToScene(){
@@ -54,11 +55,14 @@ void Enemy::create_collision_with_map(is::ITriangleSelector *world)
     const ic::aabbox3d<f32>& box = node->getBoundingBox();
     ic::vector3df radius = box.MaxEdge - box.getCenter();
 
+
     is::ISceneNodeAnimatorCollisionResponse *world_collision_anim_response = smgr
             ->createCollisionResponseAnimator(world,node,radius,
                                               ic::vector3df(0,-10,0));
 
     world_collision_anim_response->setCollisionCallback(&world_collision_response);
     node->addAnimator(world_collision_anim_response);
+    //TODO drop the world_collision_anim_response when not needed anymore
+
 
 }
