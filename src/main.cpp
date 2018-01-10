@@ -255,7 +255,7 @@ int main()
     main_character.addCharacterCollider(smgr,selector);
 
     //create enemy
-    Enemy e1(smgr,device->getRandomizer());
+    Enemy e1(smgr,device->getRandomizer(), main_character.body);
     e1.addEnemyMeshToScene();
     e1.setTexture(driver->getTexture("../data/blue_texture.pcx"));
     e1.create_collision_with_map(selector);

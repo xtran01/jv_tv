@@ -39,7 +39,7 @@ private:
 
     is::ISceneNodeAnimator *random_walk_animator;
 
-    ic::vector3df *position_main_character;
+    is::IAnimatedMeshSceneNode *main_character_node;
 
 
 public:
@@ -49,7 +49,8 @@ public:
      * @param random_generator_param
      */
     Enemy(is::ISceneManager* smgr_param,
-          irr::IRandomizer *random_generator_param);
+          irr::IRandomizer *random_generator_param,
+          is::IAnimatedMeshSceneNode *main_character_node_param);
 
     //Noeud qui mermet de manipuler le maillage
     is::IAnimatedMeshSceneNode *node;

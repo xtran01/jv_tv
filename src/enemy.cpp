@@ -1,12 +1,14 @@
 #include "enemy.h"
 
 Enemy::Enemy(is::ISceneManager *smgr_param,
-             irr::IRandomizer *random_generator_param)
+             irr::IRandomizer *random_generator_param,
+             is::IAnimatedMeshSceneNode *main_character_node_param)
 {
     smgr = smgr_param;
     random_generator = random_generator_param;
     mesh = smgr->getMesh("../data/tris.md2");
     waiting_position_center = {0.0f,0.0f,0.0f};
+    main_character_node = main_character_node_param;
 
 }
 
