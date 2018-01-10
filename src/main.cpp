@@ -242,13 +242,7 @@ int main()
     textures.push_back(driver->getTexture("../data/Chaingunner/chaingunner_mf0.png"));
 
 
-    //create enemy
-    Enemy e1(smgr,device->getRandomizer());
-    e1.addEnemyMeshToScene();
-    e1.setTexture(driver->getTexture("../data/blue_texture.pcx"));
-    e1.create_collision_with_map(selector);
-    e1.move_randomely_arround_waiting_position();
-    e1.setID(ENEMY_ID);
+
 
 
 
@@ -260,7 +254,16 @@ int main()
     main_character.setAnimation(main_character.RUN);
     main_character.addCharacterCollider(smgr,selector);
 
-
+    //create enemy
+    Enemy e1(smgr,device->getRandomizer());
+    e1.addEnemyMeshToScene();
+    e1.setTexture(driver->getTexture("../data/blue_texture.pcx"));
+    e1.create_collision_with_map(selector);
+    ic::vector3df pos(200,0.0f,200);
+    e1.setPosition(pos);
+    e1.move_randomely_arround_waiting_position();
+    e1.setID(ENEMY_ID);
+    e1.follow_main_character();
 
     receiver.set_gui(gui);
     receiver.set_personnage(&main_character);
@@ -282,7 +285,7 @@ int main()
 
 
 
-    /***************
+    /****************
      * Gestion des particules
      ***************/
     is::ISceneCollisionManager *collision_manager = smgr->getSceneCollisionManager();
@@ -319,6 +322,8 @@ int main()
         {
             generate_particle(mouse_x, mouse_y,receiver,i_FIFO,rempli,textures,collision_manager,smgr,part,main_character,list_part);
         }
+
+
         // Dessin de la scène :
         smgr->drawAll();
         gui->drawAll();
