@@ -5,7 +5,7 @@
 #include <assert.h>
 #include <iostream>
 #include "enemycollisionhandler.h"
-
+#include "character.h"
 
 using namespace irr;
 namespace is = irr::scene;
@@ -18,6 +18,8 @@ namespace ic = irr::core;
 class Enemy
 {
 private:
+    u32 health_point = 4;
+    u32 blink_frame = 0;
 
     /**
       * @brief smgr : pointer to the scene manager
@@ -44,7 +46,6 @@ private:
 
 public:
 
-    u32 health_point = 4;
     /**
      * @brief Enemy : Constructor of the Enemy
      * @param smgr_param : pointer to the scene manager
@@ -75,11 +76,16 @@ public:
     void setID(int id);
 
     /**
-     * @brief being_hit : Set a texture
+     * @brief being_hit : Set a texture / Decrease  health point / Set blink frame
      * @param texture_hit : Texture of the hitten enemy
-     * @return true if the enemy depop
      */
-    bool being_hit(video::ITexture *texture_hit);
+    void being_hit(video::ITexture *texture_hit);
+    /**
+     * @brief make_blink
+     * @param texture
+     */
+    void make_blink(iv::ITexture *texture);
+    void attack(Character *perso);
     /**
      * @brief create_collision_with_map
      * @param world
@@ -90,6 +96,7 @@ public:
      */
     void move_randomely_arround_waiting_position();
     bool getCollision();
+
 
 };
 

@@ -24,7 +24,8 @@ private:
     is::IAnimatedMesh *mesh_mf;
     u32 munition = 10;
     u32 stock = 20;
-
+    u32 health_point = 3;
+    u32 reloading_cooldown = 0;
 public:
     /**
      * @brief The Animation enum contains all the different action possible for the Character
@@ -74,11 +75,28 @@ public:
      * @param textures : Texture array containing all the textures needed (body, head, weapon, mf)
      */
     void change_texture_weapon_rest(std::vector<iv::ITexture*>& textures);
+    /**
+     * @brief get_nb_stock : Get the number of munition in stock remaining
+     * @return the stock
+     */
     u32 get_nb_stock()const;
+    /**
+     * @brief get_nb_munition : Get the number of munition in cartridge remaining
+     * @return the munition
+     */
     u32 get_nb_munition()const;
+    /**
+     * @brief use_munition : Reduce the number of munition by 1
+     */
     void use_munition();
+    /**
+     * @brief reload : Take ammo in the sotck to the cartridge
+     */
     void reload();
+    bool is_reloading();
+    void die();
 
+    void take_damage();
     /**
      * @brief Character : Constructor of the character in the smgr
      * @param smgr : pointer to the scene manager
@@ -88,5 +106,6 @@ public:
      * @brief Character : Default constructor
      */
     Character();
+    u32 getReloading_cooldown() const;
 };
 #endif // CHARACTER_H

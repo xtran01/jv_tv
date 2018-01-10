@@ -8,6 +8,11 @@ Character::Character()
 {
 }
 
+u32 Character::getReloading_cooldown() const
+{
+    return reloading_cooldown;
+}
+
 void Character::addCharacterMeshToScene(is::ISceneManager *smgr, std::vector<iv::ITexture*> textures){
 
 
@@ -124,10 +129,44 @@ void Character::use_munition()
 }
 void Character::reload()
 {
-    if (stock >= 10-munition-1 && stock !=0){
-        stock -= (10 - munition);
-        munition = 10;
+
+    if(reloading_cooldown == 0){
+        if ((stock >= 10-munition-1) && stock !=0){
+            stock -= (10 - munition);
+            munition = 10;
+        }
+        if ((stock<10 && stock+munition <= 10) && stock !=0){
+            munition += stock;
+            stock = 0;
+        }
+        reloading_cooldown = 45;
     }
+}
 
+bool Character::is_reloading()
+{
+    if(reloading_cooldown>0){
+        reloading_cooldown--;
 
+        return true;
+    }
+    return false;
+
+}
+
+void Character::die()
+{
+    std::cout<<"GAME OVER"<<std::endl;
+
+}
+
+void Character::take_damage()
+{
+    if (health_point>0){
+        health_point--;
+        std::cout<<"Vie joueur restant: "<<health_point<<std::endl;
+    }
+    else {
+        die();
+    }
 }

@@ -1,5 +1,6 @@
 #include "enemy.h"
 #include <irrlicht.h>
+
 Enemy::Enemy(is::ISceneManager *smgr_param,
              irr::IRandomizer *random_generator_param)
 {
@@ -30,20 +31,18 @@ void Enemy::setID(int id){
     node ->setID(id);
 }
 
-bool Enemy::being_hit(iv::ITexture* texture_hit){
+void Enemy::being_hit(iv::ITexture* texture_hit){
     if (health_point > 0){
         std::cout<<health_point<<std::endl;
-
         health_point--;
-        // node->setMaterialTexture(0, texture_hit);
+        blink_frame = 15;
+        node->setMaterialTexture(0, texture_hit);
     }
     if (health_point == 0){
         node->setVisible(false);
        /** A MODIFIER ! FAIRE MOURIR LES ENEMIS PLUTOT **/
         //node->setMD2Animation(is::EMAT_DEATH_FALLBACKSLOW);
-        return true;
     }
-    return false;
 }
 
 
@@ -66,6 +65,21 @@ void Enemy::move_randomely_arround_waiting_position()
                                                                     points,0.5f);
     node ->setMD2Animation(is::EMAT_RUN);
     node->addAnimator(anim);
+}
+
+void Enemy::make_blink(video::ITexture *texture)
+{
+    if(blink_frame>0){
+        blink_frame--;
+    }
+    else{
+        node->setMaterialTexture(0, texture);
+    }
+}
+
+void Enemy::attack(Character *perso)
+{
+
 }
 
 void Enemy::create_collision_with_map(is::ITriangleSelector *world)

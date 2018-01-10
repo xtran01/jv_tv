@@ -87,7 +87,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="#pub-attribs">Public Attributes</a> &#124;
 <a href="class_enemy-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">Enemy Class Reference</div>  </div>
@@ -117,9 +116,15 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <tr class="memitem:a70800e445fcc9cad9a4636adda448744"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_enemy.html#a70800e445fcc9cad9a4636adda448744">setID</a> (int id)</td></tr>
 <tr class="memdesc:a70800e445fcc9cad9a4636adda448744"><td class="mdescLeft">&#160;</td><td class="mdescRight">setID : Set the node ID of the <a class="el" href="class_enemy.html" title="The Enemy class. ">Enemy</a>  <a href="#a70800e445fcc9cad9a4636adda448744">More...</a><br /></td></tr>
 <tr class="separator:a70800e445fcc9cad9a4636adda448744"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a31d9fc26245a8582ff3277e4f4ff8b92"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_enemy.html#a31d9fc26245a8582ff3277e4f4ff8b92">being_hit</a> (video::ITexture *texture_hit)</td></tr>
-<tr class="memdesc:a31d9fc26245a8582ff3277e4f4ff8b92"><td class="mdescLeft">&#160;</td><td class="mdescRight">being_hit : Set a texture  <a href="#a31d9fc26245a8582ff3277e4f4ff8b92">More...</a><br /></td></tr>
-<tr class="separator:a31d9fc26245a8582ff3277e4f4ff8b92"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aba391e12d1acb05fdb47aaf861455f79"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_enemy.html#aba391e12d1acb05fdb47aaf861455f79">being_hit</a> (video::ITexture *texture_hit)</td></tr>
+<tr class="memdesc:aba391e12d1acb05fdb47aaf861455f79"><td class="mdescLeft">&#160;</td><td class="mdescRight">being_hit : Set a texture / Decrease health point / Set blink frame  <a href="#aba391e12d1acb05fdb47aaf861455f79">More...</a><br /></td></tr>
+<tr class="separator:aba391e12d1acb05fdb47aaf861455f79"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2957d62b946203f3050da4eba2285a36"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_enemy.html#a2957d62b946203f3050da4eba2285a36">make_blink</a> (iv::ITexture *texture)</td></tr>
+<tr class="memdesc:a2957d62b946203f3050da4eba2285a36"><td class="mdescLeft">&#160;</td><td class="mdescRight">make_blink  <a href="#a2957d62b946203f3050da4eba2285a36">More...</a><br /></td></tr>
+<tr class="separator:a2957d62b946203f3050da4eba2285a36"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6aaa93a0ee7d3329f6bea7af2fa0a397"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a6aaa93a0ee7d3329f6bea7af2fa0a397"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>attack</b> (<a class="el" href="class_character.html">Character</a> *perso)</td></tr>
+<tr class="separator:a6aaa93a0ee7d3329f6bea7af2fa0a397"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a81c60b03e2670fca3f12e5658518aea1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_enemy.html#a81c60b03e2670fca3f12e5658518aea1">create_collision_with_map</a> (is::ITriangleSelector *world)</td></tr>
 <tr class="memdesc:a81c60b03e2670fca3f12e5658518aea1"><td class="mdescLeft">&#160;</td><td class="mdescRight">create_collision_with_map  <a href="#a81c60b03e2670fca3f12e5658518aea1">More...</a><br /></td></tr>
 <tr class="separator:a81c60b03e2670fca3f12e5658518aea1"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -130,12 +135,6 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <tr class="memitem:a1c935be6ffc89117f641100d1e5ed804"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a1c935be6ffc89117f641100d1e5ed804"></a>
 bool&#160;</td><td class="memItemRight" valign="bottom"><b>getCollision</b> ()</td></tr>
 <tr class="separator:a1c935be6ffc89117f641100d1e5ed804"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
-Public Attributes</h2></td></tr>
-<tr class="memitem:a399237b7d47f7c8cafd17bb448a97c0e"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a399237b7d47f7c8cafd17bb448a97c0e"></a>
-u32&#160;</td><td class="memItemRight" valign="bottom"><b>health_point</b> = 4</td></tr>
-<tr class="separator:a399237b7d47f7c8cafd17bb448a97c0e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>The <a class="el" href="class_enemy.html" title="The Enemy class. ">Enemy</a> class. </p>
@@ -177,12 +176,12 @@ u32&#160;</td><td class="memItemRight" valign="bottom"><b>health_point</b> = 4</
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="a31d9fc26245a8582ff3277e4f4ff8b92"></a>
+<a class="anchor" id="aba391e12d1acb05fdb47aaf861455f79"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">bool Enemy::being_hit </td>
+          <td class="memname">void Enemy::being_hit </td>
           <td>(</td>
           <td class="paramtype">video::ITexture *&#160;</td>
           <td class="paramname"><em>texture_hit</em></td><td>)</td>
@@ -191,14 +190,13 @@ u32&#160;</td><td class="memItemRight" valign="bottom"><b>health_point</b> = 4</
       </table>
 </div><div class="memdoc">
 
-<p>being_hit : Set a texture </p>
+<p>being_hit : Set a texture / Decrease health point / Set blink frame </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">texture_hit</td><td>: Texture of the hitten enemy </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>true if the enemy depop </dd></dl>
 <p>A MODIFIER ! FAIRE MOURIR LES ENEMIS PLUTOT </p>
 
 </div>
@@ -221,6 +219,30 @@ u32&#160;</td><td class="memItemRight" valign="bottom"><b>health_point</b> = 4</
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">world</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="a2957d62b946203f3050da4eba2285a36"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Enemy::make_blink </td>
+          <td>(</td>
+          <td class="paramtype">iv::ITexture *&#160;</td>
+          <td class="paramname"><em>texture</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>make_blink </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">texture</td><td></td></tr>
   </table>
   </dd>
 </dl>

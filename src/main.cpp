@@ -110,8 +110,15 @@ static void create_window(ig::IGUIEnvironment *gui)
                     WINDOW_SPIN_BOX);
 }
 
-static void create_GUI_munition(ig::IGUIEnvironment *gui){
+static void create_GUI_munition(ig::IGUIEnvironment *gui, ig::IGUIImage *munition_10, ig::IGUIImage *munition_1,
+                                ig::IGUIImage *stock_10, ig::IGUIImage *stock_1, ig::IGUIImage *slash){
+    munition_10  = gui->addImage(ic::rect<s32>(WIDTH_WINDOW-210,HEIGHT_WINDOW-60, WIDTH_WINDOW-210+40,HEIGHT_WINDOW+40-60)); munition_10->setScaleImage(true);
+    munition_1   = gui->addImage(ic::rect<s32>(WIDTH_WINDOW-210+40,HEIGHT_WINDOW-60, WIDTH_WINDOW-210+80,HEIGHT_WINDOW+40-60)); munition_1->setScaleImage(true);
 
+    stock_10  = gui->addImage(ic::rect<s32>(WIDTH_WINDOW-100,HEIGHT_WINDOW-60, WIDTH_WINDOW-100+40,HEIGHT_WINDOW+40-60)); stock_10->setScaleImage(true);
+    stock_1   = gui->addImage(ic::rect<s32>(WIDTH_WINDOW-100+40,HEIGHT_WINDOW-60, WIDTH_WINDOW-100+80,HEIGHT_WINDOW+40-60)); stock_1->setScaleImage(true);
+
+    slash   = gui->addImage(ic::rect<s32>(WIDTH_WINDOW-170+40,HEIGHT_WINDOW-60, WIDTH_WINDOW-170+70,HEIGHT_WINDOW+40-60)); slash->setScaleImage(true);
 }
 
 void is_attacking(Character& character,std::vector<iv::ITexture*>& textures,
@@ -123,7 +130,7 @@ void is_attacking(Character& character,std::vector<iv::ITexture*>& textures,
         character.change_texture_weapon_fire(textures);
         character.mf->setVisible(true);
         compteur_attack++;
-        if(compteur_attack > 12  || character.get_nb_munition() == 0)
+        if(compteur_attack > 12  || character.get_nb_munition() == 0  || character.is_reloading())
         {
             compteur_attack = 0;
             receiver.set_attack(false);
@@ -163,13 +170,15 @@ int main()
     iv::ITexture *slash_tex = driver->getTexture("../data/slash.png");
 
     // Création des places pour les chiffres
+
     ig::IGUIImage *munition_10  = gui->addImage(ic::rect<s32>(WIDTH_WINDOW-210,HEIGHT_WINDOW-60, WIDTH_WINDOW-210+40,HEIGHT_WINDOW+40-60)); munition_10->setScaleImage(true);
     ig::IGUIImage *munition_1   = gui->addImage(ic::rect<s32>(WIDTH_WINDOW-210+40,HEIGHT_WINDOW-60, WIDTH_WINDOW-210+80,HEIGHT_WINDOW+40-60)); munition_1->setScaleImage(true);
 
     ig::IGUIImage *stock_10  = gui->addImage(ic::rect<s32>(WIDTH_WINDOW-100,HEIGHT_WINDOW-60, WIDTH_WINDOW-100+40,HEIGHT_WINDOW+40-60)); stock_10->setScaleImage(true);
     ig::IGUIImage *stock_1   = gui->addImage(ic::rect<s32>(WIDTH_WINDOW-100+40,HEIGHT_WINDOW-60, WIDTH_WINDOW-100+80,HEIGHT_WINDOW+40-60)); stock_1->setScaleImage(true);
 
-     ig::IGUIImage *slash   = gui->addImage(ic::rect<s32>(WIDTH_WINDOW-170+40,HEIGHT_WINDOW-60, WIDTH_WINDOW-170+70,HEIGHT_WINDOW+40-60)); slash->setScaleImage(true);
+    ig::IGUIImage *slash   = gui->addImage(ic::rect<s32>(WIDTH_WINDOW-170+40,HEIGHT_WINDOW-60, WIDTH_WINDOW-170+70,HEIGHT_WINDOW+40-60)); slash->setScaleImage(true);
+    //create_GUI_munition(gui,munition_10,munition_1,stock_10,stock_1,slash);
 
     // Ajout de l ’ archive qui contient entre autres un niveau complet
     device->getFileSystem()->addFileArchive("../data/cf.pk3");
@@ -276,7 +285,7 @@ int main()
 
         receiver.keyboard_handler();
         driver->beginScene(true, true, iv::SColor(100,150,200,255));
-
+        if(!main_character.is_reloading()){
         int mouse_x, mouse_y;
         if (receiver.is_mouse_pressed(mouse_x, mouse_y))
         {
@@ -327,11 +336,23 @@ int main()
             }
 
         }
+        }
+        if(main_character.getReloading_cooldown()>0){
+            scope_tex= driver->getTexture("../data/scope_not.png");
+        }
+        else{
+            scope_tex= driver->getTexture("../data/scope.png");
+
+        }
         for (int k = 0; k<NB_PARTICULE_MAX; k++){
             list_part2[k].frame_time_life--;
             if(list_part2[k].frame_time_life == 0)
                 list_part2[k].remove();
         }
+
+        e1.make_blink(driver->getTexture("../data/blue_texture.pcx"));
+        e2.make_blink(driver->getTexture("../data/blue_texture.pcx"));
+
 
         last_attack = receiver.button_pressed;
 

@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['mouse_5fhandler',['mouse_handler',['../class_event_receiver.html#a456dba3f7fb9c7d15973bce9f073003f',1,'EventReceiver']]],
-  ['move_5frandomely_5farround_5fwaiting_5fposition',['move_randomely_arround_waiting_position',['../class_enemy.html#afc57a657a472c00bebecc8e321fcf8d4',1,'Enemy']]]
+  ['keyboard_5fhandler',['keyboard_handler',['../class_event_receiver.html#af7b016c7bfa9ebb4584a1cbd77c55e72',1,'EventReceiver']]]
 ];
