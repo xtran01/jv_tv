@@ -250,12 +250,7 @@ int main()
     e1.move_randomely_arround_waiting_position();
     e1.setID(ENEMY_ID);
 
-    Enemy e2(smgr,device->getRandomizer());
-    e2.addEnemyMeshToScene();
-    e2.setTexture(driver->getTexture("../data/blue_texture.pcx"));
-    //e2.create_collision_with_map(selector);
-    e2.setPosition(core::vector3df( 100 , -0 , -100));
-    e2.setID(ENEMY_ID);
+
 
     //create Main character
     Character main_character(smgr);
