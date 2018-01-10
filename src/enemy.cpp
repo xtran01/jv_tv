@@ -53,5 +53,6 @@ void Enemy::create_collision_with_map(is::ITriangleSelector *world)
 }
 
 void Enemy::follow_main_character(){
-
+    random_walk_animator->is_following_main_character = true;
+    random_walk_animator->position_main_character = main_character_node->getPosition();
 }

@@ -20,6 +20,7 @@ void RandomWalkNodeAnimator::animateNode(irr::scene::ISceneNode *node,irr::u32 t
         node->setPosition(position);
     }
     else {
+        ic::vector3df enemy_to_main = position_main_character - position;
 
     }
 }

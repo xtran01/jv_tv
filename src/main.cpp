@@ -162,39 +162,39 @@ void generate_particle(int &mouse_x, int &mouse_y, EventReceiver& receiver, int 
     bool attacking = receiver.get_attack();
     if(attacking)
     {
-    ic::line3d<f32> ray;
-    ray = collision_manager->getRayFromScreenCoordinates(ic::position2d<s32>(mouse_x, mouse_y));
-    ic::vector3df intersection;
-    ic::triangle3df hit_triangle;
+        ic::line3d<f32> ray;
+        ray = collision_manager->getRayFromScreenCoordinates(ic::position2d<s32>(mouse_x, mouse_y));
+        ic::vector3df intersection;
+        ic::triangle3df hit_triangle;
 
-    is::ISceneNode *selected_scene_node =
-            collision_manager->getSceneNodeAndCollisionPointFromRay(
-                ray,
-                intersection, // On récupère ici les coordonnées 3D de l'intersection
-                hit_triangle, // et le triangle intersecté
-                ENEMY_ID); // On ne veut que des noeuds avec cet identifiant
+        is::ISceneNode *selected_scene_node =
+                collision_manager->getSceneNodeAndCollisionPointFromRay(
+                    ray,
+                    intersection, // On récupère ici les coordonnées 3D de l'intersection
+                    hit_triangle, // et le triangle intersecté
+                    ENEMY_ID); // On ne veut que des noeuds avec cet identifiant
 
-    if (selected_scene_node){
-        selected_scene_node->setMaterialTexture(0, textures[1]);
-        std::cout<<"Touché"<<std::endl;
-        part.addParticleToScene(smgr,main_character.body->getPosition(),intersection);}
+        if (selected_scene_node){
+            selected_scene_node->setMaterialTexture(0, textures[1]);
+            std::cout<<"Touché"<<std::endl;
+            part.addParticleToScene(smgr,main_character.body->getPosition(),intersection);}
 
-    selected_scene_node =
-            collision_manager->getSceneNodeAndCollisionPointFromRay(
-                ray,
-                intersection, // On récupère ici les coordonnées 3D de l'intersection
-                hit_triangle, // et le triangle intersecté
-                MAP_ID); // On ne veut que des noeuds avec cet identifiant
+        selected_scene_node =
+                collision_manager->getSceneNodeAndCollisionPointFromRay(
+                    ray,
+                    intersection, // On récupère ici les coordonnées 3D de l'intersection
+                    hit_triangle, // et le triangle intersecté
+                    MAP_ID); // On ne veut que des noeuds avec cet identifiant
 
 
-    if (selected_scene_node){
-        if (rempli){ list_part[i_FIFO].remove();}
+        if (selected_scene_node){
+            if (rempli){ list_part[i_FIFO].remove();}
 
-        list_part[i_FIFO].addParticleToScene(smgr,main_character.body->getPosition(),intersection);
-        i_FIFO++;
+            list_part[i_FIFO].addParticleToScene(smgr,main_character.body->getPosition(),intersection);
+            i_FIFO++;
 
-        if (i_FIFO==NB_PARTICULE_MAX){i_FIFO = 0; rempli = true;}
-    }
+            if (i_FIFO==NB_PARTICULE_MAX){i_FIFO = 0; rempli = true;}
+        }
     }
 }
 
@@ -263,7 +263,7 @@ int main()
     e1.setPosition(pos);
     e1.move_randomely_arround_waiting_position();
     e1.setID(ENEMY_ID);
-    e1.follow_main_character();
+
 
     receiver.set_gui(gui);
     receiver.set_personnage(&main_character);
@@ -303,8 +303,8 @@ int main()
 
     while(device->run())
     {
+        e1.follow_main_character();
         //set image for the "viseur"
-
         ig::IGUIImage *scope = gui->addImage(ic::rect<s32>(driver->getScreenSize().Width/2 -15,driver->getScreenSize().Height/2-15,  driver->getScreenSize().Width/2+15,driver->getScreenSize().Height/2+15)); scope->setScaleImage(true);
         scope->setImage(scope_tex);
 

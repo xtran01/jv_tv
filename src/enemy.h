@@ -37,7 +37,7 @@ private:
 
     ic::vector3df waiting_position_center;
 
-    is::ISceneNodeAnimator *random_walk_animator;
+    RandomWalkNodeAnimator *random_walk_animator;
 
     is::IAnimatedMeshSceneNode *main_character_node;
 
