@@ -79,6 +79,16 @@ void Enemy::make_blink(video::ITexture *texture)
 
 void Enemy::attack(Character *perso)
 {
+    f32 distance_from_player;
+    ic::vector3df pos_player = perso->body->getPosition();
+
+    if (pos_player.getDistanceFrom(node->getPosition())<20){
+        std::cout<<"touché"<<std::endl;
+        perso->take_damage();
+        node ->setMD2Animation(is::EMAT_ATTACK);
+
+    }
+
 
 }
 

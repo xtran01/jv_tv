@@ -26,6 +26,8 @@ private:
     u32 stock = 20;
     u32 health_point = 3;
     u32 reloading_cooldown = 0;
+    u32 invincibility_frame = 0;
+
 public:
     /**
      * @brief The Animation enum contains all the different action possible for the Character

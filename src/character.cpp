@@ -130,12 +130,12 @@ void Character::use_munition()
 void Character::reload()
 {
 
-    if(reloading_cooldown == 0 && munition !=10){
-        if ((stock >= 10-munition-1) && stock !=0){
+    if(reloading_cooldown == 0 && munition !=10 && stock !=0){
+        if (stock >= 10-munition-1){
             stock -= (10 - munition);
             munition = 10;
         }
-        if ((stock<10 && stock+munition <= 10) && stock !=0){
+        if (stock<10 && stock+munition <= 10){
             munition += stock;
             stock = 0;
         }
@@ -166,7 +166,7 @@ void Character::take_damage()
         health_point--;
         std::cout<<"Vie joueur restant: "<<health_point<<std::endl;
     }
-    else {
+    if (health_point == 0){
         die();
     }
 }

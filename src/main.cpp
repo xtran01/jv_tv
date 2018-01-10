@@ -154,7 +154,6 @@ int main()
     iv::IVideoDriver  *driver = device->getVideoDriver();
     is::ISceneManager *smgr = device->getSceneManager();
     ig::IGUIEnvironment *gui  = device->getGUIEnvironment();
-
     // Chargement des textures pour les chiffres
     iv::ITexture *digits[10];
     digits[0] = driver->getTexture("../data/0.png");
@@ -337,7 +336,7 @@ int main()
 
         }
         }
-        if(main_character.getReloading_cooldown()>0){
+        if(main_character.getReloading_cooldown()>0 || main_character.get_nb_munition() == 0){
             scope_tex= driver->getTexture("../data/scope_not.png");
         }
         else{
@@ -353,7 +352,7 @@ int main()
         e1.make_blink(driver->getTexture("../data/blue_texture.pcx"));
         e2.make_blink(driver->getTexture("../data/blue_texture.pcx"));
 
-
+        e2.attack(&main_character);
         last_attack = receiver.button_pressed;
 
         munition_10->setImage(digits[(main_character.get_nb_munition() / 10) % 10]);
