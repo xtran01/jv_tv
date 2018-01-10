@@ -5,6 +5,7 @@
 #include "enemy.h"
 #include "character.h"
 #include "particle.h"
+#include "pnj.h"
 #include <unistd.h>
 
 using namespace irr;
@@ -128,6 +129,16 @@ void is_attacking(Character& character,std::vector<iv::ITexture*>& textures, Eve
     }
 }
 
+bool is_character_meets_pnj(Character& character,pnj& pnj)
+{
+    float epsilon = 40.0f;
+    if(character.body->getAbsolutePosition().getDistanceFrom(pnj.body->getAbsolutePosition()) < epsilon)
+    {
+       return true;
+    }
+    return false;
+}
+
 int main()
 {
 
@@ -168,6 +179,9 @@ int main()
     textures.push_back(driver->getTexture("../data/Chaingunner/chaingunner_head1.png"));
     textures.push_back(driver->getTexture("../data/Chaingunner/chaingunner_fire_weapon.png"));
     textures.push_back(driver->getTexture("../data/Chaingunner/chaingunner_mf0.png"));
+    textures.push_back(driver->getTexture("../data/Warrior/warrior.jpg"));
+
+
 
 
     //create enemy
@@ -176,13 +190,14 @@ int main()
     e1.setTexture(driver->getTexture("../data/blue_texture.pcx"));
     e1.create_collision_with_map(selector);
     e1.move_randomely_arround_waiting_position();
+    e1.setPosition(core::vector3df( 100 , -75, -100));
     e1.setID(ENEMY_1_ID);
 
     Enemy e2(smgr,device->getRandomizer());
     e2.addEnemyMeshToScene();
     e2.setTexture(driver->getTexture("../data/blue_texture.pcx"));
     //e2.create_collision_with_map(selector);
-    e2.setPosition(core::vector3df( 100 , -0, -100));
+    e2.setPosition(core::vector3df( 100 , -77, -100));
     e2.setID(ENEMY_2_ID);
 
     //create Main character
@@ -193,16 +208,18 @@ int main()
     main_character.setAnimation(main_character.RUN);
     main_character.addCharacterCollider(smgr,selector);
 
-
+    //create pnj
+    pnj rohmer(smgr);
+    rohmer.addPNJMeshToScene(smgr,textures);
+    rohmer.addPNJCollider(smgr,selector);
+    rohmer.setAnimation(rohmer.STAND);
 
     receiver.set_gui(gui);
     receiver.set_personnage(&main_character);
     receiver.set_textures(textures);
 
 
-    is::ICameraSceneNode *camera = smgr->
-            addCameraSceneNode(0,core::vector3df(0.0f,0.0f,0.0f) ,
-                               core::vector3df(0.0f,0.0f,0.0f), -1);
+    is::ICameraSceneNode *camera = smgr->addCameraSceneNode(0,core::vector3df(0.0f,0.0f,0.0f) ,core::vector3df(0.0f,0.0f,0.0f), -1);
     direction = 0.0f; zdirection=0.0f;
     device->getCursorControl()->setVisible(false);
     receiver.camera_node = camera;
@@ -236,6 +253,8 @@ int main()
     int compteur_attack = 0;
     bool attack_one_tic = false;
     bool last_attack = false;
+    bool meeting = false;
+    bool follow = true;
     while(device->run())
     {
         //set image for the "viseur"
@@ -310,6 +329,15 @@ int main()
         }
 
         last_attack = receiver.button_pressed;
+
+        // Gestion suivi PNJ
+        meeting = is_character_meets_pnj(main_character,rohmer);
+        std::cout<<"meeting: "<<meeting<<std::endl;
+        if(meeting == true)
+            follow = true;
+        if(follow == true)
+            rohmer.follow(main_character.body->getAbsolutePosition(),main_character.body->getRotation());
+
         // Dessin de la scène :
         smgr->drawAll();
         gui->drawAll();

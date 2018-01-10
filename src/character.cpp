@@ -41,7 +41,7 @@ void Character::addCharacterCollider(is::ISceneManager *smgr, scene::ITriangleSe
                                                   body,  // Le noeud que l'on veut gérer
                                                   radius, // "rayons" de la caméra
                                                   ic::vector3df(0, -10, 0),  // gravité
-                                                  ic::vector3df(0, 0, 0));  // décalage du centre
+                                                  ic::vector3df(0, -32, 0));  // décalage du centre
 
     body->addAnimator(anim);
 }

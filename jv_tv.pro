@@ -15,7 +15,8 @@ SOURCES += src/main.cpp \
     src/enemy.cpp \
     src/character.cpp \
     src/enemycollisionhandler.cpp \
-    src/particle.cpp
+    src/particle.cpp \
+    src/pnj.cpp
 
 
 HEADERS += src/events.hpp \
@@ -23,7 +24,8 @@ HEADERS += src/events.hpp \
     src/enemy.h \
     src/character.h \
     src/enemycollisionhandler.h \
-    src/particle.h
+    src/particle.h \
+    src/pnj.h
 
 
 
