@@ -24,7 +24,7 @@ public:
     is::IBillboardSceneNode* bill;
     is::IParticleSystemSceneNode* ps;
     is::IAnimatedMeshSceneNode *fire_particle;
-    int frame_time_life;
+    int frame_time_life = 0;
 
     /**
      * @brief Particle : Constructor of particle

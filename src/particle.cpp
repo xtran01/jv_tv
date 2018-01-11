@@ -9,7 +9,6 @@ Particle::Particle(iv::ITexture *light_texture, iv::ITexture *material_texture):
 Particle::Particle()
 {
 
-
 }
 
 void Particle::initializeParticle(iv::ITexture *light_texture, iv::ITexture *material_texture){
@@ -41,7 +40,6 @@ void Particle::addParticleToScene(is::ISceneManager *smgr, ic::vector3df positio
 
     light->addAnimator(anim);
 
-    //fire_particle->addAnimator(anim);
     anim->drop();
 
     // add particle system

@@ -322,10 +322,7 @@ int main()
         list_part2[i].initializeParticle(driver->getTexture("../data/particlered.bmp"), driver->getTexture("../data/fireball.bmp"));
     }
     int i_FIFO = 0;
-    bool rempli = false;
-    int j_FIFO  = 0;
-    bool list_part2_rempli = false;
-
+    bool list_part_rempli = false;
 
     int compteur_attack = 0;
     bool attack_one_tic = false;
@@ -383,27 +380,31 @@ int main()
                                 intersection, // On récupère ici les coordonnées 3D de l'intersection
                                 hit_triangle, // et le triangle intersecté
                                 0); // On ne veut que des noeuds avec cet identifiant
+                    std::cout<<selected_scene_node->getID()<<std::endl;
+
                     switch(selected_scene_node->getID()){
                     case ENEMY_1_ID :
 
-                        if (list_part2_rempli){ list_part[i_FIFO].remove();}
-                        list_part2[j_FIFO].addParticleToScene(smgr,main_character.body->getPosition(),intersection,selected_scene_node);
-                        j_FIFO++;
-                        if (j_FIFO==NB_PARTICULE_MAX){j_FIFO = 0; rempli = true;}
+                        if (list_part_rempli){ list_part[i_FIFO].remove();}
+                        list_part[i_FIFO].addParticleToScene(smgr,main_character.body->getPosition(),intersection,selected_scene_node);
+                        i_FIFO++;
+                        if (i_FIFO==NB_PARTICULE_MAX){i_FIFO = 0; list_part_rempli = true;}
                         e1.being_hit(driver->getTexture("../data/red_texture.pcx"));
                         break;
                     case ENEMY_2_ID :
-                        if (list_part2_rempli){ list_part[i_FIFO].remove();}
-                        list_part2[j_FIFO].addParticleToScene(smgr,main_character.body->getPosition(),intersection,selected_scene_node);
-                        j_FIFO++;
-                        if (j_FIFO==NB_PARTICULE_MAX){j_FIFO = 0; rempli = true;}
+
+                        if (list_part_rempli){ list_part[i_FIFO].remove();}
+                        list_part[i_FIFO].addParticleToScene(smgr,main_character.body->getPosition(),intersection,selected_scene_node);
+                        i_FIFO++;
+                        if (i_FIFO==NB_PARTICULE_MAX){i_FIFO = 0; list_part_rempli = true;}
                         //e2.being_hit(driver->getTexture("../data/red_texture.pcx"));
                         break;
                     case MAP_ID :
-                        if (rempli){ list_part[i_FIFO].remove();}
+
+                        if (list_part_rempli){ list_part[i_FIFO].remove();}
                         list_part[i_FIFO].addParticleToScene(smgr,main_character.body->getPosition(),intersection,selected_scene_node);
                         i_FIFO++;
-                        if (i_FIFO==NB_PARTICULE_MAX){i_FIFO = 0; rempli = true;}
+                        if (i_FIFO==NB_PARTICULE_MAX){i_FIFO = 0; list_part_rempli = true;}
                         break;
                     default:;
                     }
@@ -417,9 +418,9 @@ int main()
         }
 
         for (int k = 0; k<NB_PARTICULE_MAX; k++){
-            list_part2[k].frame_time_life--;
-            if(list_part2[k].frame_time_life == 0)
-                list_part2[k].remove();
+            list_part[k].frame_time_life--;
+            if(list_part[k].frame_time_life == 0)
+                list_part[k].remove();
         }
 
         e1.make_blink(driver->getTexture("../data/blue_texture.pcx"));
