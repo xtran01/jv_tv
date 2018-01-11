@@ -1,22 +1,25 @@
 #include "enemy.h"
 #include <irrlicht.h>
 
-Enemy::Enemy(is::ISceneManager *smgr_param,
-             irr::IRandomizer *random_generator_param,
-             is::IAnimatedMeshSceneNode *main_character_node_param)
+Enemy::Enemy()
 {
-    smgr = smgr_param;
-    random_generator = random_generator_param;
-    mesh = smgr->getMesh("../data/tris.md2");
+
+
     waiting_position_center = {0.0f,0.0f,0.0f};
-    main_character_node = main_character_node_param;
+
     vitesse_run = 0.9f;
     vitesse_walk = 0.5f;
     distance_min_to_trigger_chasing = 300;
 
 }
 
-void Enemy::addEnemyMeshToScene(){
+void Enemy::addEnemyMeshToScene(is::ISceneManager* smgr_param,
+                                irr::IRandomizer *random_generator_param,
+                                is::IAnimatedMeshSceneNode *main_character_node_param){
+    smgr = smgr_param;
+    mesh = smgr->getMesh("../data/tris.md2");
+    random_generator = random_generator_param;
+    main_character_node = main_character_node_param;
     node = smgr->addAnimatedMeshSceneNode(mesh);
     node -> setMaterialFlag(irr::video::EMF_LIGHTING,false);
     node -> setMD2Animation(irr::scene::EMAT_STAND);

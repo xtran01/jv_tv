@@ -57,14 +57,14 @@ public:
      * @param smgr_param : pointer to the scene manager
      * @param random_generator_param
      */
-    Enemy(is::ISceneManager* smgr_param,
-          irr::IRandomizer *random_generator_param,
-          is::IAnimatedMeshSceneNode *main_character_node_param);
+    Enemy();
 
     //Noeud qui mermet de manipuler le maillage
     is::IAnimatedMeshSceneNode *node;
 
-    void addEnemyMeshToScene();
+    void addEnemyMeshToScene(is::ISceneManager* smgr_param,
+                             irr::IRandomizer *random_generator_param,
+                             is::IAnimatedMeshSceneNode *main_character_node_param);
     /**
      * @brief setPosition : Set the position of the enemy
      * @param vec3 : New position of the mesh

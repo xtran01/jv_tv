@@ -17,13 +17,12 @@ namespace ig = irr::gui;
 
 f32 direction;
 f32 zdirection;
-const int MAP_ID = 1;
-const int ENEMY_1_ID = 1<<1;
-const int ENEMY_2_ID = 1<<2;
-const int HEIGHT_WINDOW = 480;
-const int WIDTH_WINDOW = 640;
-const int NB_PARTICULE_MAX = 10;
-
+const u32 MAP_ID = 1;
+const u32 HEIGHT_WINDOW = 480;
+const u32 WIDTH_WINDOW = 640;
+const u32 NB_PARTICULE_MAX = 10;
+const u32 FIRST_ENEMY_ID = 2;
+const u32 NB_ENEMY_MAX  = 20;
 
 
 void moveCameraControl(IrrlichtDevice *device,
@@ -282,15 +281,25 @@ int main()
     rohmer.setAnimation(rohmer.STAND);
     //rohmer.body->setPosition(core::vector3df(-1269.31,155.75,-2033.84));
 
-    //create enemy
-    Enemy e1(smgr,device->getRandomizer(), main_character.body);
-    e1.addEnemyMeshToScene();
-    e1.setTexture(driver->getTexture("../data/blue_texture.pcx"));
-    e1.create_collision_with_map(selector);
-    ic::vector3df pos(200,0.0f,200);
-    e1.setPosition(pos);
-    e1.move_randomely_arround_waiting_position();
-    e1.setID(ENEMY_1_ID);
+
+    Enemy enemies[NB_ENEMY_MAX];
+    u32 id = FIRST_ENEMY_ID;
+    for(u32 i = 0; i<NB_ENEMY_MAX; i++){
+        //create enemy
+        enemies[i].addEnemyMeshToScene(smgr,device->getRandomizer(), main_character.body);
+        enemies[i].setTexture(driver->getTexture("../data/blue_texture.pcx"));
+        enemies[i].create_collision_with_map(selector);
+        f32 radius = 500.0f;
+        f32 r = device->getRandomizer()->frand() * radius;
+        f32 teta = device->getRandomizer()->frand() * M_PI * 2.0f;
+        ic::vector3df pos(r*cos(teta),0,r*sin(teta));
+        enemies[i].setPosition(pos);
+        enemies[i].move_randomely_arround_waiting_position();
+        enemies[i].setID(id);
+        id++;
+
+    }
+
 
 
 
@@ -314,7 +323,6 @@ int main()
 
     is::ISceneCollisionManager *collision_manager = smgr->getSceneCollisionManager();
 
-    Particle part(driver->getTexture("../data/particlered.bmp"), driver->getTexture("../data/fireball.bmp"));
     Particle list_part[NB_PARTICULE_MAX];
     Particle list_part2[NB_PARTICULE_MAX];
     for(int i=0;i<NB_PARTICULE_MAX;i++){
@@ -338,7 +346,10 @@ int main()
 
     while(device->run())
     {
-        e1.handle_walking();
+        for(u32 i = 0; i<NB_ENEMY_MAX; i++){
+            enemies[i].handle_walking();
+        }
+
         //set image for the "viseur"
 
         ig::IGUIImage *scope = gui->addImage(ic::rect<s32>(driver->getScreenSize().Width/2 -15,driver->getScreenSize().Height/2-15,  driver->getScreenSize().Width/2+15,driver->getScreenSize().Height/2+15)); scope->setScaleImage(true);
@@ -380,25 +391,24 @@ int main()
                                 intersection, // On récupère ici les coordonnées 3D de l'intersection
                                 hit_triangle, // et le triangle intersecté
                                 0); // On ne veut que des noeuds avec cet identifiant
-                    std::cout<<selected_scene_node->getID()<<std::endl;
+                    const u32 selected_scene_node_id = selected_scene_node->getID();
 
-                    switch(selected_scene_node->getID()){
-                    case ENEMY_1_ID :
-
+                    if(selected_scene_node_id == MAP_ID){
                         if (list_part_rempli){ list_part[i_FIFO].remove();}
                         list_part[i_FIFO].addParticleToScene(smgr,main_character.body->getPosition(),intersection,selected_scene_node);
                         i_FIFO++;
                         if (i_FIFO==NB_PARTICULE_MAX){i_FIFO = 0; list_part_rempli = true;}
-                        e1.being_hit(driver->getTexture("../data/red_texture.pcx"));
-                        break;
-                    case MAP_ID :
+                    }
 
-                        if (list_part_rempli){ list_part[i_FIFO].remove();}
-                        list_part[i_FIFO].addParticleToScene(smgr,main_character.body->getPosition(),intersection,selected_scene_node);
-                        i_FIFO++;
-                        if (i_FIFO==NB_PARTICULE_MAX){i_FIFO = 0; list_part_rempli = true;}
-                        break;
-                    default:;
+                    for(u32 i=0; i<NB_ENEMY_MAX; i++){
+                        if(enemies[i].node->getID() == selected_scene_node_id){
+                            if (list_part_rempli){ list_part[i_FIFO].remove();}
+                            list_part[i_FIFO].addParticleToScene(smgr,main_character.body->getPosition(),intersection,selected_scene_node);
+                            i_FIFO++;
+                            if (i_FIFO==NB_PARTICULE_MAX){i_FIFO = 0; list_part_rempli = true;}
+                            enemies[i].being_hit(driver->getTexture("../data/red_texture.pcx"));
+                        }
+
                     }
 
                     attack_one_tic =false;
@@ -415,9 +425,11 @@ int main()
                 list_part[k].remove();
         }
 
-        e1.make_blink(driver->getTexture("../data/blue_texture.pcx"));
+        for(u32 i=0;i<NB_ENEMY_MAX ; i++){
+            enemies[i].make_blink(driver->getTexture("../data/blue_texture.pcx"));
+            enemies[i].attack(&main_character);
+        }
 
-        e1.attack(&main_character);
         main_character.invincibility_counting(textures);
         last_attack = receiver.button_pressed;
 
