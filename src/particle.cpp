@@ -14,7 +14,6 @@ Particle::Particle()
 void Particle::initializeParticle(iv::ITexture *light_texture, iv::ITexture *material_texture){
     light_tex=(light_texture);
     material_tex=(material_texture);
-  //  fire_particle = new scene::IAnimatedMeshSceneNode();
 }
 
 void Particle::remove()

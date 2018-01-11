@@ -22,7 +22,7 @@ const u32 HEIGHT_WINDOW = 480;
 const u32 WIDTH_WINDOW = 640;
 const u32 NB_PARTICULE_MAX = 10;
 const u32 FIRST_ENEMY_ID = 2;
-const u32 NB_ENEMY_MAX  = 20;
+const u32 NB_ENEMY_MAX  = 2;
 
 
 void moveCameraControl(IrrlichtDevice *device,
@@ -214,6 +214,8 @@ int main()
     iv::ITexture *gameover_screen_tex = driver->getTexture("../data/gameover_screen.png");
     iv::ITexture *objectif1_tex = driver->getTexture("../data/objectif1.png");
     iv::ITexture *objectif2_tex = driver->getTexture("../data/objectif2.png");
+
+
     // Création des places pour les chiffres
 
     ig::IGUIImage *munition_10  = gui->addImage(ic::rect<s32>(WIDTH_WINDOW-210,HEIGHT_WINDOW-60, WIDTH_WINDOW-210+40,HEIGHT_WINDOW+40-60)); munition_10->setScaleImage(true);
@@ -263,12 +265,8 @@ int main()
     texture_fin = driver->getTexture("../data/particlegreen.jpg");
 
 
-
-
-
     //create Main character
     Character main_character;
-
 
     main_character.addCharacterMeshToScene(smgr, textures);
     main_character.setAnimation(main_character.RUN);
@@ -302,7 +300,6 @@ int main()
 
 
 
-
     receiver.set_gui(gui);
     receiver.set_personnage(&main_character);
     receiver.set_pnj(&rohmer);
@@ -324,10 +321,8 @@ int main()
     is::ISceneCollisionManager *collision_manager = smgr->getSceneCollisionManager();
 
     Particle list_part[NB_PARTICULE_MAX];
-    Particle list_part2[NB_PARTICULE_MAX];
     for(int i=0;i<NB_PARTICULE_MAX;i++){
         list_part[i].initializeParticle(driver->getTexture("../data/particlered.bmp"), driver->getTexture("../data/fireball.bmp"));
-        list_part2[i].initializeParticle(driver->getTexture("../data/particlered.bmp"), driver->getTexture("../data/fireball.bmp"));
     }
     int i_FIFO = 0;
     bool list_part_rempli = false;
@@ -335,7 +330,6 @@ int main()
     int compteur_attack = 0;
     bool attack_one_tic = false;
     bool last_attack = false;
-    ig::IGUIImage *scope = gui->addImage(ic::rect<s32>(driver->getScreenSize().Width/2 -15,driver->getScreenSize().Height/2-15,  driver->getScreenSize().Width/2+15,driver->getScreenSize().Height/2+15)); scope->setScaleImage(true);
 
     bool meeting = false;
     bool follow = false;
@@ -352,7 +346,7 @@ int main()
 
         //set image for the "viseur"
 
-        ig::IGUIImage *scope = gui->addImage(ic::rect<s32>(driver->getScreenSize().Width/2 -15,driver->getScreenSize().Height/2-15,  driver->getScreenSize().Width/2+15,driver->getScreenSize().Height/2+15)); scope->setScaleImage(true);
+       ig::IGUIImage *scope = gui->addImage(ic::rect<s32>(driver->getScreenSize().Width/2 -15,driver->getScreenSize().Height/2-15,  driver->getScreenSize().Width/2+15,driver->getScreenSize().Height/2+15)); scope->setScaleImage(true);
 
         scope->setImage(scope_tex);
         if(main_character.getReloading_cooldown()>0 || main_character.get_nb_munition() == 0){
@@ -398,6 +392,7 @@ int main()
                         list_part[i_FIFO].addParticleToScene(smgr,main_character.body->getPosition(),intersection,selected_scene_node);
                         i_FIFO++;
                         if (i_FIFO==NB_PARTICULE_MAX){i_FIFO = 0; list_part_rempli = true;}
+
                     }
 
                     for(u32 i=0; i<NB_ENEMY_MAX; i++){
@@ -408,7 +403,6 @@ int main()
                             if (i_FIFO==NB_PARTICULE_MAX){i_FIFO = 0; list_part_rempli = true;}
                             enemies[i].being_hit(driver->getTexture("../data/red_texture.pcx"));
                         }
-
                     }
 
                     attack_one_tic =false;
@@ -447,6 +441,7 @@ int main()
 
         switch(main_character.getHealth_point()){
         case 2 :
+            bloody_screen->setVisible(true);
             bloody_screen->setImage(bloody_screen_tex);
             break;
         case 1 :
@@ -470,10 +465,8 @@ int main()
                 scope->setVisible(false);
                 objectif->setVisible(false);
             }
-
-
             break;
-        default:;
+        default: bloody_screen->setVisible(false);
         }
 
         // Gestion suivi PNJ

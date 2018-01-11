@@ -23,6 +23,9 @@ void Enemy::addEnemyMeshToScene(is::ISceneManager* smgr_param,
     node = smgr->addAnimatedMeshSceneNode(mesh);
     node -> setMaterialFlag(irr::video::EMF_LIGHTING,false);
     node -> setMD2Animation(irr::scene::EMAT_STAND);
+    is::ITriangleSelector *selector = smgr->createTriangleSelector(node);
+    node->setTriangleSelector(selector);
+    selector->drop();
     random_walk_animator = new RandomWalkNodeAnimator(vitesse_run,vitesse_walk);
 }
 
@@ -75,6 +78,7 @@ void Enemy::make_blink(video::ITexture *texture)
 
 void Enemy::attack(Character *perso)
 {
+    if(health_point > 0){
     ic::vector3df pos_player = perso->body->getPosition();
 
     if (pos_player.getDistanceFrom(node->getPosition())< 60.0){
@@ -85,7 +89,7 @@ void Enemy::attack(Character *perso)
 //    else
 //        node ->setMD2Animation(is::EMAT_STAND);
 
-
+    }
 }
 
 void Enemy::create_collision_with_map(is::ITriangleSelector *world)
