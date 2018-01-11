@@ -9,10 +9,23 @@ RandomWalkNodeAnimator::RandomWalkNodeAnimator(f32 vitesse_run_param, f32 vitess
 
 void RandomWalkNodeAnimator::animateNode(irr::scene::ISceneNode *node,irr::u32 timeMs){
 
+    std::cout<<"time: "<<timeMs<<std::endl;
     ic::vector3df position = node->getPosition();
     ic::vector3df rotation = node->getRotation();
 
     if(!is_following_main_character){
+
+//            f32 radius = 100.f;
+//            ic::array<ic::vector3df> points;
+//           for(int i = 0; i< 10; i++){
+//                f32 r = random_generator->frand() * radius;
+//                f32 teta = random_generator->frand() * M_PI * 2.0f;
+//                f32 test = random_generator->frand();
+//                ic::vector3df position = waiting_position_center;
+//                position.X += r*cos(teta);
+//                position.Z += r*sin(teta);
+//               points.push_back(position);
+
         //random walk
         rotation.Y+=0.2;
         node->setRotation(rotation);
