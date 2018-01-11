@@ -22,7 +22,7 @@ const u32 HEIGHT_WINDOW = 480;
 const u32 WIDTH_WINDOW = 640;
 const u32 NB_PARTICULE_MAX = 10;
 const u32 FIRST_ENEMY_ID = 2;
-const u32 NB_ENEMY_MAX  = 2;
+const u32 NB_ENEMY_MAX  = 15;
 
 
 void moveCameraControl(IrrlichtDevice *device,
@@ -284,7 +284,7 @@ int main()
     u32 id = FIRST_ENEMY_ID;
     for(u32 i = 0; i<NB_ENEMY_MAX; i++){
         //create enemy
-        enemies[i].addEnemyMeshToScene(smgr,device->getRandomizer(), main_character.body);
+        enemies[i].addEnemyMeshToScene(smgr, main_character.body);
         enemies[i].setTexture(driver->getTexture("../data/blue_texture.pcx"));
         enemies[i].create_collision_with_map(selector);
         f32 radius = 500.0f;

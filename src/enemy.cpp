@@ -3,22 +3,19 @@
 
 Enemy::Enemy()
 {
-
-
     waiting_position_center = {0.0f,0.0f,0.0f};
-
     vitesse_run = 0.9f;
     vitesse_walk = 0.5f;
     distance_min_to_trigger_chasing = 300;
 
 }
 
-void Enemy::addEnemyMeshToScene(is::ISceneManager* smgr_param,
-                                irr::IRandomizer *random_generator_param,
+
+void Enemy::addEnemyMeshToScene(is::ISceneManager* smgr,
                                 is::IAnimatedMeshSceneNode *main_character_node_param){
-    smgr = smgr_param;
-    mesh = smgr->getMesh("../data/tris.md2");
-    random_generator = random_generator_param;
+
+    is::IAnimatedMesh *mesh = smgr->getMesh("../data/tris.md2");
+
     main_character_node = main_character_node_param;
     node = smgr->addAnimatedMeshSceneNode(mesh);
     node -> setMaterialFlag(irr::video::EMF_LIGHTING,false);
@@ -98,7 +95,7 @@ void Enemy::create_collision_with_map(is::ITriangleSelector *world)
     ic::vector3df radius = box.MaxEdge - box.getCenter();
 
 
-    is::ISceneNodeAnimatorCollisionResponse *world_collision_anim_response = smgr
+    is::ISceneNodeAnimatorCollisionResponse *world_collision_anim_response = node->getSceneManager()
             ->createCollisionResponseAnimator(world,node,radius,
                                               ic::vector3df(0,-10,0));
 

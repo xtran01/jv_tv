@@ -22,19 +22,6 @@ private:
     u32 health_point = 4;
     u32 blink_frame = 0;
 
-    /**
-      * @brief smgr : pointer to the scene manager
-      */
-     is::ISceneManager *smgr;
-     /**
-     * @brief mesh : Mesh associated to the enemy
-     */
-    is::IAnimatedMesh * mesh;
-
-    /**
-     * @brief random_generator : pointer to a random number generator
-     */
-    irr::IRandomizer *random_generator;
 
     EnemyCollisionHandler world_collision_response;
 
@@ -59,11 +46,11 @@ public:
      */
     Enemy();
 
+
     //Noeud qui mermet de manipuler le maillage
     is::IAnimatedMeshSceneNode *node;
 
-    void addEnemyMeshToScene(is::ISceneManager* smgr_param,
-                             irr::IRandomizer *random_generator_param,
+    void addEnemyMeshToScene(is::ISceneManager* smgr,
                              is::IAnimatedMeshSceneNode *main_character_node_param);
     /**
      * @brief setPosition : Set the position of the enemy
