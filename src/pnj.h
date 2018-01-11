@@ -32,13 +32,14 @@ private:
     is::IAnimatedMesh *mesh_body;
 
 
+    core::vector3df position_prev;
 
 public:
     /**
      * @brief The Animation enum contains all the different action possible for the Character
      */
     enum Animation { RUN, WALK, ATTACK, DEATH, STAND };
-
+    core::vector3df position_prev_character;
     /**
      * @brief body : Noeud qui mermet de manipuler le maillage
      */

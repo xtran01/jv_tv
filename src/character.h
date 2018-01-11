@@ -22,8 +22,10 @@ private:
     is::IAnimatedMesh *mesh_head;
     is::IAnimatedMesh *mesh_weapon;
     is::IAnimatedMesh *mesh_mf;
-    u32 munition = 10;
-    u32 stock = 20;
+    u32 munition_max = 20;
+
+    u32 munition = 20;
+    u32 stock = 90;
     u32 health_point = 3;
     u32 reloading_cooldown = 0;
     u32 invincibility_frame = 0;
@@ -49,6 +51,8 @@ public:
      * @brief mf : mf Node
      */
     is::IAnimatedMeshSceneNode *mf;
+
+
 
     /**
      * @brief addCharacterMeshToScene : Add the Character to the scene

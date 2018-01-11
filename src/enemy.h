@@ -21,7 +21,7 @@ class Enemy
 private:
     u32 health_point = 4;
     u32 blink_frame = 0;
-
+    enum Animation { RUN, WALK, ATTACK, DEATH, STAND };
 
     EnemyCollisionHandler world_collision_response;
 
@@ -36,6 +36,8 @@ private:
 
     f32 distance_min_to_trigger_chasing;
 
+    Animation anim;
+
 
 public:
 
@@ -49,6 +51,7 @@ public:
 
     //Noeud qui mermet de manipuler le maillage
     is::IAnimatedMeshSceneNode *node;
+    is::IAnimatedMeshSceneNode *hand;
 
     void addEnemyMeshToScene(is::ISceneManager* smgr,
                              is::IAnimatedMeshSceneNode *main_character_node_param);
@@ -99,6 +102,11 @@ public:
      * handle the walking of an enemy
      */
     void handle_walking();
+    /**
+     * @brief Set Animation of Enemy
+     *
+     */
+    void setAnimation(Animation anim);
 
 
 
