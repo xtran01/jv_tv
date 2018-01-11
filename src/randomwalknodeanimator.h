@@ -13,8 +13,11 @@ namespace ig = irr::gui;
 
 class RandomWalkNodeAnimator : public irr::scene::ISceneNodeAnimator
 {
+private:
+    f32 vitesse_run;
+    f32 vitesse_walk;
 public:
-    RandomWalkNodeAnimator();
+    RandomWalkNodeAnimator(f32 vitesse_run_param, f32 vitesse_walk_param);
     void animateNode(irr::scene::ISceneNode *node,irr::u32 timeMs);
     ISceneNodeAnimator* createClone(irr::scene::ISceneNode *node, irr::scene::ISceneManager *newManager);
     bool is_following_main_character = false;

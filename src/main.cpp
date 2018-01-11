@@ -303,7 +303,7 @@ int main()
 
     while(device->run())
     {
-        e1.follow_main_character();
+        e1.handle_walking();
         //set image for the "viseur"
         ig::IGUIImage *scope = gui->addImage(ic::rect<s32>(driver->getScreenSize().Width/2 -15,driver->getScreenSize().Height/2-15,  driver->getScreenSize().Width/2+15,driver->getScreenSize().Height/2+15)); scope->setScaleImage(true);
         scope->setImage(scope_tex);

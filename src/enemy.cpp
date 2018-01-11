@@ -9,6 +9,8 @@ Enemy::Enemy(is::ISceneManager *smgr_param,
     mesh = smgr->getMesh("../data/tris.md2");
     waiting_position_center = {0.0f,0.0f,0.0f};
     main_character_node = main_character_node_param;
+    vitesse_run = 0.9f;
+    vitesse_walk = 0.5f;
 
 }
 
@@ -16,7 +18,7 @@ void Enemy::addEnemyMeshToScene(){
     node = smgr->addAnimatedMeshSceneNode(mesh);
     node -> setMaterialFlag(irr::video::EMF_LIGHTING,false);
     node -> setMD2Animation(irr::scene::EMAT_STAND);
-    random_walk_animator = new RandomWalkNodeAnimator();
+    random_walk_animator = new RandomWalkNodeAnimator(vitesse_run,vitesse_walk);
 }
 
 void Enemy::setPosition(ic::vector3df vec3){
@@ -56,7 +58,24 @@ void Enemy::create_collision_with_map(is::ITriangleSelector *world)
     //TODO drop the world_collision_anim_response when not needed anymore
 }
 
-void Enemy::follow_main_character(){
-    random_walk_animator->is_following_main_character = true;
-    random_walk_animator->position_main_character = main_character_node->getPosition();
+void Enemy::handle_walking(){
+
+    const f32 distance_to_trigger_following = 150;
+    const f32 distance_to_main_character = main_character_node->getAbsolutePosition().getDistanceFrom(node->getAbsolutePosition());
+    if(distance_to_main_character <= distance_to_trigger_following){
+        if(random_walk_animator->is_following_main_character!=true){
+            random_walk_animator->is_following_main_character = true;
+            node->setMD2Animation(is::EMAT_RUN);
+        }
+
+        random_walk_animator->position_main_character = main_character_node->getPosition();
+    }
+    else{
+        if(random_walk_animator->is_following_main_character!=false){
+            random_walk_animator->is_following_main_character = false;
+            node->setMD2Animation(is::EMAT_CROUCH_WALK);
+        }
+
+    }
+
 }

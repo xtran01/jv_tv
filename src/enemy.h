@@ -41,6 +41,9 @@ private:
 
     is::IAnimatedMeshSceneNode *main_character_node;
 
+    f32 vitesse_walk;
+    f32 vitesse_run;
+
 
 public:
     /**
@@ -83,7 +86,7 @@ public:
      * @brief follow_main_character
      * Follow the main character
      */
-    void follow_main_character();
+    void handle_walking();
 
 
 
