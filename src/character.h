@@ -22,6 +22,8 @@ private:
     is::IAnimatedMesh *mesh_head;
     is::IAnimatedMesh *mesh_weapon;
     is::IAnimatedMesh *mesh_mf;
+    u32 munition_max = 20;
+
     u32 munition = 20;
     u32 stock = 90;
     u32 health_point = 3;

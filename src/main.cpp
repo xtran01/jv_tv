@@ -412,7 +412,7 @@ int main()
                                 list_part[i_FIFO].addParticleToScene(smgr,main_character.body->getPosition(),intersection,selected_scene_node);
                                 i_FIFO++;
                                 if (i_FIFO==NB_PARTICULE_MAX){i_FIFO = 0; list_part_rempli = true;}
-                                enemies[i].being_hit(driver->getTexture("../data/Baron/baron.jpg"));
+                                enemies[i].being_hit(driver->getTexture("../data/Baron/baronlight.jpg"));
                             }
                         }
 
