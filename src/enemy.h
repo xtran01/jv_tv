@@ -6,6 +6,7 @@
 #include <iostream>
 #include "enemycollisionhandler.h"
 #include "character.h"
+#include "randomwalknodeanimator.h"
 
 using namespace irr;
 namespace is = irr::scene;
@@ -31,10 +32,6 @@ private:
     is::IAnimatedMesh * mesh;
 
     /**
-    * @brief node : Node of the enemy
-    */
-    is::IAnimatedMeshSceneNode *node;
-    /**
      * @brief random_generator : pointer to a random number generator
      */
     irr::IRandomizer *random_generator;
@@ -42,6 +39,15 @@ private:
     EnemyCollisionHandler world_collision_response;
 
     ic::vector3df waiting_position_center;
+
+    RandomWalkNodeAnimator *random_walk_animator;
+
+    is::IAnimatedMeshSceneNode *main_character_node;
+
+    f32 vitesse_walk;
+    f32 vitesse_run;
+
+    f32 distance_min_to_trigger_chasing;
 
 
 public:
@@ -52,16 +58,19 @@ public:
      * @param random_generator_param
      */
     Enemy(is::ISceneManager* smgr_param,
-          irr::IRandomizer *random_generator_param);
-    /**
-     * @brief addEnemyMeshToScene
-     */
+          irr::IRandomizer *random_generator_param,
+          is::IAnimatedMeshSceneNode *main_character_node_param);
+
+    //Noeud qui mermet de manipuler le maillage
+    is::IAnimatedMeshSceneNode *node;
+
     void addEnemyMeshToScene();
     /**
      * @brief setPosition : Set the position of the enemy
      * @param vec3 : New position of the mesh
      */
     void setPosition(ic::vector3df vec3);
+    void setRotation(ic::vector3df vec3);
 
     /**
      * @brief Set a texture for the node of the enemy
@@ -95,7 +104,16 @@ public:
      * @brief move_randomely_arround_waiting_position
      */
     void move_randomely_arround_waiting_position();
+
     bool getCollision();
+
+    /**
+     * @brief follow_main_character
+     * handle the walking of an enemy
+     */
+    void handle_walking();
+
+
 
 
 };

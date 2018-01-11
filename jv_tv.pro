@@ -16,7 +16,9 @@ SOURCES += src/main.cpp \
     src/character.cpp \
     src/enemycollisionhandler.cpp \
     src/particle.cpp \
-    src/pnj.cpp
+    src/pnj.cpp \
+    src/randomwalknodeanimator.cpp
+
 
 
 HEADERS += src/events.hpp \
@@ -25,7 +27,8 @@ HEADERS += src/events.hpp \
     src/character.h \
     src/enemycollisionhandler.h \
     src/particle.h \
-    src/pnj.h
+    src/pnj.h \
+    src/randomwalknodeanimator.h
 
 
 
