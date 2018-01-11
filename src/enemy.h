@@ -46,45 +46,19 @@ private:
 
 public:
 
-<<<<<<< HEAD
-    int health_point = 4;
-    void addEnemyMeshToScene(is::ISceneManager *smgr);
 
-=======
     /**
      * @brief Enemy : Constructor of the Enemy
      * @param smgr_param : pointer to the scene manager
      * @param random_generator_param
      */
->>>>>>> e8d76bf27670541bc168cbf3a32fe8a2f3ee0fc1
     Enemy(is::ISceneManager* smgr_param,
           irr::IRandomizer *random_generator_param);
     /**
      * @brief addEnemyMeshToScene
      */
     void addEnemyMeshToScene();
-<<<<<<< HEAD
 
-    void setPosition(ic::vector3df vec3);
-
-    /**
-     * Function setTexture
-     * *******************
-     * Set a texture for the node of the enemy
-     * require:
-     * *******
-     * - a path for the texture of type string
-     * - the video driver of type driver
-     * ensure:
-     * ******
-     * - texture set to the node
-     * */
-
-    void setTexture(video::ITexture *tex);
-    void setID(s32 id);
-
-    void setTexture(io::path path, iv::IVideoDriver *driver);
-=======
     /**
      * @brief setPosition : Set the position of the enemy
      * @param vec3 : New position of the mesh
@@ -102,7 +76,6 @@ public:
      * @param id : An ID number
      */
     void setID(int id);
->>>>>>> e8d76bf27670541bc168cbf3a32fe8a2f3ee0fc1
 
     /**
      * @brief being_hit : Set a texture / Decrease  health point / Set blink frame
@@ -127,10 +100,6 @@ public:
     bool getCollision();
 
 
-<<<<<<< HEAD
-
-=======
->>>>>>> e8d76bf27670541bc168cbf3a32fe8a2f3ee0fc1
 };
 
 #endif // ENEMY_H

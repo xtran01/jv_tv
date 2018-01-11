@@ -274,16 +274,11 @@ int main()
     bool list_part2_rempli = false;
 
 
-<<<<<<< HEAD
 
-    int compteur_attack = 0;
-
-
-=======
     int compteur_attack = 0;
     bool attack_one_tic = false;
     bool last_attack = false;
->>>>>>> e8d76bf27670541bc168cbf3a32fe8a2f3ee0fc1
+
     while(device->run())
     {
         //set image for the "viseur"
@@ -349,25 +344,6 @@ int main()
 
             }
 
-<<<<<<< HEAD
-          if (selected_scene_node){
-            //selected_scene_node->
-            selected_scene_node->setMaterialTexture(0, textures[1]);
-            part.addParticleToScene(smgr,main_character.body->getPosition(),intersection);}
-            //part.remove();
-
-          selected_scene_node =
-                collision_manager->getSceneNodeAndCollisionPointFromRay(
-                        ray,
-                        intersection, // On récupère ici les coordonnées 3D de l'intersection
-                        hit_triangle, // et le triangle intersecté
-                        MAP_ID); // On ne veut que des noeuds avec cet identifiant
-          if (selected_scene_node){
-            if (rempli){ list_part[i_FIFO].remove();}
-
-            list_part[i_FIFO].addParticleToScene(smgr,main_character.body->getPosition(),intersection);
-            i_FIFO++;
-=======
         }
         }
         if(main_character.getReloading_cooldown()>0 || main_character.get_nb_munition() == 0){
@@ -375,7 +351,7 @@ int main()
         }
         else{
             scope_tex= driver->getTexture("../data/scope.png");
->>>>>>> e8d76bf27670541bc168cbf3a32fe8a2f3ee0fc1
+
 
         }
         for (int k = 0; k<NB_PARTICULE_MAX; k++){

@@ -62,12 +62,7 @@ public:
      * @param selector :
      */
     void addCharacterCollider(is::ISceneManager *smgr, scene::ITriangleSelector *selector);
-<<<<<<< HEAD
 
-    void remove();
-
-    void setAnimation(Animation anim);
-=======
     /**
      * @brief setAnimation : Set the animation of the character
      * @param anim : One of animation of the enum
@@ -103,7 +98,6 @@ public:
     void reload();
     bool is_reloading();
     void die();
->>>>>>> e8d76bf27670541bc168cbf3a32fe8a2f3ee0fc1
 
     void take_damage();
     /**
