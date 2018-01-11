@@ -215,6 +215,8 @@ int main()
     iv::ITexture *gameover_screen_tex = driver->getTexture("../data/gameover_screen.png");
     iv::ITexture *objectif1_tex = driver->getTexture("../data/objectif1.png");
     iv::ITexture *objectif2_tex = driver->getTexture("../data/objectif2.png");
+
+
     // Création des places pour les chiffres
 
     ig::IGUIImage *munition_10  = gui->addImage(ic::rect<s32>(WIDTH_WINDOW-210,HEIGHT_WINDOW-60, WIDTH_WINDOW-210+40,HEIGHT_WINDOW+40-60)); munition_10->setScaleImage(true);
@@ -264,12 +266,8 @@ int main()
     texture_fin = driver->getTexture("../data/particlegreen.jpg");
 
 
-
-
-
     //create Main character
     Character main_character;
-
 
     main_character.addCharacterMeshToScene(smgr, textures);
     main_character.setAnimation(main_character.RUN);
@@ -286,8 +284,8 @@ int main()
     Enemy e1(smgr,device->getRandomizer(), main_character.body);
     e1.addEnemyMeshToScene();
     e1.setTexture(driver->getTexture("../data/blue_texture.pcx"));
-    e1.create_collision_with_map(selector);
-    ic::vector3df pos(200,0.0f,200);
+    //e1.create_collision_with_map(selector);
+    ic::vector3df pos(100,0.0f,200);
     e1.setPosition(pos);
     e1.move_randomely_arround_waiting_position();
     e1.setID(ENEMY_1_ID);
@@ -314,12 +312,9 @@ int main()
 
     is::ISceneCollisionManager *collision_manager = smgr->getSceneCollisionManager();
 
-    Particle part(driver->getTexture("../data/particlered.bmp"), driver->getTexture("../data/fireball.bmp"));
     Particle list_part[NB_PARTICULE_MAX];
-    Particle list_part2[NB_PARTICULE_MAX];
     for(int i=0;i<NB_PARTICULE_MAX;i++){
         list_part[i].initializeParticle(driver->getTexture("../data/particlered.bmp"), driver->getTexture("../data/fireball.bmp"));
-        list_part2[i].initializeParticle(driver->getTexture("../data/particlered.bmp"), driver->getTexture("../data/fireball.bmp"));
     }
     int i_FIFO = 0;
     bool list_part_rempli = false;
@@ -327,7 +322,6 @@ int main()
     int compteur_attack = 0;
     bool attack_one_tic = false;
     bool last_attack = false;
-    ig::IGUIImage *scope = gui->addImage(ic::rect<s32>(driver->getScreenSize().Width/2 -15,driver->getScreenSize().Height/2-15,  driver->getScreenSize().Width/2+15,driver->getScreenSize().Height/2+15)); scope->setScaleImage(true);
 
     bool meeting = false;
     bool follow = false;
@@ -341,7 +335,7 @@ int main()
         e1.handle_walking();
         //set image for the "viseur"
 
-        ig::IGUIImage *scope = gui->addImage(ic::rect<s32>(driver->getScreenSize().Width/2 -15,driver->getScreenSize().Height/2-15,  driver->getScreenSize().Width/2+15,driver->getScreenSize().Height/2+15)); scope->setScaleImage(true);
+       ig::IGUIImage *scope = gui->addImage(ic::rect<s32>(driver->getScreenSize().Width/2 -15,driver->getScreenSize().Height/2-15,  driver->getScreenSize().Width/2+15,driver->getScreenSize().Height/2+15)); scope->setScaleImage(true);
 
         scope->setImage(scope_tex);
         if(main_character.getReloading_cooldown()>0 || main_character.get_nb_munition() == 0){
