@@ -56,6 +56,7 @@ public:
     is::IAnimatedMeshSceneNode *node;
     void addEnemyMeshToScene();
     void setPosition(ic::vector3df vec3);
+    void setRotation(ic::vector3df vec3);
 
     /**
      * @brief Set a texture for the node of the enemy

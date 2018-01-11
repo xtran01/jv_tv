@@ -23,6 +23,10 @@ void Enemy::setPosition(ic::vector3df vec3){
     node -> setPosition(vec3);
 }
 
+void Enemy::setRotation(ic::vector3df vec3){
+    node -> setRotation(vec3);
+}
+
 void Enemy::setTexture(iv::ITexture *texture){
     assert(node != NULL);
     node->setMaterialTexture(0, texture);
