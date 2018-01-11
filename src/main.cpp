@@ -391,14 +391,6 @@ int main()
                         if (i_FIFO==NB_PARTICULE_MAX){i_FIFO = 0; list_part_rempli = true;}
                         e1.being_hit(driver->getTexture("../data/red_texture.pcx"));
                         break;
-                    case ENEMY_2_ID :
-
-                        if (list_part_rempli){ list_part[i_FIFO].remove();}
-                        list_part[i_FIFO].addParticleToScene(smgr,main_character.body->getPosition(),intersection,selected_scene_node);
-                        i_FIFO++;
-                        if (i_FIFO==NB_PARTICULE_MAX){i_FIFO = 0; list_part_rempli = true;}
-                        //e2.being_hit(driver->getTexture("../data/red_texture.pcx"));
-                        break;
                     case MAP_ID :
 
                         if (list_part_rempli){ list_part[i_FIFO].remove();}
@@ -424,7 +416,6 @@ int main()
         }
 
         e1.make_blink(driver->getTexture("../data/blue_texture.pcx"));
-        //e2.make_blink(driver->getTexture("../data/blue_texture.pcx"));
 
         e1.attack(&main_character);
         main_character.invincibility_counting(textures);
