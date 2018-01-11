@@ -61,9 +61,10 @@ void moveCameraControl(IrrlichtDevice *device,
 
     }
 }
-static void create_window_pnj_follow()
+static void create_window_pnj_follow(EventReceiver *receiver,ig::IGUIImage *objectif,iv::ITexture *objectif2_tex)
 {
-
+    receiver->show_menu = 2;
+    objectif->setImage(objectif2_tex);
 }
 
 static bool mission_reussie(pnj& pnj)
@@ -214,6 +215,7 @@ int main()
     iv::ITexture *gameover_screen_tex = driver->getTexture("../data/gameover_screen.png");
     iv::ITexture *objectif1_tex = driver->getTexture("../data/objectif1.png");
     iv::ITexture *objectif2_tex = driver->getTexture("../data/objectif2.png");
+    iv::ITexture *menu_tex = driver->getTexture("../data/first_menu.png");
 
 
     // Création des places pour les chiffres
@@ -229,7 +231,9 @@ int main()
 
 
     ig::IGUIImage *bloody_screen   = gui->addImage(ic::rect<s32>(0,0, WIDTH_WINDOW,HEIGHT_WINDOW)); bloody_screen->setScaleImage(true);
-    ig::IGUIImage *objectif   = gui->addImage(ic::rect<s32>(0,0, WIDTH_WINDOW,HEIGHT_WINDOW)); bloody_screen->setScaleImage(true);
+    ig::IGUIImage *objectif   = gui->addImage(ic::rect<s32>(0,0, WIDTH_WINDOW,HEIGHT_WINDOW)); objectif->setScaleImage(true);
+    ig::IGUIImage *menu   = gui->addImage(ic::rect<s32>(0,0, WIDTH_WINDOW,HEIGHT_WINDOW)); menu->setScaleImage(true);
+
 
     //create_GUI_munition(gui,munition_10,munition_1,stock_10,stock_1,slash);
 
@@ -340,163 +344,184 @@ int main()
 
     while(device->run())
     {
-        for(u32 i = 0; i<NB_ENEMY_MAX; i++){
-            enemies[i].handle_walking();
-        }
-
-        //set image for the "viseur"
-
-       ig::IGUIImage *scope = gui->addImage(ic::rect<s32>(driver->getScreenSize().Width/2 -15,driver->getScreenSize().Height/2-15,  driver->getScreenSize().Width/2+15,driver->getScreenSize().Height/2+15)); scope->setScaleImage(true);
-
-        scope->setImage(scope_tex);
-        if(main_character.getReloading_cooldown()>0 || main_character.get_nb_munition() == 0){
-            scope_tex= driver->getTexture("../data/scope_not.png");
-        }
-        else{
-            scope_tex= driver->getTexture("../data/scope.png");
-
-        }
-
-        is_attacking(main_character, textures, receiver, compteur_attack);
-        if(main_character.getHealth_point() != 0)
-        {
-            moveCameraControl(device,main_character.body, receiver);
-            receiver.keyboard_handler(false, follow);
-        }
-        else
-            receiver.keyboard_handler(true, follow);
-
         driver->beginScene(true, true, iv::SColor(100,150,200,255));
-        if(!main_character.is_reloading()){
-            int mouse_x, mouse_y;
-            if (receiver.is_mouse_pressed(mouse_x, mouse_y))
+
+        if(receiver.show_menu == 0){
+            menu->setVisible(false);
+            for(u32 i = 0; i<NB_ENEMY_MAX; i++){
+                enemies[i].handle_walking();
+            }
+
+            //set image for the "viseur"
+
+            ig::IGUIImage *scope = gui->addImage(ic::rect<s32>(driver->getScreenSize().Width/2 -15,driver->getScreenSize().Height/2-15,  driver->getScreenSize().Width/2+15,driver->getScreenSize().Height/2+15)); scope->setScaleImage(true);
+
+            scope->setImage(scope_tex);
+            if(main_character.getReloading_cooldown()>0 || main_character.get_nb_munition() == 0){
+                scope_tex= driver->getTexture("../data/scope_not.png");
+            }
+            else{
+                scope_tex= driver->getTexture("../data/scope.png");
+
+            }
+
+            is_attacking(main_character, textures, receiver, compteur_attack);
+            if(main_character.getHealth_point() != 0)
             {
-                if (receiver.button_pressed != last_attack && receiver.button_pressed == true)
-                    attack_one_tic = true;
-                if(attack_one_tic && main_character.get_nb_munition() > 0)
+                moveCameraControl(device,main_character.body, receiver);
+                receiver.keyboard_handler(false, follow);
+            }
+            else
+                receiver.keyboard_handler(true, follow);
+
+            if(!main_character.is_reloading()){
+                int mouse_x, mouse_y;
+                if (receiver.is_mouse_pressed(mouse_x, mouse_y))
                 {
-                    ic::line3d<f32> ray;
-                    ray = collision_manager->getRayFromScreenCoordinates(ic::position2d<s32>(mouse_x, mouse_y));
-                    ic::vector3df intersection;
-                    ic::triangle3df hit_triangle;
-                    is::ISceneNode *selected_scene_node =
-                            collision_manager->getSceneNodeAndCollisionPointFromRay(
-                                ray,
-                                intersection, // On récupère ici les coordonnées 3D de l'intersection
-                                hit_triangle, // et le triangle intersecté
-                                0); // On ne veut que des noeuds avec cet identifiant
-                    const u32 selected_scene_node_id = selected_scene_node->getID();
+                    if (receiver.button_pressed != last_attack && receiver.button_pressed == true)
+                        attack_one_tic = true;
+                    if(attack_one_tic && main_character.get_nb_munition() > 0)
+                    {
+                        ic::line3d<f32> ray;
+                        ray = collision_manager->getRayFromScreenCoordinates(ic::position2d<s32>(mouse_x, mouse_y));
+                        ic::vector3df intersection;
+                        ic::triangle3df hit_triangle;
+                        is::ISceneNode *selected_scene_node =
+                                collision_manager->getSceneNodeAndCollisionPointFromRay(
+                                    ray,
+                                    intersection, // On récupère ici les coordonnées 3D de l'intersection
+                                    hit_triangle, // et le triangle intersecté
+                                    0); // On ne veut que des noeuds avec cet identifiant
+                        const u32 selected_scene_node_id = selected_scene_node->getID();
 
-                    if(selected_scene_node_id == MAP_ID){
-                        if (list_part_rempli){ list_part[i_FIFO].remove();}
-                        list_part[i_FIFO].addParticleToScene(smgr,main_character.body->getPosition(),intersection,selected_scene_node);
-                        i_FIFO++;
-                        if (i_FIFO==NB_PARTICULE_MAX){i_FIFO = 0; list_part_rempli = true;}
-
-                    }
-
-                    for(u32 i=0; i<NB_ENEMY_MAX; i++){
-                        if(enemies[i].node->getID() == selected_scene_node_id){
+                        if(selected_scene_node_id == MAP_ID){
                             if (list_part_rempli){ list_part[i_FIFO].remove();}
                             list_part[i_FIFO].addParticleToScene(smgr,main_character.body->getPosition(),intersection,selected_scene_node);
                             i_FIFO++;
                             if (i_FIFO==NB_PARTICULE_MAX){i_FIFO = 0; list_part_rempli = true;}
-                            enemies[i].being_hit(driver->getTexture("../data/red_texture.pcx"));
+
                         }
+
+                        for(u32 i=0; i<NB_ENEMY_MAX; i++){
+                            if(enemies[i].node->getID() == selected_scene_node_id){
+                                if (list_part_rempli){ list_part[i_FIFO].remove();}
+                                list_part[i_FIFO].addParticleToScene(smgr,main_character.body->getPosition(),intersection,selected_scene_node);
+                                i_FIFO++;
+                                if (i_FIFO==NB_PARTICULE_MAX){i_FIFO = 0; list_part_rempli = true;}
+                                enemies[i].being_hit(driver->getTexture("../data/red_texture.pcx"));
+                            }
+                        }
+
+                        attack_one_tic =false;
+                        main_character.use_munition();
+
                     }
 
-                    attack_one_tic =false;
-                    main_character.use_munition();
-
                 }
-
             }
-        }
 
-        for (int k = 0; k<NB_PARTICULE_MAX; k++){
-            list_part[k].frame_time_life--;
-            if(list_part[k].frame_time_life == 0)
-                list_part[k].remove();
-        }
+            for (int k = 0; k<NB_PARTICULE_MAX; k++){
+                list_part[k].frame_time_life--;
+                if(list_part[k].frame_time_life == 0)
+                    list_part[k].remove();
+            }
 
-        for(u32 i=0;i<NB_ENEMY_MAX ; i++){
-            enemies[i].make_blink(driver->getTexture("../data/blue_texture.pcx"));
-            enemies[i].attack(&main_character);
-        }
+            for(u32 i=0;i<NB_ENEMY_MAX ; i++){
+                enemies[i].make_blink(driver->getTexture("../data/blue_texture.pcx"));
+                enemies[i].attack(&main_character);
+            }
 
-        main_character.invincibility_counting(textures);
-        last_attack = receiver.button_pressed;
-
+            main_character.invincibility_counting(textures);
+            last_attack = receiver.button_pressed;
 
 
-        // Set image2D
-        munition_10->setImage(digits[(main_character.get_nb_munition() / 10) % 10]);
-        munition_1->setImage(digits[(main_character.get_nb_munition() / 1) % 10]);
 
-        stock_10->setImage(digits[(main_character.get_nb_stock() / 10) % 10]);
-        stock_1->setImage(digits[(main_character.get_nb_stock() / 1) % 10]);
+            // Set image2D
+            munition_10->setImage(digits[(main_character.get_nb_munition() / 10) % 10]);
+            munition_1->setImage(digits[(main_character.get_nb_munition() / 1) % 10]);
 
-        slash->setImage(slash_tex);
-        //objectif->setImage(objectif1_tex);
+            stock_10->setImage(digits[(main_character.get_nb_stock() / 10) % 10]);
+            stock_1->setImage(digits[(main_character.get_nb_stock() / 1) % 10]);
 
-        switch(main_character.getHealth_point()){
-        case 2 :
-            bloody_screen->setVisible(true);
-            bloody_screen->setImage(bloody_screen_tex);
-            break;
-        case 1 :
-            bloody_screen->setImage(bloodier_screen_tex);
-            break;
-        case 0 :
-            start_anim_death = true;
-            if(cpt_anim_death<=60)
-            {
-                if(start_anim_death == true && anim_death == false)
+            slash->setImage(slash_tex);
+            objectif->setImage(objectif1_tex);
+
+            switch(main_character.getHealth_point()){
+            case 2 :
+                bloody_screen->setVisible(true);
+                bloody_screen->setImage(bloody_screen_tex);
+                break;
+            case 1 :
+                bloody_screen->setImage(bloodier_screen_tex);
+                break;
+            case 0 :
+                start_anim_death = true;
+                if(cpt_anim_death<=60)
                 {
-                    main_character.setAnimation(main_character.DEATH);
-                    rohmer.setAnimation(rohmer.DEATH);
-                    anim_death = true;
+                    if(start_anim_death == true && anim_death == false)
+                    {
+                        main_character.setAnimation(main_character.DEATH);
+                        rohmer.setAnimation(rohmer.DEATH);
+                        anim_death = true;
+                    }
+                    cpt_anim_death++;
                 }
-                cpt_anim_death++;
+                else if(cpt_anim_death>50)
+                {
+                    bloody_screen->setImage(gameover_screen_tex);
+                    scope->setVisible(false);
+                    objectif->setVisible(false);
+                }
+                break;
+            default: bloody_screen->setVisible(false);
             }
-            else if(cpt_anim_death>50)
+
+            // Gestion suivi PNJ
+            compteur_follow++;
+            if(compteur_follow > 10)
+                meeting = is_character_meets_pnj(main_character,rohmer);
+            //std::cout<<"meeting: "<<meeting<<std::endl;
+            if(meeting == true && follow == false)
             {
-                bloody_screen->setImage(gameover_screen_tex);
-                scope->setVisible(false);
-                objectif->setVisible(false);
+                follow = true;
+                //create_window_pnj_follow(&receiver,objectif,objectif2_tex);
+                create_exit(smgr,texture_fin);
             }
-            break;
-        default: bloody_screen->setVisible(false);
-        }
-
-        // Gestion suivi PNJ
-        compteur_follow++;
-        if(compteur_follow > 10)
-            meeting = is_character_meets_pnj(main_character,rohmer);
-        //std::cout<<"meeting: "<<meeting<<std::endl;
-        if(meeting == true && follow == false)
-        {
-            follow = true;
-            create_window_pnj_follow();
-            create_exit(smgr,texture_fin);
-        }
 
 
-        if(follow == true && meeting == true)
-        {
-            rohmer.follow(main_character.body->getAbsolutePosition(),main_character.body->getRotation());
-        }
-        if(meeting == false && follow == true)
-        {
-            rohmer.setAnimation(rohmer.STAND);
-            follow = false;
-        }
-        if(mission_reussie(rohmer))
-        {
-            //std::cout<<"FIN"<<std::endl;
-        }
+            if(follow == true && meeting == true)
+            {
+                rohmer.follow(main_character.body->getAbsolutePosition(),main_character.body->getRotation());
+            }
+            if(meeting == false && follow == true)
+            {
+                rohmer.setAnimation(rohmer.STAND);
+                follow = false;
+            }
+            if(mission_reussie(rohmer))
+            {
+                //std::cout<<"FIN"<<std::endl;
+            }
 
+        }
+        if (receiver.show_menu == 1){
+            menu->setVisible(true);
+            menu->setImage(menu_tex);
+            receiver.keyboard_handler(false, follow);
+        }
+        if (receiver.show_menu == 2){
 
+            menu->setVisible(true);
+            menu->setImage(menu_tex);
+            receiver.keyboard_handler(true, follow);
+            receiver.show_menu == 0; //A ENLEVER APRES
+
+        }
+        if (receiver.show_menu == 3){
+            menu->setImage(menu_tex);
+            receiver.keyboard_handler(false, follow);
+
+        }
         // Dessin de la scène :
         smgr->drawAll();
         gui->drawAll();

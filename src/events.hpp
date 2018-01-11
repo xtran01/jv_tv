@@ -58,7 +58,7 @@ public:
 
     bool attack = false;
     bool attack_inter = false;
-
+    int show_menu = 1;
     f32 rotation_cam =0.0f;
     irr::scene::IAnimatedMeshSceneNode *node;
     Character *personnage;
