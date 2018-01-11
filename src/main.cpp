@@ -457,6 +457,7 @@ int main()
             {
                 //std::cout<<"FIN"<<std::endl;
             }
+            rohmer.position_prev_character = main_character.body->getAbsolutePosition();
 
 
         }
@@ -478,7 +479,7 @@ int main()
             receiver.keyboard_handler(false, follow);
 
         }
-        rohmer.position_prev_character = main_character.body->getAbsolutePosition();
+
         // Dessin de la scène :
         smgr->drawAll();
         gui->drawAll();
