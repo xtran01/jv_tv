@@ -292,6 +292,7 @@ int main()
 
     receiver.set_gui(gui);
     receiver.set_personnage(&main_character);
+    receiver.set_pnj(&rohmer);
     receiver.set_textures(textures);
 
 
@@ -332,7 +333,11 @@ int main()
 
     bool meeting = false;
     bool follow = false;
+    bool start_anim_death = false;
+    bool anim_death = false;
+    int cpt_anim_death = 0;
     int compteur_follow = 0;
+
     while(device->run())
     {
         //set image for the "viseur"
@@ -347,10 +352,14 @@ int main()
         }
 
         is_attacking(main_character, textures, receiver, compteur_attack);
+        if(main_character.getHealth_point() != 0)
+        {
+            moveCameraControl(device,main_character.body, receiver);
+            receiver.keyboard_handler(false);
+        }
+        else
+            receiver.keyboard_handler(true);
 
-        moveCameraControl(device,main_character.body, receiver);
-
-        receiver.keyboard_handler();
         driver->beginScene(true, true, iv::SColor(100,150,200,255));
         if(!main_character.is_reloading()){
         int mouse_x, mouse_y;
@@ -438,9 +447,23 @@ int main()
             bloody_screen->setImage(bloodier_screen_tex);
             break;
         case 0 :
-            bloody_screen->setImage(gameover_screen_tex);
-            scope->setVisible(false);
-            objectif->setVisible(false);
+            start_anim_death = true;
+            if(cpt_anim_death<=60)
+            {
+                if(start_anim_death == true && anim_death == false)
+                {
+                    main_character.setAnimation(main_character.DEATH);
+                    anim_death = true;
+                }
+                cpt_anim_death++;
+            }
+            else if(cpt_anim_death>50)
+            {
+                bloody_screen->setImage(gameover_screen_tex);
+                scope->setVisible(false);
+                objectif->setVisible(false);
+            }
+
 
             break;
         default:;

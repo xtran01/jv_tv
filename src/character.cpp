@@ -91,13 +91,13 @@ void Character::setAnimation(Animation anim)
         weapon->setAnimationSpeed(80.0);
         break;
     case DEATH:
-        body->setFrameLoop(0,0);
-        head->setFrameLoop(0,0);
-        weapon->setFrameLoop(0,0);
+        body->setFrameLoop(78,110);
+        head->setFrameLoop(78,110);
+        weapon->setFrameLoop(78,110);
 
-        body->setAnimationSpeed(40.0);
-        head->setAnimationSpeed(40.0);
-        weapon->setAnimationSpeed(40.0);
+        body->setAnimationSpeed(24.0);
+        head->setAnimationSpeed(24.0);
+        weapon->setAnimationSpeed(24.0);
         break;
     case STAND:
         body->setFrameLoop(0,0);

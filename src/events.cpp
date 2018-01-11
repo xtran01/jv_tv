@@ -20,7 +20,7 @@ EventReceiver::EventReceiver()
 /*------------------------------------------------------------------------*\
  * EventReceiver::keyboard                                                *
 \*------------------------------------------------------------------------*/
-bool EventReceiver::keyboard_handler()
+bool EventReceiver::keyboard_handler(bool death)
 {
     if (!personnage->body) return false;
 
@@ -31,8 +31,13 @@ bool EventReceiver::keyboard_handler()
 
     if(IsKeyPressed(KEY_ESCAPE))
         exit(0);
+
+    if(death)
+        return false;
+
     if(is_running) vitesse_deplacement = 3.7f;
     else vitesse_deplacement = 2.0f;
+
     if(IsKeyDown(KEY_KEY_R)){ // Recharge
         personnage->reload();
     }
@@ -56,14 +61,17 @@ bool EventReceiver::keyboard_handler()
         is_running = !(is_running);
         if (is_running && (IsKeyDown(KEY_KEY_Z) || IsKeyDown(KEY_KEY_S) || IsKeyDown(KEY_KEY_Q) || IsKeyDown(KEY_KEY_D))){
             personnage->setAnimation(personnage->RUN);
+            rohmer->setAnimation(rohmer->RUN);
         }
         else if(!is_running && (IsKeyDown(KEY_KEY_Z) || IsKeyDown(KEY_KEY_S) || IsKeyDown(KEY_KEY_Q) || IsKeyDown(KEY_KEY_D)))
         {
             personnage->setAnimation(personnage->WALK);
+            rohmer->setAnimation(rohmer->WALK);
         }
         else
         {
             personnage->setAnimation(personnage->STAND);
+            rohmer->setAnimation(rohmer->STAND);
         }
     }
 
@@ -87,9 +95,17 @@ bool EventReceiver::keyboard_handler()
         if(!attack)
         {
             if(is_running)
+            {
                 personnage->setAnimation(personnage->RUN);
+                rohmer->setAnimation(rohmer->RUN);
+            }
+
             else
-                personnage->setAnimation(personnage->WALK);
+            {
+               personnage->setAnimation(personnage->WALK);
+               rohmer->setAnimation(rohmer->WALK);
+            }
+
         }
         else
         {
@@ -104,22 +120,34 @@ bool EventReceiver::keyboard_handler()
         if(IsKeyDown(KEY_KEY_Z) || IsKeyDown(KEY_KEY_S) || IsKeyDown(KEY_KEY_Q) || IsKeyDown(KEY_KEY_D))
         {
             if(is_running)
+            {
                 personnage->setAnimation(personnage->RUN);
+                rohmer->setAnimation(rohmer->RUN);
+            }
+
             else
+            {
                 personnage->setAnimation(personnage->WALK);
+                rohmer->setAnimation(rohmer->WALK);
+            }
+
         }
     }
 
     if(!IsKeyDown(KEY_KEY_Z) && !IsKeyDown(KEY_KEY_S) && !IsKeyDown(KEY_KEY_Q) && !IsKeyDown(KEY_KEY_D)){
         if(!(*this).attack)
+        {
             personnage->setAnimation(personnage->STAND);
+            rohmer->setAnimation(rohmer->STAND);
+        }
+
     }
 
     if(IsKeyPressed(KEY_KEY_P)){
         is_mouse_camera_tool_activated = !is_mouse_camera_tool_activated;
     }
     node->setPosition(position);
-    //std::cout<<"X: "<<position.X<<"Y: "<<position.Y<<"Z: "<<position.Z<<std::endl;
+    std::cout<<"X: "<<position.X<<"Y: "<<position.Y<<"Z: "<<position.Z<<std::endl;
     node->setRotation(rotation);
     init_KeyEvent();
 
@@ -351,12 +379,21 @@ bool EventReceiver::OnEvent(const SEvent &event)
 }
 
 /**************************************************************************\
- * EventReceiver::set_node                                                *
+ * EventReceiver::set_personnage                                               *
 \**************************************************************************/
 void EventReceiver::set_personnage(Character *perso)
 {
     personnage = perso;
 }
+
+/**************************************************************************\
+ * EventReceiver::set_pnj                                                *
+\**************************************************************************/
+void EventReceiver::set_pnj(pnj *pnj_perso)
+{
+    rohmer = pnj_perso;
+}
+
 
 /**************************************************************************\
  * EventReceiver::set_gui                                                 *

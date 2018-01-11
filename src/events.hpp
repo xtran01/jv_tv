@@ -7,6 +7,7 @@
 
 #include <irrlicht.h>
 #include "character.h"
+#include "pnj.h"
 
 using namespace irr;
 
@@ -61,6 +62,7 @@ public:
     f32 rotation_cam =0.0f;
     irr::scene::IAnimatedMeshSceneNode *node;
     Character *personnage;
+    pnj *rohmer;
     irr::scene::ICameraSceneNode *camera_node;
     /**
      * @brief init_Key : Initialize all the key in the arrays
@@ -70,7 +72,7 @@ public:
      * @brief keyboard_handler : Handle all the action linked to a key
      * @return false everytime
      */
-    bool keyboard_handler();
+    bool keyboard_handler(bool death);
     /**
      * @brief mouse_handler : Handle all the action linked to the mouse
      * @param event : click event
@@ -88,6 +90,11 @@ public:
      * @param perso
      */
     void set_personnage(Character *perso);
+    /**
+     * @brief set_personnage
+     * @param perso
+     */
+    void set_pnj(pnj *rohmer);
     /**
      * @brief set_textures
      * @param tex

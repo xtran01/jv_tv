@@ -1,6 +1,5 @@
 #include "pnj.h"
 
-
 pnj::pnj()
     : mesh_body(nullptr), body(nullptr)
 {
@@ -65,11 +64,10 @@ void pnj::setAnimation(Animation anim)
 
 void pnj::follow(core::vector3df position_character, core::vector3df orientation_character)
 {
-
     body->setRotation(orientation_character);
-    float new_X = position_character.X  + 50 * sin((orientation_character.Y-90.0) * M_PI / 180.0);
+    float new_X = position_character.X  + 50 * sin((orientation_character.Y-45.0) * M_PI / 180.0);
     float new_Y = body->getPosition().Y;
-    float new_Z = position_character.Z + 50 * cos((orientation_character.Y-90.0) * M_PI / 180.0);
+    float new_Z = position_character.Z + 50 * cos((orientation_character.Y-45.0) * M_PI / 180.0);
     core::vector3df new_pos(new_X,new_Y,new_Z);
     body->setPosition(new_pos);
     //Add Animator

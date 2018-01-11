@@ -81,7 +81,7 @@ void Enemy::attack(Character *perso)
 {
     ic::vector3df pos_player = perso->body->getPosition();
 
-    if (pos_player.getDistanceFrom(node->getPosition())< 40.0){
+    if (pos_player.getDistanceFrom(node->getPosition())< 60.0){
         perso->take_damage();
         node ->setMD2Animation(is::EMAT_ATTACK);
 

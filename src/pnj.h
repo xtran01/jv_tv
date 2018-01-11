@@ -6,6 +6,7 @@
 #include <assert.h>
 #include <iostream>
 #include <vector>
+#include "character.h"
 
 using namespace irr;
 namespace is = irr::scene;
