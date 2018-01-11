@@ -41,6 +41,7 @@ void Enemy::setRotation(ic::vector3df vec3){
 void Enemy::setTexture(iv::ITexture *texture){
     assert(node != NULL);
     node->setMaterialTexture(0, texture);
+    hand->setMaterialTexture(0,texture);
 }
 void Enemy::setID(int id){
     node ->setID(id);
