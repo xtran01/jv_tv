@@ -75,6 +75,7 @@ void Enemy::make_blink(video::ITexture *texture)
 
 void Enemy::attack(Character *perso)
 {
+    if(health_point > 0){
     ic::vector3df pos_player = perso->body->getPosition();
 
     if (pos_player.getDistanceFrom(node->getPosition())< 60.0){
@@ -85,7 +86,7 @@ void Enemy::attack(Character *perso)
 //    else
 //        node ->setMD2Animation(is::EMAT_STAND);
 
-
+    }
 }
 
 void Enemy::create_collision_with_map(is::ITriangleSelector *world)
