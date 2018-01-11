@@ -74,11 +74,6 @@ public:
     void change_texture_weapon_rest(std::vector<iv::ITexture*>& textures);
 
     /**
-     * @brief Character : Constructor of the character in the smgr
-     * @param smgr : pointer to the scene manager
-     */
-    Character(is::ISceneManager *smgr);
-    /**
      * @brief Character : Default constructor
      */
     Character();

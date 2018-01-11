@@ -75,11 +75,6 @@ public:
      */
     void follow(core::vector3df position_character, core::vector3df orientation_character);
     /**
-     * @brief pnj : Constructor of the character in the smgr
-     * @param smgr : pointer to the scene manager
-     */
-    pnj(is::ISceneManager *smgr);
-    /**
      * @brief pnj : Default constructor
      */
     pnj();

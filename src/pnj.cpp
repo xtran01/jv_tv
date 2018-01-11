@@ -9,10 +9,12 @@ pnj::pnj()
 
 void pnj::addPNJMeshToScene(is::ISceneManager *smgr, std::vector<iv::ITexture*> textures){
     mesh_body = smgr->getMesh("../data/Warrior/warrior.md2");
-    body = smgr->addAnimatedMeshSceneNode(mesh_body,0,-1);
-    body->setPosition(core::vector3df(200.0,0.0,200.0));
+    body = smgr->addAnimatedMeshSceneNode(mesh_body);
     body->setMaterialFlag(iv::EMF_LIGHTING, false);
     body->setMaterialTexture(0, textures[5]);
+
+    body->setPosition(core::vector3df(1317.73, -168.25,  -633.809));
+    body->setRotation(core::vector3df(0.0, -90.0, 0.0));
 }
 
 
@@ -28,11 +30,6 @@ void pnj::addPNJCollider(is::ISceneManager *smgr, scene::ITriangleSelector *sele
                                                         ic::vector3df(0, -50, 0));  // décalage du centre
 
     body->addAnimator(anim);
-}
-
-pnj::pnj(is::ISceneManager *smgr)
-{
-    mesh_body = smgr->getMesh("../data/tris.md2");
 }
 
 
@@ -70,7 +67,10 @@ void pnj::follow(core::vector3df position_character, core::vector3df orientation
 {
 
     body->setRotation(orientation_character);
-    core::vector3df new_pos = position_character -50 * core::vector3df(-sin((orientation_character.Y-90.0) * M_PI / 180.0),0.0,-cos((orientation_character.Y-90.0) * M_PI / 180.0));
+    float new_X = position_character.X  + 50 * sin((orientation_character.Y-90.0) * M_PI / 180.0);
+    float new_Y = body->getPosition().Y;
+    float new_Z = position_character.Z + 50 * cos((orientation_character.Y-90.0) * M_PI / 180.0);
+    core::vector3df new_pos(new_X,new_Y,new_Z);
     body->setPosition(new_pos);
     //Add Animator
 }

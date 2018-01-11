@@ -61,6 +61,33 @@ void moveCameraControl(IrrlichtDevice *device,
 
     }
 }
+static void create_window_pnj_follow()
+{
+
+}
+
+static bool mission_reussie(pnj& pnj)
+{
+    core::vector3df location_end(11.7243, 1051.75, -565.804);
+    float epsilon = 15.0f;
+    if(pnj.body->getAbsolutePosition().getDistanceFrom(location_end) < epsilon)
+    {
+        return true;
+    }
+    return false;
+
+}
+
+static void create_exit(is::ISceneManager *smgr, iv::ITexture* texture_fin)
+{
+
+    is::IBillboardSceneNode* bill;
+    bill = smgr->addBillboardSceneNode(nullptr, core::dimension2d<f32>(400, 400), core::vector3df(11.7243, 1051.75, -565.804));
+    bill->setMaterialFlag(video::EMF_LIGHTING, false);
+    bill->setMaterialFlag(video::EMF_ZWRITE_ENABLE, false);
+    bill->setMaterialType(video::EMT_TRANSPARENT_ADD_COLOR);
+    bill->setMaterialTexture(0, texture_fin);
+}
 
 static void create_window(ig::IGUIEnvironment *gui)
 {
@@ -144,6 +171,7 @@ int main()
 
     EventReceiver receiver;
     std::vector<iv::ITexture*> textures;
+    iv::ITexture* texture_fin;
     // Création de la fenêtre et du système de rendu.
     IrrlichtDevice *device = createDevice(iv::EDT_OPENGL,
                                           ic::dimension2d < u32 >(WIDTH_WINDOW ,
@@ -154,7 +182,6 @@ int main()
     iv::IVideoDriver  *driver = device->getVideoDriver();
     is::ISceneManager *smgr = device->getSceneManager();
     ig::IGUIEnvironment *gui = device->getGUIEnvironment();
-
 
 
     // Ajout de l ’ archive qui contient entre autres un niveau complet
@@ -182,7 +209,7 @@ int main()
     textures.push_back(driver->getTexture("../data/Warrior/warrior.jpg"));
 
 
-
+    texture_fin = driver->getTexture("../data/particlegreen.jpg");
 
     //create enemy
     Enemy e1(smgr,device->getRandomizer());
@@ -201,7 +228,7 @@ int main()
     e2.setID(ENEMY_2_ID);
 
     //create Main character
-    Character main_character(smgr);
+    Character main_character;
 
 
     main_character.addCharacterMeshToScene(smgr, textures);
@@ -209,10 +236,11 @@ int main()
     main_character.addCharacterCollider(smgr,selector);
 
     //create pnj
-    pnj rohmer(smgr);
+    pnj rohmer;
     rohmer.addPNJMeshToScene(smgr,textures);
     rohmer.addPNJCollider(smgr,selector);
     rohmer.setAnimation(rohmer.STAND);
+    //rohmer.body->setPosition(core::vector3df(-1269.31,155.75,-2033.84));
 
     receiver.set_gui(gui);
     receiver.set_personnage(&main_character);
@@ -254,7 +282,8 @@ int main()
     bool attack_one_tic = false;
     bool last_attack = false;
     bool meeting = false;
-    bool follow = true;
+    bool follow = false;
+    int compteur_follow = 0;
     while(device->run())
     {
         //set image for the "viseur"
@@ -331,12 +360,25 @@ int main()
         last_attack = receiver.button_pressed;
 
         // Gestion suivi PNJ
-        meeting = is_character_meets_pnj(main_character,rohmer);
-        std::cout<<"meeting: "<<meeting<<std::endl;
-        if(meeting == true)
-            follow = true;
+        compteur_follow++;
+        if(compteur_follow > 10)
+            meeting = is_character_meets_pnj(main_character,rohmer);
+        //std::cout<<"meeting: "<<meeting<<std::endl;
+        if(meeting == true && follow == false)
+        {
+          follow = true;
+          create_window_pnj_follow();
+          create_exit(smgr,texture_fin);
+        }
+
         if(follow == true)
-            rohmer.follow(main_character.body->getAbsolutePosition(),main_character.body->getRotation());
+        {
+          rohmer.follow(main_character.body->getAbsolutePosition(),main_character.body->getRotation());
+        }
+        if(mission_reussie(rohmer))
+        {
+            //std::cout<<"FIN"<<std::endl;
+        }
 
         // Dessin de la scène :
         smgr->drawAll();
