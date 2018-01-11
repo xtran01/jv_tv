@@ -44,6 +44,8 @@ private:
     f32 vitesse_walk;
     f32 vitesse_run;
 
+    f32 distance_min_to_trigger_chasing;
+
 
 public:
     /**

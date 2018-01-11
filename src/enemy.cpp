@@ -11,6 +11,7 @@ Enemy::Enemy(is::ISceneManager *smgr_param,
     main_character_node = main_character_node_param;
     vitesse_run = 0.9f;
     vitesse_walk = 0.5f;
+    distance_min_to_trigger_chasing = 300;
 
 }
 
@@ -60,11 +61,10 @@ void Enemy::create_collision_with_map(is::ITriangleSelector *world)
 
 void Enemy::handle_walking(){
 
-    const f32 distance_to_trigger_following = 150;
     const f32 distance_to_main_character = main_character_node->getAbsolutePosition().getDistanceFrom(node->getAbsolutePosition());
 
     // if enemy close to main character
-    if(distance_to_main_character <= distance_to_trigger_following){
+    if(distance_to_main_character <= distance_min_to_trigger_chasing){
         // run and chase him
         if(random_walk_animator->is_following_main_character!=true){
             random_walk_animator->is_following_main_character = true;
