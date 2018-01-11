@@ -24,6 +24,8 @@ const u32 NB_PARTICULE_MAX = 10;
 const u32 FIRST_ENEMY_ID = 2;
 const u32 NB_ENEMY_MAX  = 10;
 
+bool rohmer_found = false;
+bool win = false;
 
 void moveCameraControl(IrrlichtDevice *device,
                        is::IAnimatedMeshSceneNode *perso,
@@ -61,10 +63,12 @@ void moveCameraControl(IrrlichtDevice *device,
 
     }
 }
-static void create_window_pnj_follow(EventReceiver *receiver,ig::IGUIImage *objectif,iv::ITexture *objectif2_tex)
+static void create_window_pnj_follow(EventReceiver *receiver)
 {
-    receiver->show_menu = 2;
-    objectif->setImage(objectif2_tex);
+    if (!rohmer_found){
+        receiver->show_menu = 2;
+        rohmer_found = true;
+    }
 }
 
 static bool mission_reussie(pnj& pnj)
@@ -164,8 +168,7 @@ int main()
     iv::ITexture *bloody_screen_tex = driver->getTexture("../data/bloody_screen.png");
     iv::ITexture *bloodier_screen_tex = driver->getTexture("../data/bloodier_screen.png");
     iv::ITexture *gameover_screen_tex = driver->getTexture("../data/gameover_screen.png");
-    iv::ITexture *objectif1_tex = driver->getTexture("../data/objectif1.png");
-    iv::ITexture *objectif2_tex = driver->getTexture("../data/objectif2.png");
+    iv::ITexture *objectif_tex = driver->getTexture("../data/objectif1.png");
     iv::ITexture *menu_tex = driver->getTexture("../data/first_menu.png");
 
 
@@ -298,18 +301,21 @@ int main()
     while(device->run())
     {
         driver->beginScene(true, true, iv::SColor(100,150,200,255));
+        ig::IGUIImage *scope = gui->addImage(ic::rect<s32>(driver->getScreenSize().Width/2 -15,driver->getScreenSize().Height/2-15,  driver->getScreenSize().Width/2+15,driver->getScreenSize().Height/2+15)); scope->setScaleImage(true);
 
-        if(receiver.show_menu == 0){
+
+        if(receiver.show_menu == 0 && !win){
             menu->setVisible(false);
+            objectif->setImage(objectif_tex);
+
             for(u32 i = 0; i<NB_ENEMY_MAX; i++){
                 enemies[i].handle_walking();
             }
-
             //set image for the "viseur"
 
-            ig::IGUIImage *scope = gui->addImage(ic::rect<s32>(driver->getScreenSize().Width/2 -15,driver->getScreenSize().Height/2-15,  driver->getScreenSize().Width/2+15,driver->getScreenSize().Height/2+15)); scope->setScaleImage(true);
 
-            scope->setImage(scope_tex);
+            scope->setImage(scope_tex); scope->setVisible(true);
+
 
 
             if(main_character.getReloading_cooldown()>0 || main_character.get_nb_munition() == 0){
@@ -399,7 +405,6 @@ int main()
             stock_1->setImage(digits[(main_character.get_nb_stock() / 1) % 10]);
 
             slash->setImage(slash_tex);
-            objectif->setImage(objectif1_tex);
 
             switch(main_character.getHealth_point()){
             case 2 :
@@ -439,7 +444,7 @@ int main()
             if(meeting == true && follow == false)
             {
                 follow = true;
-                //create_window_pnj_follow(&receiver,objectif,objectif2_tex);
+                create_window_pnj_follow(&receiver);
                 create_exit(smgr,texture_fin);
             }
 
@@ -455,30 +460,37 @@ int main()
             }
             if(mission_reussie(rohmer))
             {
-                //std::cout<<"FIN"<<std::endl;
+                win = true;
             }
+            rohmer.position_prev_character = main_character.body->getAbsolutePosition();
 
 
         }
         if (receiver.show_menu == 1){
             menu->setVisible(true);
+            scope->setVisible(false);
             menu->setImage(menu_tex);
             receiver.keyboard_handler(false, follow);
         }
         if (receiver.show_menu == 2){
+            menu_tex = driver->getTexture("../data/dialogue_menu.png");
+            scope->setVisible(false);
 
             menu->setVisible(true);
             menu->setImage(menu_tex);
             receiver.keyboard_handler(true, follow);
-            receiver.show_menu == 0; //A ENLEVER APRES
-
+            objectif_tex = driver->getTexture("../data/objectif2.png");
         }
-        if (receiver.show_menu == 3){
+
+        if (win){
+            menu_tex = driver->getTexture("../data/win_menu.png");
+            scope->setVisible(false);
+            menu->setVisible(true);
             menu->setImage(menu_tex);
-            receiver.keyboard_handler(false, follow);
+            receiver.keyboard_handler(true, follow);
 
         }
-        rohmer.position_prev_character = main_character.body->getAbsolutePosition();
+
         // Dessin de la scène :
         smgr->drawAll();
         gui->drawAll();
