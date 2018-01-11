@@ -271,8 +271,8 @@ int main()
     Enemy e2(smgr,device->getRandomizer());
     e2.addEnemyMeshToScene();
     e2.setTexture(driver->getTexture("../data/blue_texture.pcx"));
-    //e2.create_collision_with_map(selector);
-    e2.setPosition(core::vector3df( 100 , -50, -100));
+    e2.create_collision_with_map(selector);
+    e2.setPosition(core::vector3df( 100 , -77, -100));
     e2.setID(ENEMY_2_ID);
 
     //create Main character
