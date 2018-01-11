@@ -18,6 +18,7 @@ void Enemy::addEnemyMeshToScene(is::ISceneManager* smgr,
 
     main_character_node = main_character_node_param;
     node = smgr->addAnimatedMeshSceneNode(mesh);
+    mesh->drop();
     node -> setMaterialFlag(irr::video::EMF_LIGHTING,false);
     node -> setMD2Animation(irr::scene::EMAT_STAND);
     is::ITriangleSelector *selector = smgr->createTriangleSelector(node);
