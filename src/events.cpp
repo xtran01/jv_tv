@@ -28,7 +28,9 @@ bool EventReceiver::keyboard_handler()
 
     ic::vector3df position = node->getPosition();
     ic::vector3df rotation = node->getRotation();
+    if(IsKeyPressed(KEY_RETURN)){
 
+    }
     if(IsKeyPressed(KEY_ESCAPE))
         exit(0);
     if(is_running) vitesse_deplacement = 3.7f;
