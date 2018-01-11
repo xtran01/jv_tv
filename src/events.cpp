@@ -37,7 +37,8 @@ bool EventReceiver::keyboard_handler(bool death, bool follow)
 
     if(is_running) vitesse_deplacement = 3.7f;
     else vitesse_deplacement = 2.0f;
-
+    if(IsKeyPressed(KEY_RETURN))
+        show_menu =0;
     if(IsKeyDown(KEY_KEY_R)){ // Recharge
         personnage->reload();
     }
