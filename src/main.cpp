@@ -311,7 +311,9 @@ int main()
 
 
     is::ICameraSceneNode *camera = smgr->addCameraSceneNode(0,core::vector3df(0.0f,0.0f,0.0f) ,core::vector3df(0.0f,0.0f,0.0f), -1);
-    direction = 0.0f; zdirection=0.0f;
+
+  // scene::ICameraSceneNode* camera = smgr->addCameraSceneNodeMaya(0, -100.0f, 100.0f, 100.0f);
+   direction = 0.0f; zdirection=0.0f;
     device->getCursorControl()->setVisible(false);
     receiver.camera_node = camera;
 
@@ -357,6 +359,8 @@ int main()
             ig::IGUIImage *scope = gui->addImage(ic::rect<s32>(driver->getScreenSize().Width/2 -15,driver->getScreenSize().Height/2-15,  driver->getScreenSize().Width/2+15,driver->getScreenSize().Height/2+15)); scope->setScaleImage(true);
 
             scope->setImage(scope_tex);
+
+
             if(main_character.getReloading_cooldown()>0 || main_character.get_nb_munition() == 0){
                 scope_tex= driver->getTexture("../data/scope_not.png");
             }
@@ -408,7 +412,7 @@ int main()
                                 list_part[i_FIFO].addParticleToScene(smgr,main_character.body->getPosition(),intersection,selected_scene_node);
                                 i_FIFO++;
                                 if (i_FIFO==NB_PARTICULE_MAX){i_FIFO = 0; list_part_rempli = true;}
-                                enemies[i].being_hit(driver->getTexture("../data/Baron/baron.jpg"));
+                                enemies[i].being_hit(driver->getTexture("../data/Baron/baronlight.jpg"));
                             }
                         }
 
@@ -502,6 +506,7 @@ int main()
             {
                 //std::cout<<"FIN"<<std::endl;
             }
+
 
         }
         if (receiver.show_menu == 1){
