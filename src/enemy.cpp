@@ -81,13 +81,13 @@ void Enemy::attack(Character *perso)
 {
     ic::vector3df pos_player = perso->body->getPosition();
 
-    if (pos_player.getDistanceFrom(node->getPosition())<20){
+    if (pos_player.getDistanceFrom(node->getPosition())< 40.0){
         perso->take_damage();
         node ->setMD2Animation(is::EMAT_ATTACK);
 
     }
-    else
-        node ->setMD2Animation(is::EMAT_STAND);
+//    else
+//        node ->setMD2Animation(is::EMAT_STAND);
 
 
 }
@@ -98,7 +98,7 @@ void Enemy::create_collision_with_map(is::ITriangleSelector *world)
     ic::vector3df radius = box.MaxEdge - box.getCenter();
     is::ISceneNodeAnimatorCollisionResponse *world_collision_anim_response = smgr
             ->createCollisionResponseAnimator(world,node,radius,
-                                              ic::vector3df(0,-10,0), ic::vector3df(0,-30,0));
+                                              ic::vector3df(0,-10,0));
 
     world_collision_anim_response->setCollisionCallback(&world_collision_response);
     node->addAnimator(world_collision_anim_response);
