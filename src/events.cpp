@@ -6,7 +6,7 @@
 #include "gui_ids.h"
 #include "particle.h"
 
-#define HAUTEUR_SAUT 50
+#define HAUTEUR_SAUT 14
 
 
 /**************************************************************************\

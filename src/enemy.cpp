@@ -79,7 +79,6 @@ void Enemy::make_blink(video::ITexture *texture)
 
 void Enemy::attack(Character *perso)
 {
-    f32 distance_from_player;
     ic::vector3df pos_player = perso->body->getPosition();
 
     if (pos_player.getDistanceFrom(node->getPosition())<20){
@@ -87,6 +86,8 @@ void Enemy::attack(Character *perso)
         node ->setMD2Animation(is::EMAT_ATTACK);
 
     }
+    else
+        node ->setMD2Animation(is::EMAT_STAND);
 
 
 }
@@ -97,7 +98,7 @@ void Enemy::create_collision_with_map(is::ITriangleSelector *world)
     ic::vector3df radius = box.MaxEdge - box.getCenter();
     is::ISceneNodeAnimatorCollisionResponse *world_collision_anim_response = smgr
             ->createCollisionResponseAnimator(world,node,radius,
-                                              ic::vector3df(0,-10,0));
+                                              ic::vector3df(0,-10,0), ic::vector3df(0,-30,0));
 
     world_collision_anim_response->setCollisionCallback(&world_collision_response);
     node->addAnimator(world_collision_anim_response);
