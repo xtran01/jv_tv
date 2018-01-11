@@ -33,6 +33,9 @@ bool EventReceiver::keyboard_handler()
         exit(0);
     if(is_running) vitesse_deplacement = 3.7f;
     else vitesse_deplacement = 2.0f;
+    if(IsKeyDown(KEY_KEY_R)){ // Recharge
+        personnage->reload();
+    }
     if(IsKeyDown(KEY_KEY_Z)){ // Avance
         position.X += vitesse_deplacement * cos(rotation.Y * M_PI / 180.0);
         position.Z += -vitesse_deplacement * sin(rotation.Y * M_PI / 180.0);
@@ -133,14 +136,18 @@ bool EventReceiver::mouse_handler(const SEvent &event)
   {
     case EMIE_LMOUSE_PRESSED_DOWN:
       personnage->setAnimation(personnage->ATTACK);
-      //button_pressed = true;
+      button_pressed = true;
       attack = true;
       attack_finished = true;
+
+      attack_inter = true;
+
       old_x = event.MouseInput.X;
       old_y = event.MouseInput.Y;
       break;
     case EMIE_LMOUSE_LEFT_UP:
       button_pressed = false;
+
       break;
     default:;
   }

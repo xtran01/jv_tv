@@ -5,22 +5,36 @@ CONFIG -= qt
 QMAKE_CXXFLAGS += -std=c++11
 
 INCLUDEPATH += /usr/include/irrlicht
-LIBS += -lIrrlicht
+#INCLUDEPATH += /usr/local/include
+#DEPENDPATH +=  /usr/local/lib
+LIBS += -lIrrlicht -lGL -lX11 -lXxf86vm
+#LIBS += -L"/usr/local/lib" -lIrrlicht
 
 SOURCES += src/main.cpp \
          src/events.cpp \
     src/enemy.cpp \
     src/character.cpp \
+<<<<<<< HEAD
     src/particle.cpp \
     src/enemycollisionhandler.cpp
+=======
+    src/enemycollisionhandler.cpp \
+    src/particle.cpp
+>>>>>>> e8d76bf27670541bc168cbf3a32fe8a2f3ee0fc1
 
 
 HEADERS += src/events.hpp \
            src/gui_ids.h \
     src/enemy.h \
     src/character.h \
+<<<<<<< HEAD
     src/particle.h \
     src/enemycollisionhandler.h
+=======
+    src/enemycollisionhandler.h \
+    src/particle.h
+
+>>>>>>> e8d76bf27670541bc168cbf3a32fe8a2f3ee0fc1
 
 
 

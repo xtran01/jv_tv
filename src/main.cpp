@@ -5,7 +5,7 @@
 #include "enemy.h"
 #include "character.h"
 #include "particle.h"
- #include <queue>
+#include <unistd.h>
 
 using namespace irr;
 namespace iv = irr::video;
@@ -17,9 +17,13 @@ namespace ig = irr::gui;
 f32 direction;
 f32 zdirection;
 const int MAP_ID = 1;
-const int ENEMY_ID = 42;
-const int HEIGHT_WINDOW = 960;
-const int WIDTH_WINDOW = 1280;
+const int ENEMY_1_ID = 1<<1;
+const int ENEMY_2_ID = 1<<2;
+const int HEIGHT_WINDOW = 480;
+const int WIDTH_WINDOW = 640;
+const int NB_PARTICULE_MAX = 10;
+
+
 void moveCameraControl(IrrlichtDevice *device,
                        is::IAnimatedMeshSceneNode *perso,
                        EventReceiver receiver)
@@ -55,13 +59,7 @@ void moveCameraControl(IrrlichtDevice *device,
         perso->setRotation( core::vector3df( 0, direction, 0 ) );
 
     }
-
-
-
 }
-/*===========================================================================*\
- * create_menu                                                               *
-\*===========================================================================*/
 
 static void create_window(ig::IGUIEnvironment *gui)
 {
@@ -112,26 +110,38 @@ static void create_window(ig::IGUIEnvironment *gui)
                     WINDOW_SPIN_BOX);
 }
 
-void is_attacking(EventReceiver& receiver, int& compteur_attack)
+static void create_GUI_munition(ig::IGUIEnvironment *gui, ig::IGUIImage *munition_10, ig::IGUIImage *munition_1,
+                                ig::IGUIImage *stock_10, ig::IGUIImage *stock_1, ig::IGUIImage *slash){
+    munition_10  = gui->addImage(ic::rect<s32>(WIDTH_WINDOW-210,HEIGHT_WINDOW-60, WIDTH_WINDOW-210+40,HEIGHT_WINDOW+40-60)); munition_10->setScaleImage(true);
+    munition_1   = gui->addImage(ic::rect<s32>(WIDTH_WINDOW-210+40,HEIGHT_WINDOW-60, WIDTH_WINDOW-210+80,HEIGHT_WINDOW+40-60)); munition_1->setScaleImage(true);
+
+    stock_10  = gui->addImage(ic::rect<s32>(WIDTH_WINDOW-100,HEIGHT_WINDOW-60, WIDTH_WINDOW-100+40,HEIGHT_WINDOW+40-60)); stock_10->setScaleImage(true);
+    stock_1   = gui->addImage(ic::rect<s32>(WIDTH_WINDOW-100+40,HEIGHT_WINDOW-60, WIDTH_WINDOW-100+80,HEIGHT_WINDOW+40-60)); stock_1->setScaleImage(true);
+
+    slash   = gui->addImage(ic::rect<s32>(WIDTH_WINDOW-170+40,HEIGHT_WINDOW-60, WIDTH_WINDOW-170+70,HEIGHT_WINDOW+40-60)); slash->setScaleImage(true);
+}
+
+void is_attacking(Character& character,std::vector<iv::ITexture*>& textures,
+                  EventReceiver& receiver, int& compteur_attack)
 {
     bool attacking = receiver.get_attack();
     if(attacking)
     {
+        character.change_texture_weapon_fire(textures);
+        character.mf->setVisible(true);
         compteur_attack++;
-        if(compteur_attack > 12)
+        if(compteur_attack > 12  || character.get_nb_munition() == 0  || character.is_reloading())
         {
             compteur_attack = 0;
             receiver.set_attack(false);
+            character.change_texture_weapon_rest(textures);
+            character.mf->setVisible(false);
         }
     }
-
 }
 
 int main()
 {
-
-
-
     EventReceiver receiver;
     std::vector<iv::ITexture*> textures;
     // Création de la fenêtre et du système de rendu.
@@ -143,9 +153,32 @@ int main()
 
     iv::IVideoDriver  *driver = device->getVideoDriver();
     is::ISceneManager *smgr = device->getSceneManager();
-    ig::IGUIEnvironment *gui = device->getGUIEnvironment();
 
+    ig::IGUIEnvironment *gui  = device->getGUIEnvironment();
+    // Chargement des textures pour les chiffres
+    iv::ITexture *digits[10];
+    digits[0] = driver->getTexture("../data/0.png");
+    digits[1] = driver->getTexture("../data/1.png");
+    digits[2] = driver->getTexture("../data/2.png");
+    digits[3] = driver->getTexture("../data/3.png");
+    digits[4] = driver->getTexture("../data/4.png");
+    digits[5] = driver->getTexture("../data/5.png");
+    digits[6] = driver->getTexture("../data/6.png");
+    digits[7] = driver->getTexture("../data/7.png");
+    digits[8] = driver->getTexture("../data/8.png");
+    digits[9] = driver->getTexture("../data/9.png");
+    iv::ITexture *slash_tex = driver->getTexture("../data/slash.png");
 
+    // Création des places pour les chiffres
+
+    ig::IGUIImage *munition_10  = gui->addImage(ic::rect<s32>(WIDTH_WINDOW-210,HEIGHT_WINDOW-60, WIDTH_WINDOW-210+40,HEIGHT_WINDOW+40-60)); munition_10->setScaleImage(true);
+    ig::IGUIImage *munition_1   = gui->addImage(ic::rect<s32>(WIDTH_WINDOW-210+40,HEIGHT_WINDOW-60, WIDTH_WINDOW-210+80,HEIGHT_WINDOW+40-60)); munition_1->setScaleImage(true);
+
+    ig::IGUIImage *stock_10  = gui->addImage(ic::rect<s32>(WIDTH_WINDOW-100,HEIGHT_WINDOW-60, WIDTH_WINDOW-100+40,HEIGHT_WINDOW+40-60)); stock_10->setScaleImage(true);
+    ig::IGUIImage *stock_1   = gui->addImage(ic::rect<s32>(WIDTH_WINDOW-100+40,HEIGHT_WINDOW-60, WIDTH_WINDOW-100+80,HEIGHT_WINDOW+40-60)); stock_1->setScaleImage(true);
+
+    ig::IGUIImage *slash   = gui->addImage(ic::rect<s32>(WIDTH_WINDOW-170+40,HEIGHT_WINDOW-60, WIDTH_WINDOW-170+70,HEIGHT_WINDOW+40-60)); slash->setScaleImage(true);
+    //create_GUI_munition(gui,munition_10,munition_1,stock_10,stock_1,slash);
 
 
     // Ajout de l ’ archive qui contient entre autres un niveau complet
@@ -158,25 +191,36 @@ int main()
     node_map->setPosition (core::vector3df( 200 , -100 , -500));
     //node_map->setRotation(core::vector3df( 0 , 180 , 0));
     node_map->setID(MAP_ID);
+
     // Création du triangle selector
     scene::ITriangleSelector *selector;
     selector = smgr->createOctreeTriangleSelector(node_map->getMesh(), node_map);
     node_map->setTriangleSelector(selector);
 
+    node_map->setID(MAP_ID);
 
     textures.push_back(driver->getTexture("../data/Chaingunner/chaingunner_body.png"));
     textures.push_back(driver->getTexture("../data/Chaingunner/chaingunner_weapon.png"));
     textures.push_back(driver->getTexture("../data/Chaingunner/chaingunner_head1.png"));
+    textures.push_back(driver->getTexture("../data/Chaingunner/chaingunner_fire_weapon.png"));
+    textures.push_back(driver->getTexture("../data/Chaingunner/chaingunner_mf0.png"));
 
 
     //create enemy
     Enemy e1(smgr,device->getRandomizer());
     e1.addEnemyMeshToScene();
-    e1.setTexture(driver->getTexture( "../data/red_texture.pcx"));
+
+    e1.setTexture(driver->getTexture("../data/blue_texture.pcx"));
     e1.create_collision_with_map(selector);
     e1.move_randomely_arround_waiting_position();
-    e1.setID(ENEMY_ID);
+    e1.setID(ENEMY_1_ID);
 
+    Enemy e2(smgr,device->getRandomizer());
+    e2.addEnemyMeshToScene();
+    e2.setTexture(driver->getTexture("../data/blue_texture.pcx"));
+    //e2.create_collision_with_map(selector);
+    e2.setPosition(core::vector3df( 100 , 0, -100));
+    e2.setID(ENEMY_2_ID);
 
     //create Main character
     Character main_character(smgr);
@@ -196,37 +240,50 @@ int main()
     is::ICameraSceneNode *camera = smgr->
             addCameraSceneNode(0,core::vector3df(0.0f,0.0f,0.0f) ,
                                core::vector3df(0.0f,0.0f,0.0f), -1);
-
     direction = 0.0f; zdirection=0.0f;
+    device->getCursorControl()->setVisible(false);
     receiver.camera_node = camera;
 
-
-    device->getCursorControl()->setVisible(false);
     receiver.init_Key();
 
 
-
     is::ISceneCollisionManager *collision_manager = smgr->getSceneCollisionManager();
-
 
 
     // Chargement des textures pour le reticule
     iv::ITexture *scope_tex;
     scope_tex= driver->getTexture("../data/scope.png");
 
+
+
+    /***************
+     * Gestion des particules
+     ***************/
+    is::ISceneCollisionManager *collision_manager = smgr->getSceneCollisionManager();
+
     Particle part(driver->getTexture("../data/particlered.bmp"), driver->getTexture("../data/fireball.bmp"));
-    Particle list_part[200];
-    for(int i=0;i<200;i++){
+    Particle list_part[NB_PARTICULE_MAX];
+    Particle list_part2[NB_PARTICULE_MAX];
+    for(int i=0;i<NB_PARTICULE_MAX;i++){
         list_part[i].initializeParticle(driver->getTexture("../data/particlered.bmp"), driver->getTexture("../data/fireball.bmp"));
+        list_part2[i].initializeParticle(driver->getTexture("../data/particlered.bmp"), driver->getTexture("../data/fireball.bmp"));
     }
     int i_FIFO = 0;
     bool rempli = false;
+    int j_FIFO  = 0;
+    bool list_part2_rempli = false;
 
 
+<<<<<<< HEAD
 
     int compteur_attack = 0;
 
 
+=======
+    int compteur_attack = 0;
+    bool attack_one_tic = false;
+    bool last_attack = false;
+>>>>>>> e8d76bf27670541bc168cbf3a32fe8a2f3ee0fc1
     while(device->run())
     {
         //set image for the "viseur"
@@ -234,33 +291,65 @@ int main()
         ig::IGUIImage *scope = gui->addImage(ic::rect<s32>(driver->getScreenSize().Width/2 -15,driver->getScreenSize().Height/2-15,  driver->getScreenSize().Width/2+15,driver->getScreenSize().Height/2+15)); scope->setScaleImage(true);
         scope->setImage(scope_tex);
 
-        is_attacking(receiver,compteur_attack);
+        is_attacking(main_character, textures, receiver, compteur_attack);
 
-        receiver.keyboard_handler();
-        driver->beginScene(true, true, iv::SColor(100,150,200,255));
+        //receiver.keyboard_handler();
+        //driver->beginScene(true, true, iv::SColor(100,150,200,255));
         moveCameraControl(device,main_character.body, receiver);
 
-
-
         receiver.keyboard_handler();
         driver->beginScene(true, true, iv::SColor(100,150,200,255));
-        //camera->setTarget(perso->getPosition() + ic::vector3df (0 , 20 + 4*receiver.rotation_cam , 0));
-
+        if(!main_character.is_reloading()){
         int mouse_x, mouse_y;
         if (receiver.is_mouse_pressed(mouse_x, mouse_y))
         {
-          ic::line3d<f32> ray;
-          ray = collision_manager->getRayFromScreenCoordinates(ic::position2d<s32>(mouse_x, mouse_y));
-          ic::vector3df intersection;
-          ic::triangle3df hit_triangle;
+            if (receiver.button_pressed != last_attack && receiver.button_pressed == true)
+                attack_one_tic = true;
+            if(attack_one_tic && main_character.get_nb_munition() > 0)
+            {
+                ic::line3d<f32> ray;
+                ray = collision_manager->getRayFromScreenCoordinates(ic::position2d<s32>(mouse_x, mouse_y));
+                ic::vector3df intersection;
+                ic::triangle3df hit_triangle;
 
-          is::ISceneNode *selected_scene_node =
-                collision_manager->getSceneNodeAndCollisionPointFromRay(
-                        ray,
-                        intersection, // On récupère ici les coordonnées 3D de l'intersection
-                        hit_triangle, // et le triangle intersecté
-                        ENEMY_ID); // On ne veut que des noeuds avec cet identifiant
+                is::ISceneNode *selected_scene_node =
+                        collision_manager->getSceneNodeAndCollisionPointFromRay(
+                            ray,
+                            intersection, // On récupère ici les coordonnées 3D de l'intersection
+                            hit_triangle, // et le triangle intersecté
+                            0); // On ne veut que des noeuds avec cet identifiant
+                switch(selected_scene_node->getID()){
+                case ENEMY_1_ID :
+                    if (list_part2_rempli){ list_part[i_FIFO].remove();}
 
+                    list_part2[j_FIFO].addParticleToScene(smgr,main_character.body->getPosition(),intersection,selected_scene_node);
+                    j_FIFO++;
+                    if (j_FIFO==NB_PARTICULE_MAX){j_FIFO = 0; rempli = true;}
+                    e1.being_hit(driver->getTexture("../data/red_texture.pcx"));
+                    break;
+                case ENEMY_2_ID :
+                    if (list_part2_rempli){ list_part[i_FIFO].remove();}
+
+                    list_part2[j_FIFO].addParticleToScene(smgr,main_character.body->getPosition(),intersection,selected_scene_node);
+                    j_FIFO++;
+                    if (j_FIFO==NB_PARTICULE_MAX){j_FIFO = 0; rempli = true;}
+                    e2.being_hit(driver->getTexture("../data/red_texture.pcx"));
+                    break;
+                case MAP_ID :
+                    if (rempli){ list_part[i_FIFO].remove();}
+                    list_part[i_FIFO].addParticleToScene(smgr,main_character.body->getPosition(),intersection,selected_scene_node);
+                    i_FIFO++;
+                    if (i_FIFO==NB_PARTICULE_MAX){i_FIFO = 0; rempli = true;}
+                    break;
+                default:;
+                }
+
+                attack_one_tic =false;
+                main_character.use_munition();
+
+            }
+
+<<<<<<< HEAD
           if (selected_scene_node){
             //selected_scene_node->
             selected_scene_node->setMaterialTexture(0, textures[1]);
@@ -278,18 +367,40 @@ int main()
 
             list_part[i_FIFO].addParticleToScene(smgr,main_character.body->getPosition(),intersection);
             i_FIFO++;
-
-            if (i_FIFO==200){i_FIFO = 0; rempli = true;}
-
-
-          }
+=======
+        }
+        }
+        if(main_character.getReloading_cooldown()>0 || main_character.get_nb_munition() == 0){
+            scope_tex= driver->getTexture("../data/scope_not.png");
+        }
+        else{
+            scope_tex= driver->getTexture("../data/scope.png");
+>>>>>>> e8d76bf27670541bc168cbf3a32fe8a2f3ee0fc1
 
         }
+        for (int k = 0; k<NB_PARTICULE_MAX; k++){
+            list_part2[k].frame_time_life--;
+            if(list_part2[k].frame_time_life == 0)
+                list_part2[k].remove();
+        }
 
+        e1.make_blink(driver->getTexture("../data/blue_texture.pcx"));
+        e2.make_blink(driver->getTexture("../data/blue_texture.pcx"));
 
+        e2.attack(&main_character);
+        last_attack = receiver.button_pressed;
+
+        munition_10->setImage(digits[(main_character.get_nb_munition() / 10) % 10]);
+        munition_1->setImage(digits[(main_character.get_nb_munition() / 1) % 10]);
+
+        stock_10->setImage(digits[(main_character.get_nb_stock() / 10) % 10]);
+        stock_1->setImage(digits[(main_character.get_nb_stock() / 1) % 10]);
+
+        slash->setImage(slash_tex);
         // Dessin de la scène :
         smgr->drawAll();
         gui->drawAll();
+
         driver->endScene();
     }
     device->drop();
