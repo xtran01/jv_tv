@@ -172,7 +172,7 @@ void is_attacking(Character& character,std::vector<iv::ITexture*>& textures,
 
 bool is_character_meets_pnj(Character& character,pnj& pnj)
 {
-    float epsilon = 40.0f;
+    float epsilon = 60.0f;
     if(character.body->getAbsolutePosition().getDistanceFrom(pnj.body->getAbsolutePosition()) < epsilon)
     {
         return true;
@@ -477,9 +477,14 @@ int main()
         }
 
 
-        if(follow == true)
+        if(follow == true && meeting == true)
         {
             rohmer.follow(main_character.body->getAbsolutePosition(),main_character.body->getRotation());
+        }
+        if(meeting == false && follow == true)
+        {
+            rohmer.setAnimation(rohmer.STAND);
+            follow = false;
         }
         if(mission_reussie(rohmer))
         {
