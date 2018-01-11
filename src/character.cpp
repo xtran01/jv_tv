@@ -13,6 +13,11 @@ u32 Character::getReloading_cooldown() const
     return reloading_cooldown;
 }
 
+u32 Character::getHealth_point() const
+{
+    return health_point;
+}
+
 void Character::addCharacterMeshToScene(is::ISceneManager *smgr, std::vector<iv::ITexture*> textures){
 
 
@@ -160,13 +165,32 @@ void Character::die()
 
 }
 
+void Character::invincibility_counting(std::vector<iv::ITexture*>& textures)
+{
+    if(invincibility_frame==1){
+        body->setMaterialTexture(0, textures[0]);
+        head->setMaterialTexture(0, textures[2]);
+        invincibility_frame--;
+    }
+    if(invincibility_frame>1){
+        body->setMaterialTexture(0, textures[5]);
+        head->setMaterialTexture(0, textures[6]);
+        invincibility_frame--;
+    }
+
+
+}
+
 void Character::take_damage()
 {
-    if (health_point>0){
+    if (health_point == 1 && invincibility_frame == 0){
         health_point--;
-        std::cout<<"Vie joueur restant: "<<health_point<<std::endl;
-    }
-    if (health_point == 0){
         die();
     }
+    else if (health_point>1 && invincibility_frame == 0){
+        health_point--;
+        invincibility_frame = 50;
+        std::cout<<"Vie joueur restant: "<<health_point<<std::endl;
+    }
+
 }

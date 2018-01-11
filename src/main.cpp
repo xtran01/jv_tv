@@ -167,7 +167,11 @@ int main()
     digits[8] = driver->getTexture("../data/8.png");
     digits[9] = driver->getTexture("../data/9.png");
     iv::ITexture *slash_tex = driver->getTexture("../data/slash.png");
-
+    iv::ITexture *bloody_screen_tex = driver->getTexture("../data/bloody_screen.png");
+    iv::ITexture *bloodier_screen_tex = driver->getTexture("../data/bloodier_screen.png");
+    iv::ITexture *gameover_screen_tex = driver->getTexture("../data/gameover_screen.png");
+    iv::ITexture *objectif1_tex = driver->getTexture("../data/objectif1.png");
+    iv::ITexture *objectif2_tex = driver->getTexture("../data/objectif2.png");
     // Création des places pour les chiffres
 
     ig::IGUIImage *munition_10  = gui->addImage(ic::rect<s32>(WIDTH_WINDOW-210,HEIGHT_WINDOW-60, WIDTH_WINDOW-210+40,HEIGHT_WINDOW+40-60)); munition_10->setScaleImage(true);
@@ -177,6 +181,12 @@ int main()
     ig::IGUIImage *stock_1   = gui->addImage(ic::rect<s32>(WIDTH_WINDOW-100+40,HEIGHT_WINDOW-60, WIDTH_WINDOW-100+80,HEIGHT_WINDOW+40-60)); stock_1->setScaleImage(true);
 
     ig::IGUIImage *slash   = gui->addImage(ic::rect<s32>(WIDTH_WINDOW-170+40,HEIGHT_WINDOW-60, WIDTH_WINDOW-170+70,HEIGHT_WINDOW+40-60)); slash->setScaleImage(true);
+
+
+
+    ig::IGUIImage *bloody_screen   = gui->addImage(ic::rect<s32>(0,0, WIDTH_WINDOW,HEIGHT_WINDOW)); bloody_screen->setScaleImage(true);
+    ig::IGUIImage *objectif   = gui->addImage(ic::rect<s32>(0,0, WIDTH_WINDOW,HEIGHT_WINDOW)); bloody_screen->setScaleImage(true);
+
     //create_GUI_munition(gui,munition_10,munition_1,stock_10,stock_1,slash);
 
     // Ajout de l ’ archive qui contient entre autres un niveau complet
@@ -202,6 +212,10 @@ int main()
     textures.push_back(driver->getTexture("../data/Chaingunner/chaingunner_fire_weapon.png"));
     textures.push_back(driver->getTexture("../data/Chaingunner/chaingunner_mf0.png"));
 
+    textures.push_back(driver->getTexture("../data/Chaingunner/chaingunner_pain_body.png"));
+    textures.push_back(driver->getTexture("../data/Chaingunner/chaingunner_head2.png"));
+    textures.push_back(driver->getTexture("../data/Chaingunner/chaingunner_die_body.png"));
+
 
     //create enemy
     Enemy e1(smgr,device->getRandomizer());
@@ -215,7 +229,7 @@ int main()
     e2.addEnemyMeshToScene();
     e2.setTexture(driver->getTexture("../data/blue_texture.pcx"));
     //e2.create_collision_with_map(selector);
-    e2.setPosition(core::vector3df( 100 , 0, -100));
+    e2.setPosition(core::vector3df( 100 , -50, -100));
     e2.setID(ENEMY_2_ID);
 
     //create Main character
@@ -247,7 +261,6 @@ int main()
     scope_tex= driver->getTexture("../data/scope.png");
 
 
-
     /***************
      * Gestion des particules
      ***************/
@@ -269,17 +282,23 @@ int main()
     int compteur_attack = 0;
     bool attack_one_tic = false;
     bool last_attack = false;
+    ig::IGUIImage *scope = gui->addImage(ic::rect<s32>(driver->getScreenSize().Width/2 -15,driver->getScreenSize().Height/2-15,  driver->getScreenSize().Width/2+15,driver->getScreenSize().Height/2+15)); scope->setScaleImage(true);
+
     while(device->run())
     {
         //set image for the "viseur"
 
-        ig::IGUIImage *scope = gui->addImage(ic::rect<s32>(driver->getScreenSize().Width/2 -15,driver->getScreenSize().Height/2-15,  driver->getScreenSize().Width/2+15,driver->getScreenSize().Height/2+15)); scope->setScaleImage(true);
         scope->setImage(scope_tex);
+        if(main_character.getReloading_cooldown()>0 || main_character.get_nb_munition() == 0){
+            scope_tex= driver->getTexture("../data/scope_not.png");
+        }
+        else{
+            scope_tex= driver->getTexture("../data/scope.png");
+
+        }
 
         is_attacking(main_character, textures, receiver, compteur_attack);
 
-        //receiver.keyboard_handler();
-        //driver->beginScene(true, true, iv::SColor(100,150,200,255));
         moveCameraControl(device,main_character.body, receiver);
 
         receiver.keyboard_handler();
@@ -336,13 +355,7 @@ int main()
 
         }
         }
-        if(main_character.getReloading_cooldown()>0 || main_character.get_nb_munition() == 0){
-            scope_tex= driver->getTexture("../data/scope_not.png");
-        }
-        else{
-            scope_tex= driver->getTexture("../data/scope.png");
 
-        }
         for (int k = 0; k<NB_PARTICULE_MAX; k++){
             list_part2[k].frame_time_life--;
             if(list_part2[k].frame_time_life == 0)
@@ -353,8 +366,12 @@ int main()
         e2.make_blink(driver->getTexture("../data/blue_texture.pcx"));
 
         e2.attack(&main_character);
+        main_character.invincibility_counting(textures);
         last_attack = receiver.button_pressed;
 
+
+
+        // Set image2D
         munition_10->setImage(digits[(main_character.get_nb_munition() / 10) % 10]);
         munition_1->setImage(digits[(main_character.get_nb_munition() / 1) % 10]);
 
@@ -362,6 +379,23 @@ int main()
         stock_1->setImage(digits[(main_character.get_nb_stock() / 1) % 10]);
 
         slash->setImage(slash_tex);
+        //objectif->setImage(objectif1_tex);
+
+        switch(main_character.getHealth_point()){
+        case 2 :
+            bloody_screen->setImage(bloody_screen_tex);
+            break;
+        case 1 :
+            bloody_screen->setImage(bloodier_screen_tex);
+            break;
+        case 0 :
+            bloody_screen->setImage(gameover_screen_tex);
+            scope->setVisible(false);
+            objectif->setVisible(false);
+
+            break;
+        default:;
+        }
         // Dessin de la scène :
         smgr->drawAll();
         gui->drawAll();

@@ -98,6 +98,7 @@ public:
     bool is_reloading();
     void die();
 
+    void invincibility_counting(std::vector<iv::ITexture*>& textures);
     void take_damage();
     /**
      * @brief Character : Constructor of the character in the smgr
@@ -109,5 +110,6 @@ public:
      */
     Character();
     u32 getReloading_cooldown() const;
+    u32 getHealth_point() const;
 };
 #endif // CHARACTER_H

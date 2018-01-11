@@ -23,7 +23,7 @@ class EventReceiver : public irr::IEventReceiver
     irr::gui::IGUIEnvironment *gui;
     bool is_running =false;
 
-    f32 vitesse_deplacement = 2;
+    f32 vitesse_deplacement = 4;
     is::EMD2_ANIMATION_TYPE last_pos = is::EMAT_STAND ;
 
     int  old_x, old_y;
