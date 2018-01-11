@@ -9,7 +9,7 @@ RandomWalkNodeAnimator::RandomWalkNodeAnimator(f32 vitesse_run_param, f32 vitess
 
 void RandomWalkNodeAnimator::animateNode(irr::scene::ISceneNode *node,irr::u32 timeMs){
 
-    std::cout<<"time: "<<timeMs<<std::endl;
+    //std::cout<<"time: "<<timeMs<<std::endl;
     ic::vector3df position = node->getPosition();
     ic::vector3df rotation = node->getRotation();
 

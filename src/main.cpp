@@ -377,7 +377,6 @@ int main()
                     ray = collision_manager->getRayFromScreenCoordinates(ic::position2d<s32>(mouse_x, mouse_y));
                     ic::vector3df intersection;
                     ic::triangle3df hit_triangle;
-
                     is::ISceneNode *selected_scene_node =
                             collision_manager->getSceneNodeAndCollisionPointFromRay(
                                 ray,
@@ -386,8 +385,8 @@ int main()
                                 0); // On ne veut que des noeuds avec cet identifiant
                     switch(selected_scene_node->getID()){
                     case ENEMY_1_ID :
-                        if (list_part2_rempli){ list_part[i_FIFO].remove();}
 
+                        if (list_part2_rempli){ list_part[i_FIFO].remove();}
                         list_part2[j_FIFO].addParticleToScene(smgr,main_character.body->getPosition(),intersection,selected_scene_node);
                         j_FIFO++;
                         if (j_FIFO==NB_PARTICULE_MAX){j_FIFO = 0; rempli = true;}
@@ -395,11 +394,10 @@ int main()
                         break;
                     case ENEMY_2_ID :
                         if (list_part2_rempli){ list_part[i_FIFO].remove();}
-
                         list_part2[j_FIFO].addParticleToScene(smgr,main_character.body->getPosition(),intersection,selected_scene_node);
                         j_FIFO++;
                         if (j_FIFO==NB_PARTICULE_MAX){j_FIFO = 0; rempli = true;}
-                        e2.being_hit(driver->getTexture("../data/red_texture.pcx"));
+                        //e2.being_hit(driver->getTexture("../data/red_texture.pcx"));
                         break;
                     case MAP_ID :
                         if (rempli){ list_part[i_FIFO].remove();}
@@ -425,9 +423,9 @@ int main()
         }
 
         e1.make_blink(driver->getTexture("../data/blue_texture.pcx"));
-        e2.make_blink(driver->getTexture("../data/blue_texture.pcx"));
+        //e2.make_blink(driver->getTexture("../data/blue_texture.pcx"));
 
-        e2.attack(&main_character);
+        e1.attack(&main_character);
         main_character.invincibility_counting(textures);
         last_attack = receiver.button_pressed;
 

@@ -155,7 +155,7 @@ bool EventReceiver::keyboard_handler(bool death, bool follow)
         is_mouse_camera_tool_activated = !is_mouse_camera_tool_activated;
     }
     node->setPosition(position);
-    std::cout<<"X: "<<position.X<<"Y: "<<position.Y<<"Z: "<<position.Z<<std::endl;
+    //std::cout<<"X: "<<position.X<<"Y: "<<position.Y<<"Z: "<<position.Z<<std::endl;
     node->setRotation(rotation);
     init_KeyEvent();
 
