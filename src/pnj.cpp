@@ -11,7 +11,7 @@ void pnj::addPNJMeshToScene(is::ISceneManager *smgr, std::vector<iv::ITexture*> 
     mesh_body = smgr->getMesh("../data/Warrior/warrior.md2");
     body = smgr->addAnimatedMeshSceneNode(mesh_body);
     body->setMaterialFlag(iv::EMF_LIGHTING, false);
-    body->setMaterialTexture(0, textures[5]);
+    body->setMaterialTexture(0, textures[8]);
 
     body->setPosition(core::vector3df(1317.73, -168.25,  -633.809));
     body->setRotation(core::vector3df(0.0, -90.0, 0.0));

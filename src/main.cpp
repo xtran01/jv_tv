@@ -250,11 +250,12 @@ int main()
     textures.push_back(driver->getTexture("../data/Chaingunner/chaingunner_head1.png"));
     textures.push_back(driver->getTexture("../data/Chaingunner/chaingunner_fire_weapon.png"));
     textures.push_back(driver->getTexture("../data/Chaingunner/chaingunner_mf0.png"));
-    textures.push_back(driver->getTexture("../data/Warrior/warrior.jpg"));
 
     textures.push_back(driver->getTexture("../data/Chaingunner/chaingunner_pain_body.png"));
     textures.push_back(driver->getTexture("../data/Chaingunner/chaingunner_head2.png"));
     textures.push_back(driver->getTexture("../data/Chaingunner/chaingunner_die_body.png"));
+
+    textures.push_back(driver->getTexture("../data/Warrior/warrior.jpg"));
 
     texture_fin = driver->getTexture("../data/particlegreen.jpg");
 
