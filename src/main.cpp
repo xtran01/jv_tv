@@ -22,7 +22,7 @@ const u32 HEIGHT_WINDOW = 480;
 const u32 WIDTH_WINDOW = 640;
 const u32 NB_PARTICULE_MAX = 10;
 const u32 FIRST_ENEMY_ID = 2;
-const u32 NB_ENEMY_MAX  = 15;
+const u32 NB_ENEMY_MAX  = 10;
 
 
 void moveCameraControl(IrrlichtDevice *device,
