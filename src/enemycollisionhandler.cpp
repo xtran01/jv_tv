@@ -10,7 +10,6 @@ bool EnemyCollisionHandler::onCollision(
     is::ISceneNode *node_associated =  animator.getTargetNode();
     //collision with wall
     if(distance_to_previous_position < 0.2f){
-        std::cout<<"collision"<<distance_to_previous_position<<std::endl;
         //We turn the node associated with a rotation of 180 degrees
         ic::vector3df node_rotation = node_associated->getRotation();
         node_rotation.Y += 180;
