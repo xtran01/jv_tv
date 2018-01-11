@@ -20,6 +20,9 @@ void Enemy::addEnemyMeshToScene(){
     node = smgr->addAnimatedMeshSceneNode(mesh);
     node -> setMaterialFlag(irr::video::EMF_LIGHTING,false);
     node -> setMD2Animation(irr::scene::EMAT_STAND);
+    is::ITriangleSelector *selector = smgr->createTriangleSelector(node);
+    node->setTriangleSelector(selector);
+    selector->drop();
     random_walk_animator = new RandomWalkNodeAnimator(vitesse_run,vitesse_walk);
 }
 
