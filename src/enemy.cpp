@@ -62,7 +62,10 @@ void Enemy::handle_walking(){
 
     const f32 distance_to_trigger_following = 150;
     const f32 distance_to_main_character = main_character_node->getAbsolutePosition().getDistanceFrom(node->getAbsolutePosition());
+
+    // if enemy close to main character
     if(distance_to_main_character <= distance_to_trigger_following){
+        // run and chase him
         if(random_walk_animator->is_following_main_character!=true){
             random_walk_animator->is_following_main_character = true;
             node->setMD2Animation(is::EMAT_RUN);
@@ -71,6 +74,7 @@ void Enemy::handle_walking(){
         random_walk_animator->position_main_character = main_character_node->getPosition();
     }
     else{
+        //random walk
         if(random_walk_animator->is_following_main_character!=false){
             random_walk_animator->is_following_main_character = false;
             node->setMD2Animation(is::EMAT_CROUCH_WALK);

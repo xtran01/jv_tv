@@ -84,7 +84,7 @@ public:
 
     /**
      * @brief follow_main_character
-     * Follow the main character
+     * handle the walking of an enemy
      */
     void handle_walking();
 

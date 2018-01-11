@@ -23,8 +23,11 @@ void RandomWalkNodeAnimator::animateNode(irr::scene::ISceneNode *node,irr::u32 t
     }
     else {
         //follow main character
-        ic::vector3df enemy_to_main = position_main_character - position;
-        enemy_to_main = enemy_to_main.normalize();
+        ic::vector3df enemy_to_main = position_main_character - position; // vector from enemy to main character
+        enemy_to_main = enemy_to_main.normalize(); // vector normalized
+        /*
+         * handle the angle of rotation to look at enemy
+         * */
         f32 angle = 0;
         if(enemy_to_main.X >=0 && enemy_to_main.Z >= 0){
             angle = acos(enemy_to_main.Z);
