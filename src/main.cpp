@@ -289,7 +289,7 @@ int main()
     for(u32 i = 0; i<NB_ENEMY_MAX; i++){
         //create enemy
         enemies[i].addEnemyMeshToScene(smgr, main_character.body);
-        enemies[i].setTexture(driver->getTexture("../data/blue_texture.pcx"));
+        enemies[i].setTexture(driver->getTexture("../data/Baron/baron.jpg"));
         enemies[i].create_collision_with_map(selector);
         f32 radius = 500.0f;
         f32 r = device->getRandomizer()->frand() * radius;
@@ -408,7 +408,7 @@ int main()
                                 list_part[i_FIFO].addParticleToScene(smgr,main_character.body->getPosition(),intersection,selected_scene_node);
                                 i_FIFO++;
                                 if (i_FIFO==NB_PARTICULE_MAX){i_FIFO = 0; list_part_rempli = true;}
-                                enemies[i].being_hit(driver->getTexture("../data/red_texture.pcx"));
+                                enemies[i].being_hit(driver->getTexture("../data/Baron/baron.jpg"));
                             }
                         }
 
@@ -427,7 +427,7 @@ int main()
             }
 
             for(u32 i=0;i<NB_ENEMY_MAX ; i++){
-                enemies[i].make_blink(driver->getTexture("../data/blue_texture.pcx"));
+                enemies[i].make_blink(driver->getTexture("../data/Baron/baron.jpg"));
                 enemies[i].attack(&main_character);
             }
 
@@ -522,6 +522,7 @@ int main()
             receiver.keyboard_handler(false, follow);
 
         }
+        rohmer.position_prev_character = main_character.body->getAbsolutePosition();
         // Dessin de la scène :
         smgr->drawAll();
         gui->drawAll();

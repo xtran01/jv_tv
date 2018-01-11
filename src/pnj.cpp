@@ -12,7 +12,8 @@ void pnj::addPNJMeshToScene(is::ISceneManager *smgr, std::vector<iv::ITexture*> 
     body->setMaterialFlag(iv::EMF_LIGHTING, false);
     body->setMaterialTexture(0, textures[8]);
 
-    body->setPosition(core::vector3df(1317.73, -168.25,  -633.809));
+    body->setPosition(core::vector3df(1317.39,-168.25,-641.06));
+    (this)->position_prev = core::vector3df(1317.39,-168.25,-641.06);
     body->setRotation(core::vector3df(0.0, -90.0, 0.0));
 }
 
@@ -64,11 +65,14 @@ void pnj::setAnimation(Animation anim)
 
 void pnj::follow(core::vector3df position_character, core::vector3df orientation_character)
 {
-    body->setRotation(orientation_character);
-    float new_X = position_character.X  + 50 * sin((orientation_character.Y-45.0) * M_PI / 180.0);
-    float new_Y = body->getPosition().Y;
-    float new_Z = position_character.Z + 50 * cos((orientation_character.Y-45.0) * M_PI / 180.0);
-    core::vector3df new_pos(new_X,new_Y,new_Z);
-    body->setPosition(new_pos);
-    //Add Animator
+    if((this)->position_prev_character.getDistanceFrom(position_character) > 0.01f)
+    {
+        core::vector3df direction =  (this)->position_prev_character - (this)->position_prev;
+        float distance = (this)->position_prev_character.getDistanceFrom(position_character);
+        direction.normalize();
+        core::vector3df new_pos = position_prev + direction*distance*0.92;
+        body->setPosition(new_pos);
+        body->setRotation(orientation_character);
+        (this)->position_prev = new_pos;
+    }
 }

@@ -3,8 +3,9 @@
 
 Enemy::Enemy()
 {
+
     waiting_position_center = {0.0f,0.0f,0.0f};
-    vitesse_run = 0.9f;
+    vitesse_run = 1.7f;
     vitesse_walk = 0.5f;
     distance_min_to_trigger_chasing = 300;
 
@@ -14,13 +15,15 @@ Enemy::Enemy()
 void Enemy::addEnemyMeshToScene(is::ISceneManager* smgr,
                                 is::IAnimatedMeshSceneNode *main_character_node_param){
 
-    is::IAnimatedMesh *mesh = smgr->getMesh("../data/tris.md2");
+    is::IAnimatedMesh *mesh = smgr->getMesh("../data/Baron/BaronBody.md2");
+    is::IAnimatedMesh *mesh_hand = smgr->getMesh("../data/Baron/BaronHands.md2");
 
     main_character_node = main_character_node_param;
     node = smgr->addAnimatedMeshSceneNode(mesh);
+    hand = smgr->addAnimatedMeshSceneNode(mesh_hand,node,-1,core::vector3df(0,0,0),core::vector3df(0,0,0));
     mesh->drop();
     node -> setMaterialFlag(irr::video::EMF_LIGHTING,false);
-    node -> setMD2Animation(irr::scene::EMAT_STAND);
+    (this)->setAnimation((this)->STAND);
     is::ITriangleSelector *selector = smgr->createTriangleSelector(node);
     node->setTriangleSelector(selector);
     selector->drop();
@@ -52,15 +55,13 @@ void Enemy::being_hit(iv::ITexture* texture_hit){
     }
     if (health_point == 0){
         node->setVisible(false);
-       /** A MODIFIER ! FAIRE MOURIR LES ENEMIS PLUTOT **/
-        //node->setMD2Animation(is::EMAT_DEATH_FALLBACKSLOW);
     }
 }
 
 
 void Enemy::move_randomely_arround_waiting_position()
 {
-    node ->setMD2Animation(is::EMAT_RUN);
+    (this)->setAnimation((this)->RUN);
     node->addAnimator(random_walk_animator);
 }
 
@@ -81,7 +82,9 @@ void Enemy::attack(Character *perso)
 
     if (pos_player.getDistanceFrom(node->getPosition())< 60.0){
         perso->take_damage();
-        node ->setMD2Animation(is::EMAT_ATTACK);
+        if((this)->anim != (this)->ATTACK)
+            (this)->setAnimation((this)->ATTACK);
+
 
     }
 //    else
@@ -98,7 +101,7 @@ void Enemy::create_collision_with_map(is::ITriangleSelector *world)
 
     is::ISceneNodeAnimatorCollisionResponse *world_collision_anim_response = node->getSceneManager()
             ->createCollisionResponseAnimator(world,node,radius,
-                                              ic::vector3df(0,-10,0));
+                                              ic::vector3df(0,-10,0),ic::vector3df(0,-52,0));
 
     world_collision_anim_response->setCollisionCallback(&world_collision_response);
     node->addAnimator(world_collision_anim_response);
@@ -114,7 +117,7 @@ void Enemy::handle_walking(){
         // run and chase him
         if(random_walk_animator->is_following_main_character!=true){
             random_walk_animator->is_following_main_character = true;
-            node->setMD2Animation(is::EMAT_RUN);
+            (this)->setAnimation((this)->RUN);
         }
 
         random_walk_animator->position_main_character = main_character_node->getPosition();
@@ -123,12 +126,53 @@ void Enemy::handle_walking(){
         //random walk
         if(random_walk_animator->is_following_main_character!=false){
             random_walk_animator->is_following_main_character = false;
-            node->setMD2Animation(is::EMAT_CROUCH_WALK);
+            (this)->setAnimation((this)->WALK);
         }
 
     }
 
 }
+
+void Enemy::setAnimation(Animation anim)
+{
+    switch(anim)
+    {
+    case RUN:
+        node->setFrameLoop(5,31);
+        node->setAnimationSpeed(50.0);
+        hand->setFrameLoop(5,31);
+        hand->setAnimationSpeed(50.0);
+        (this)->anim = (this)->RUN;
+        break;
+    case WALK:
+        node->setFrameLoop(5,31);
+        node->setAnimationSpeed(20.0);
+        hand->setFrameLoop(5,31);
+        hand->setAnimationSpeed(20.0);
+        (this)->anim = (this)->WALK;
+        break;
+    case ATTACK:
+        node->setFrameLoop(50,78);
+        node->setAnimationSpeed(50.0);
+        hand->setFrameLoop(50,78);
+        hand->setAnimationSpeed(50.0);
+        (this)->anim = (this)->ATTACK;
+        break;
+    case DEATH:
+        node->setFrameLoop(0,0);
+        node->setAnimationSpeed(40.0);
+        hand->setFrameLoop(0,0);
+        hand->setAnimationSpeed(40.0);
+        (this)->anim = (this)->DEATH;
+        break;
+    case STAND:
+        node->setFrameLoop(0,0);
+        hand->setFrameLoop(0,0);
+        (this)->anim = (this)->STAND;
+        break;
+    }
+}
+
 
 
 /*
