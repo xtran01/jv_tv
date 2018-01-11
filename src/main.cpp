@@ -355,10 +355,10 @@ int main()
         if(main_character.getHealth_point() != 0)
         {
             moveCameraControl(device,main_character.body, receiver);
-            receiver.keyboard_handler(false);
+            receiver.keyboard_handler(false, follow);
         }
         else
-            receiver.keyboard_handler(true);
+            receiver.keyboard_handler(true, follow);
 
         driver->beginScene(true, true, iv::SColor(100,150,200,255));
         if(!main_character.is_reloading()){
@@ -453,6 +453,7 @@ int main()
                 if(start_anim_death == true && anim_death == false)
                 {
                     main_character.setAnimation(main_character.DEATH);
+                    rohmer.setAnimation(rohmer.DEATH);
                     anim_death = true;
                 }
                 cpt_anim_death++;

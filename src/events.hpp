@@ -72,7 +72,7 @@ public:
      * @brief keyboard_handler : Handle all the action linked to a key
      * @return false everytime
      */
-    bool keyboard_handler(bool death);
+    bool keyboard_handler(bool death, bool follow);
     /**
      * @brief mouse_handler : Handle all the action linked to the mouse
      * @param event : click event

@@ -20,7 +20,7 @@ EventReceiver::EventReceiver()
 /*------------------------------------------------------------------------*\
  * EventReceiver::keyboard                                                *
 \*------------------------------------------------------------------------*/
-bool EventReceiver::keyboard_handler(bool death)
+bool EventReceiver::keyboard_handler(bool death, bool follow)
 {
     if (!personnage->body) return false;
 
@@ -61,17 +61,20 @@ bool EventReceiver::keyboard_handler(bool death)
         is_running = !(is_running);
         if (is_running && (IsKeyDown(KEY_KEY_Z) || IsKeyDown(KEY_KEY_S) || IsKeyDown(KEY_KEY_Q) || IsKeyDown(KEY_KEY_D))){
             personnage->setAnimation(personnage->RUN);
-            rohmer->setAnimation(rohmer->RUN);
+            if(follow)
+                rohmer->setAnimation(rohmer->RUN);
         }
         else if(!is_running && (IsKeyDown(KEY_KEY_Z) || IsKeyDown(KEY_KEY_S) || IsKeyDown(KEY_KEY_Q) || IsKeyDown(KEY_KEY_D)))
         {
             personnage->setAnimation(personnage->WALK);
-            rohmer->setAnimation(rohmer->WALK);
+            if(follow)
+                rohmer->setAnimation(rohmer->WALK);
         }
         else
         {
             personnage->setAnimation(personnage->STAND);
-            rohmer->setAnimation(rohmer->STAND);
+            if(follow)
+                rohmer->setAnimation(rohmer->STAND);
         }
     }
 
@@ -97,13 +100,15 @@ bool EventReceiver::keyboard_handler(bool death)
             if(is_running)
             {
                 personnage->setAnimation(personnage->RUN);
-                rohmer->setAnimation(rohmer->RUN);
+                if(follow)
+                    rohmer->setAnimation(rohmer->RUN);
             }
 
             else
             {
-               personnage->setAnimation(personnage->WALK);
-               rohmer->setAnimation(rohmer->WALK);
+                personnage->setAnimation(personnage->WALK);
+                if(follow)
+                    rohmer->setAnimation(rohmer->WALK);
             }
 
         }
@@ -122,13 +127,15 @@ bool EventReceiver::keyboard_handler(bool death)
             if(is_running)
             {
                 personnage->setAnimation(personnage->RUN);
-                rohmer->setAnimation(rohmer->RUN);
+                if(follow)
+                    rohmer->setAnimation(rohmer->RUN);
             }
 
             else
             {
                 personnage->setAnimation(personnage->WALK);
-                rohmer->setAnimation(rohmer->WALK);
+                if(follow)
+                    rohmer->setAnimation(rohmer->WALK);
             }
 
         }
@@ -138,7 +145,8 @@ bool EventReceiver::keyboard_handler(bool death)
         if(!(*this).attack)
         {
             personnage->setAnimation(personnage->STAND);
-            rohmer->setAnimation(rohmer->STAND);
+            if(follow)
+                rohmer->setAnimation(rohmer->STAND);
         }
 
     }
