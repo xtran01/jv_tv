@@ -13,7 +13,8 @@ Enemy::Enemy()
 
 
 void Enemy::addEnemyMeshToScene(is::ISceneManager* smgr,
-                                is::IAnimatedMeshSceneNode *main_character_node_param){
+                                is::IAnimatedMeshSceneNode *main_character_node_param,
+                                irr::IRandomizer *randomizer_param){
 
     is::IAnimatedMesh *mesh = smgr->getMesh("../data/Baron/BaronBody.md2");
     is::IAnimatedMesh *mesh_hand = smgr->getMesh("../data/Baron/BaronHands.md2");
@@ -27,7 +28,7 @@ void Enemy::addEnemyMeshToScene(is::ISceneManager* smgr,
     is::ITriangleSelector *selector = smgr->createTriangleSelector(node);
     node->setTriangleSelector(selector);
     selector->drop();
-    random_walk_animator = new RandomWalkNodeAnimator(vitesse_run,vitesse_walk);
+    random_walk_animator = new RandomWalkNodeAnimator(vitesse_run,vitesse_walk,randomizer_param);
 }
 
 void Enemy::setPosition(ic::vector3df vec3){

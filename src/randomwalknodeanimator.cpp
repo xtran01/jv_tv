@@ -1,9 +1,12 @@
 #include "randomwalknodeanimator.h"
 
-RandomWalkNodeAnimator::RandomWalkNodeAnimator(f32 vitesse_run_param, f32 vitesse_walk_param)
+RandomWalkNodeAnimator::RandomWalkNodeAnimator(f32 vitesse_run_param, f32 vitesse_walk_param,
+                                                irr::IRandomizer *rand)
 {
     vitesse_run =  vitesse_run_param;
     vitesse_walk = vitesse_walk_param;
+    randomizer =rand;
+    angle_rotation =  randomizer->frand() * 2 * M_PI;
 }
 
 
@@ -12,7 +15,15 @@ void RandomWalkNodeAnimator::animateNode(irr::scene::ISceneNode *node,irr::u32 t
     //std::cout<<"time: "<<timeMs<<std::endl;
     ic::vector3df position = node->getPosition();
     ic::vector3df rotation = node->getRotation();
+    if(time_to_change > 3000){
+        std::cout<<"HEEERREE"<<std::endl;
+        time_to_change = 0;
+        angle_rotation = randomizer->frand() * 2 * M_PI;
+        angle_rotation = angle_rotation * 180 / M_PI;
 
+    }
+    time_to_change ++;
+    angle_rotation+=0.2;
     if(!is_following_main_character){
 
 //            f32 radius = 100.f;

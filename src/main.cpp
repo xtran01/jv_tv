@@ -239,7 +239,7 @@ int main()
     u32 id = FIRST_ENEMY_ID;
     for(u32 i = 0; i<NB_ENEMY_MAX; i++){
         //create enemy
-        enemies[i].addEnemyMeshToScene(smgr, main_character.body);
+        enemies[i].addEnemyMeshToScene(smgr, main_character.body,device->getRandomizer());
         enemies[i].setTexture(driver->getTexture("../data/Baron/baron.jpg"));
         enemies[i].create_collision_with_map(selector);
         f32 radius = 500.0f;
