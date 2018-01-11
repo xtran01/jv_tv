@@ -432,6 +432,7 @@ int main()
 
         switch(main_character.getHealth_point()){
         case 2 :
+            bloody_screen->setVisible(true);
             bloody_screen->setImage(bloody_screen_tex);
             break;
         case 1 :
@@ -455,10 +456,8 @@ int main()
                 scope->setVisible(false);
                 objectif->setVisible(false);
             }
-
-
             break;
-        default:;
+        default: bloody_screen->setVisible(false);
         }
 
         // Gestion suivi PNJ
