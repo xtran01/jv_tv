@@ -25,7 +25,7 @@ void Character::addCharacterMeshToScene(is::ISceneManager *smgr, std::vector<iv:
     mesh_weapon = smgr->getMesh("../data/Chaingunner/chaingunner_weapon.md2");
     mesh_head = smgr->getMesh("../data/Chaingunner/chaingunner_head.md2");
     mesh_mf = smgr->getMesh("../data/Chaingunner/chaingunner_mf.md2");
-    body = smgr->addAnimatedMeshSceneNode(mesh_body,0,-1);
+    body = smgr->addAnimatedMeshSceneNode(mesh_body);
     weapon = smgr->addAnimatedMeshSceneNode(mesh_weapon,body,-1,core::vector3df(0,0,0),core::vector3df(0,0,0));
     head = smgr->addAnimatedMeshSceneNode(mesh_head,body,-1,core::vector3df(0,0,0),core::vector3df(0,0,0));
     mf = smgr->addAnimatedMeshSceneNode(mesh_mf,body,-1,core::vector3df(0,0,0),core::vector3df(0,0,0));
@@ -41,6 +41,9 @@ void Character::addCharacterMeshToScene(is::ISceneManager *smgr, std::vector<iv:
     mf->setMaterialTexture(0, textures[4]);
 
     mf->setVisible(false);
+
+    body->setPosition(core::vector3df(-1596.96, 95.7503, -983.472));
+    body->setRotation(core::vector3df(0.0, 0.0, 0.0));
 }
 
 void Character::addCharacterCollider(is::ISceneManager *smgr, scene::ITriangleSelector *selector){
@@ -51,14 +54,9 @@ void Character::addCharacterCollider(is::ISceneManager *smgr, scene::ITriangleSe
                                                   body,  // Le noeud que l'on veut gérer
                                                   radius, // "rayons" de la caméra
                                                   ic::vector3df(0, -10, 0),  // gravité
-                                                  ic::vector3df(0, 0, 0));  // décalage du centre
+                                                  ic::vector3df(0, -32, 0));  // décalage du centre
 
     body->addAnimator(anim);
-}
-
-Character::Character(is::ISceneManager *smgr)
-{
-    mesh_body = smgr->getMesh("../data/tris.md2");
 }
 
 void Character::setAnimation(Animation anim)

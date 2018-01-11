@@ -101,11 +101,6 @@ public:
     void invincibility_counting(std::vector<iv::ITexture*>& textures);
     void take_damage();
     /**
-     * @brief Character : Constructor of the character in the smgr
-     * @param smgr : pointer to the scene manager
-     */
-    Character(is::ISceneManager *smgr);
-    /**
      * @brief Character : Default constructor
      */
     Character();
