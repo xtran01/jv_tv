@@ -1,4 +1,12 @@
-// events.cpp
+/*
+**    TP CPE Lyon
+**    Copyright (C) 2018 Camille FARINEAU / Ahmed LOUDGHIRI / Xuan-Vinh TRAN
+**
+**    Video Games Module - Sauver le soldat Rohmer
+**
+**    events.cpp
+**    Handle the different events
+*/
 
 #include <iostream>
 #include "events.hpp"

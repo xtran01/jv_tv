@@ -1,3 +1,13 @@
+/*
+**    TP CPE Lyon
+**    Copyright (C) 2018 Camille FARINEAU / Ahmed LOUDGHIRI / Xuan-Vinh TRAN
+**
+**    Video Games Module - Sauver le soldat Rohmer
+**
+**    pnj.h
+**    Handle the pnj character
+*/
+
 #ifndef PNJ_H
 #define PNJ_H
 
@@ -22,16 +32,18 @@ private:
       */
      is::ISceneManager *smgr;
      /**
-     * @brief mesh : Mesh associated to the enemy
+     * @brief mesh : Mesh associated to the pnj character
      */
     is::IAnimatedMesh * mesh;
 
     /**
-    * @brief node : Node of the enemy
+    * @brief node : Node of the pnj character
     */
     is::IAnimatedMesh *mesh_body;
 
-
+    /**
+    * @brief position_prev: previous position of the pnj character
+    */
     core::vector3df position_prev;
 
 public:
@@ -40,34 +52,19 @@ public:
      */
     enum Animation { RUN, WALK, ATTACK, DEATH, STAND };
     /**
-     * @brief position_prev_character : Previous position of the character
+     * @brief position_prev_character : Previous position of the main character
      */
     core::vector3df position_prev_character;
     /**
-     * @brief body : Noeud qui mermet de manipuler le maillage
+     * @brief body : node to handl mesh of the body
      */
     is::IAnimatedMeshSceneNode *body;
-
-    /**
-     * @brief health_point : HP of the player
-     */
-    u32 health_point = 3;
     /**
      * @brief addPNJMeshToScene
      */
     void addPNJMeshToScene(is::ISceneManager *smgr, std::vector<iv::ITexture*> textures);
     /**
-     * @brief setPosition : Set the position of the enemy
-     * @param vec3 : New position of the mesh
-     */
-    //void setPosition(ic::vector3df vec3);
-    /**
-     * @brief create_collision_with_map
-     * @param world
-     */
-    //void create_collision_with_map(is::ITriangleSelector *world);
-    /**
-     * @brief addCharacterCollider : Add a collision box to the character
+     * @brief addPNJCollider : Add a collision box to the pnj character
      * @param smgr : pointer to the scene manager
      * @param selector :
      */
@@ -78,7 +75,7 @@ public:
      */
     void setAnimation(Animation anim);
     /**
-     * @brief meeting: look if the character has joined the PNJ
+     * @brief follow: handle the movement of the pnj character if it is following the main character
      * @param smgr
      */
     void follow(core::vector3df position_character, core::vector3df orientation_character);
