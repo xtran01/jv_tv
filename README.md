@@ -12,9 +12,9 @@ Toutes les sources peuvent etre trouvees ici : https://github.com/xtran01/jv_tv
 
 # Copyright
 Tous les models 3D et la map ne nous appartiennent pas.
-- La map peut etre trouver sur ce lien : https://quakearea.com/site/index.php/map/download
+- La map peut être trouvée sur ce lien : https://quakearea.com/site/index.php/map/download
 - Tous les models 3D (MD2) proviennent de ce site : http://www.md2.sitters-electronics.nl/models.htm
-- Camera a ete cree en partie grace a ce lien : http://irrlicht.sleek-think.ovh/viewtopic.php?pid=11506
+- Camera a été créée en partie grâce à ce lien : http://irrlicht.sleek-think.ovh/viewtopic.php?pid=11506
 - Irrlicht doc : http://irrlicht.sourceforge.net/docu/$
 
 # Comment Compiler :
@@ -42,9 +42,11 @@ D => Strafer à droite
 A => Sprinter (appuyer une seule fois)
 R => Recharger
 
-P => Debloque la souris de l'ecran de jeu
+P => Débloque la souris de l'écran de jeu
 Entree => Passer les fenêtres de dialogue / Menu
 Echap => Quitter le jeu
+
+Attention: Redimensionnement de la fenêtre n'est pas geré (au niveau des menus et éléments du gui affichés a l'écran)
 
 
 # Objectifs:
