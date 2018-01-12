@@ -22,7 +22,7 @@ const u32 HEIGHT_WINDOW = 480;
 const u32 WIDTH_WINDOW = 640;
 const u32 NB_PARTICULE_MAX = 10;
 const u32 FIRST_ENEMY_ID = 2;
-const u32 NB_ENEMY_MAX  = 10;
+const u32 NB_ENEMY_MAX  = 1;
 
 bool rohmer_found = false;
 bool win = false;
@@ -245,7 +245,7 @@ int main()
         enemies[i].addEnemyMeshToScene(smgr, main_character.body,device->getRandomizer());
         enemies[i].setTexture(driver->getTexture("../data/Baron/baron.jpg"));
         enemies[i].create_collision_with_map(selector);
-        f32 radius = 500.0f;
+        f32 radius = 10.0f;
         f32 r = device->getRandomizer()->frand() * radius;
         f32 teta = device->getRandomizer()->frand() * M_PI * 2.0f;
         ic::vector3df pos(r*cos(teta),0,r*sin(teta));

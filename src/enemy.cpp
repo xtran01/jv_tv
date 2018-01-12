@@ -1,13 +1,12 @@
 #include "enemy.h"
-#include <irrlicht.h>
 
 Enemy::Enemy()
 {
 
     waiting_position_center = {0.0f,0.0f,0.0f};
-    vitesse_run = 1.7f;
-    vitesse_walk = 0.5f;
-    distance_min_to_trigger_chasing = 300;
+    vitesse_run = RUN_VITESSE_ENEMY;
+    vitesse_walk = WALK_VITESSE_ENEMY;
+    distance_min_to_trigger_chasing = DISTANCE_MIN_TO_CHASE_MAIN_CHARACTER;
 
 }
 
@@ -102,7 +101,7 @@ void Enemy::create_collision_with_map(is::ITriangleSelector *world)
 
 
     is::ISceneNodeAnimatorCollisionResponse *world_collision_anim_response = node->getSceneManager()
-            ->createCollisionResponseAnimator(world,node,radius,
+            ->createCollisionResponseAnimator(world,node,radius+10,
                                               ic::vector3df(0,-10,0),ic::vector3df(0,-52,0));
 
     world_collision_anim_response->setCollisionCallback(&world_collision_response);

@@ -1,6 +1,6 @@
 #ifndef RANDOMWALKNODEANIMATOR_H
 #define RANDOMWALKNODEANIMATOR_H
-#include <irrlicht.h>
+#include "constantes.h"
 #include <iostream>
 using namespace irr;
 
@@ -18,7 +18,6 @@ private:
     f32 vitesse_walk;
     f32 time_to_change=0;
     irr::IRandomizer *randomizer;
-    f32 angle_rotation;
 public:
     RandomWalkNodeAnimator(f32 vitesse_run_param, f32 vitesse_walk_param,
                            irr::IRandomizer *rand);

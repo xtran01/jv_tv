@@ -1,6 +1,6 @@
 #ifndef ENEMY_H
 #define ENEMY_H
-#include <irrlicht.h>
+#include "constantes.h"
 #include <string>
 #include <assert.h>
 #include <iostream>
