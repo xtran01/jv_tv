@@ -437,8 +437,8 @@ int main()
                 start_anim_death = true;
                 if(cpt_anim_death<=60)
                 {
-
-
+                    main_character.head->setMaterialTexture(0,textures[6]);
+                    main_character.body->setMaterialTexture(0,textures[7]);
                     if(start_anim_death == true && anim_death == false)
                     {
                         main_character.setAnimation(main_character.DEATH);
