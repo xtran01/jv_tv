@@ -7,6 +7,9 @@ Xuan-Vinh Tran
 # Autorisations
 Autorisation de diffuser sur la page dédié et que nos noms y soient affichés
 
+# Sources
+http://irrlicht.sourceforge.net/docu/
+http://irrlicht.sleek-think.ovh/viewtopic.php?pid=11506 (camera control)
 # Comment Compiler :
 $. cd jv_tv
 $. mkdir build

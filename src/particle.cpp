@@ -1,27 +1,37 @@
 #include "particle.h"
 /*------------------------------------------------------------------------*\
  * Particle::Particle
- * Set the correct textures and decrement the counter for the invincibility frame
- * After the character has been hit there is a few frame where it is unvunerable
- *  Param:
- *  Return :
+ * Default Constructor
 \*------------------------------------------------------------------------*/
 Particle::Particle()
 {
 
 }
-
+/*------------------------------------------------------------------------*\
+ * Particle::initializeParticle(iv::ITexture *light_texture, iv::ITexture *material_texture)
+ * Set the correct textures to the light and material used
+ * Param : One texture for the light and one for the material
+\*------------------------------------------------------------------------*/
 void Particle::initializeParticle(iv::ITexture *light_texture, iv::ITexture *material_texture){
     light_tex=(light_texture);
     material_tex=(material_texture);
 }
 
+/*------------------------------------------------------------------------*\
+ * Particle::remove()
+ * Hide the billboard and the particle system
+\*------------------------------------------------------------------------*/
 void Particle::remove()
 {
     bill->setVisible((false));
     ps->setVisible((false));
 }
-
+/*------------------------------------------------------------------------*\
+ * Particle::addParticleToScene(is::ISceneManager *smgr, ic::vector3df position_fire, ic::vector3df position_aim)
+ * Add a particle to a scene, set a time_life to the particle, set the material texture
+ * Set the straight animation to the light
+ * Param : Scene Manager / Initial position of the light / Aim Position
+\*------------------------------------------------------------------------*/
 void Particle::addParticleToScene(is::ISceneManager *smgr, ic::vector3df position_fire, ic::vector3df position_aim){
 
     frame_time_life = 30;
@@ -37,8 +47,7 @@ void Particle::addParticleToScene(is::ISceneManager *smgr, ic::vector3df positio
                                                                    position_aim, position_fire.getDistanceFrom(position_aim)/2.5f,false,false);
 
     light->addAnimator(anim);
-
-    anim->drop();
+    anim->drop(); //Drop the anim not used anymore
 
     // add particle system
     ps = smgr->addParticleSystemSceneNode(false, light);
