@@ -430,25 +430,29 @@ int main()
     while(device->run())
     {
         driver->beginScene(true, true, iv::SColor(100,150,200,255));
+        // Add the scope to the user interface at the right position
         ig::IGUIImage *scope = gui->addImage(ic::rect<s32>(driver->getScreenSize().Width/2 -15,driver->getScreenSize().Height/2-15,  driver->getScreenSize().Width/2+15,driver->getScreenSize().Height/2+15)); scope->setScaleImage(true);
-        //set image for the "viseur"
+        //set image for the scope
         scope->setImage(scope_tex);
 
+        // If we don't show any window menu and if the player didn't win
         if(receiver.show_menu == 0 && !win){
             menu->setVisible(false);
+            // Set the objectif texture to the objectif image
             objectif->setImage(objectif_tex);
-
+            // For each enemies we calculate his walk
             for(u32 i = 0; i<NB_ENEMY_MAX; i++){
                 enemies[i].handle_walking();
             }
-
+            // If is reloading or not enough ammunition, the scope become green
             if(main_character.getReloading_cooldown()>0 || main_character.get_nb_munition() == 0){
                 scope_tex= driver->getTexture("../data/scope_not.png");
             }
+            // Red scope
             else{
                 scope_tex= driver->getTexture("../data/scope.png");
             }
-
+            // Set the right textures to the fire efect of the weapon
             is_attacking(main_character, textures, receiver, compteur_attack);
             if(main_character.getHealth_point() != 0)
             {
@@ -463,25 +467,33 @@ int main()
                 if (receiver.is_mouse_pressed(mouse_x, mouse_y))
                 {
                     if (receiver.button_pressed != last_attack && receiver.button_pressed == true)
+                        //Set the attack to true just one time for each click
                         attack_one_tic = true;
                     if(attack_one_tic && main_character.get_nb_munition() > 0)
                     {
                         ic::line3d<f32> ray;
+                        // Create a ray
                         ray = collision_manager->getRayFromScreenCoordinates(ic::position2d<s32>(mouse_x, mouse_y));
                         ic::vector3df intersection;
                         ic::triangle3df hit_triangle;
+                        // Node found at the first intersection of the ray
                         is::ISceneNode *selected_scene_node =
                                 collision_manager->getSceneNodeAndCollisionPointFromRay(
                                     ray,
                                     intersection, // On récupère ici les coordonnées 3D de l'intersection
                                     hit_triangle, // et le triangle intersecté
                                     0); // On ne veut que des noeuds avec cet identifiant
+                        // ID of the node
                         const u32 selected_scene_node_id = selected_scene_node->getID();
 
+                        //If the ID of the node is MAP_ID
                         if(selected_scene_node_id == MAP_ID){
+                            // Remove the first particle, if the array is full
                             if (list_part_rempli){ list_part[i_FIFO].remove();}
+                            // Add the particle to the scene
                             list_part[i_FIFO].addParticleToScene(smgr,main_character.body->getPosition(),intersection);
                             i_FIFO++;
+                            //Set the flag list_part_rempli to true
                             if (i_FIFO==NB_PARTICULE_MAX){i_FIFO = 0; list_part_rempli = true;}
 
                         }
@@ -490,10 +502,14 @@ int main()
                             //if is an enemy and distance is inferior form range_max
                             if(enemies[i].node->getID() == selected_scene_node_id &&
                                     selected_scene_node->getAbsolutePosition().getDistanceFrom(main_character.body->getAbsolutePosition())<RANGE_MAX){
+                                // Remove the first particle, if the array is full
                                 if (list_part_rempli){ list_part[i_FIFO].remove();}
+                                // Add the particle to the scene
                                 list_part[i_FIFO].addParticleToScene(smgr,main_character.body->getPosition(),intersection);
                                 i_FIFO++;
+                                //Set the flag list_part_rempli to true
                                 if (i_FIFO==NB_PARTICULE_MAX){i_FIFO = 0; list_part_rempli = true;}
+                                //Decrement the life of the enenmy and change his texture
                                 enemies[i].being_hit(driver->getTexture("../data/Baron/baronlight.jpg"));
                             }
                         }
@@ -505,18 +521,19 @@ int main()
 
                 }
             }
-
+            // Decrement the time life of each particle and remove it if the time life is zero
             for (u32 k = 0; k<NB_PARTICULE_MAX; k++){
                 list_part[k].frame_time_life--;
                 if(list_part[k].frame_time_life == 0)
                     list_part[k].remove();
             }
-
+            // Set the normal back texture to the enemy if he was injured
+            // and calculate if the enemy can attack the player
             for(u32 i=0;i<NB_ENEMY_MAX ; i++){
                 enemies[i].make_blink(driver->getTexture("../data/Baron/baron.jpg"));
                 enemies[i].attack(&main_character);
             }
-
+            // Calculate if the player is still invincible after he was injured
             main_character.is_invincible(textures);
             last_attack = receiver.button_pressed;
 
@@ -531,20 +548,22 @@ int main()
             slash->setImage(slash_tex);
 
             switch(main_character.getHealth_point()){
+            //Set a red border when the player is injured
             case 2 :
                 bloody_screen->setVisible(true);
                 bloody_screen->setImage(bloody_screen_tex);
 
                 break;
+            //Set a redder border when the player is injured
             case 1 :
                 bloody_screen->setImage(bloodier_screen_tex);
                 break;
             case 0 :
-                scope->setVisible(false); // ENLEVER RETICULE A LA MORT
-
+                // Launch the animation of death
                 start_anim_death = true;
                 if(cpt_anim_death<=60)
                 {
+                    // Set die texture to the characyter
                     main_character.head->setMaterialTexture(0,textures[6]);
                     main_character.body->setMaterialTexture(0,textures[7]);
                     if(start_anim_death == true && anim_death == false)
@@ -557,11 +576,13 @@ int main()
                 }
                 else if(cpt_anim_death>50)
                 {
+                    scope->setVisible(false);
                     objectif->setVisible(false);
                     bloody_screen->setImage(gameover_screen_tex);
                 }
                 break;
-            default: bloody_screen->setVisible(false);
+            default:
+                bloody_screen->setVisible(false);
                 scope->setVisible(true);
                 break;
             }
@@ -570,6 +591,8 @@ int main()
             compteur_follow++;
             if(compteur_follow > 10)
                 meeting = is_character_meets_pnj(main_character,rohmer);
+            // if we met the character and he wasn't following before
+            // show the dialogue menu and set the billboard at the goal
             if(meeting == true && follow == false)
             {
                 follow = true;
@@ -577,16 +600,18 @@ int main()
                 create_exit(smgr,texture_fin);
             }
 
-
+            // If the pnj is following, make him follow
             if(follow == true && meeting == true)
             {
                 rohmer.follow(main_character.body->getAbsolutePosition(),main_character.body->getRotation());
             }
+            // If we lost the pnj, he is standing
             if(meeting == false && follow == true)
             {
                 rohmer.setAnimation(rohmer.STAND);
                 follow = false;
             }
+            //if he reaches the goal
             if(mission_reussie(rohmer))
             {
                 win = true;
@@ -595,12 +620,14 @@ int main()
 
 
         }
+        // Show the first menu
         if (receiver.show_menu == 1){
             menu->setVisible(true);
             scope->setVisible(false);
             menu->setImage(menu_tex);
             receiver.keyboard_handler(false, follow);
         }
+        // Show the dialogue menu
         if (receiver.show_menu == 2){
             menu_tex = driver->getTexture("../data/dialogue_menu.png");
             scope->setVisible(false);
@@ -610,7 +637,7 @@ int main()
             receiver.keyboard_handler(true, follow);
             objectif_tex = driver->getTexture("../data/objectif2.png");
         }
-
+        // if the player wins
         if (win){
             menu_tex = driver->getTexture("../data/win_menu.png");
             scope->setVisible(false);

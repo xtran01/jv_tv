@@ -185,7 +185,6 @@ bool EventReceiver::keyboard_handler(bool death, bool follow)
     // Set the new position and rotatin of the main_character
     node->setPosition(position);
     node->setRotation(rotation);
-    std::cout<<"X: "<<position.X<<" Y: "<<position.Y<<" Z: "<<position.Z<<std::endl;
     // Clear the different arrays of keys
     init_KeyEvent();
 
