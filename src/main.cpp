@@ -108,7 +108,7 @@ static void create_window_pnj_follow(EventReceiver *receiver)
 static bool mission_reussie(pnj& pnj)
 {
     core::vector3df location_end(11.7243, 1051.75, -565.804);
-    float epsilon = 15.0f;
+    float epsilon = 30.0f;
     if(pnj.body->getAbsolutePosition().getDistanceFrom(location_end) < epsilon)
     {
         return true;
