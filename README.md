@@ -41,6 +41,6 @@ Echap => Quitter le jeu
 
 
 # Objectifs:
-1. Chercher Rohmer dans le château
+1. Chercher Rohmer (personnage non joueur à l'apparence de Warrior) dans le château (Ceci est un clin d'oeil vers notre assistant-professeur)
 2. Quand il esst trouvé, l'emmener au sommet de la tour, son l'extraction
 3. C'est gagné !
