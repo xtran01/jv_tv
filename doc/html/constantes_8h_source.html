@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.11"/>
-<title>jv_tv: Member List</title>
+<title>jv_tv: /home/xuanvinh/jv_tv/src/constantes.h Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -41,8 +41,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
-      <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
-      <li><a href="files.html"><span>Files</span></a></li>
+      <li><a href="annotated.html"><span>Classes</span></a></li>
+      <li class="current"><a href="files.html"><span>Files</span></a></li>
       <li>
         <div id="MSearchBox" class="MSearchBoxInactive">
         <span class="left">
@@ -63,10 +63,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   </div>
   <div id="navrow2" class="tabs2">
     <ul class="tablist">
-      <li><a href="annotated.html"><span>Class&#160;List</span></a></li>
-      <li><a href="classes.html"><span>Class&#160;Index</span></a></li>
-      <li><a href="hierarchy.html"><span>Class&#160;Hierarchy</span></a></li>
-      <li><a href="functions.html"><span>Class&#160;Members</span></a></li>
+      <li><a href="files.html"><span>File&#160;List</span></a></li>
     </ul>
   </div>
 <!-- window showing the filter options -->
@@ -83,21 +80,17 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </iframe>
 </div>
 
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li>  </ul>
+</div>
 </div><!-- top -->
 <div class="header">
   <div class="headertitle">
-<div class="title">RandomWalkNodeAnimator Member List</div>  </div>
+<div class="title">constantes.h</div>  </div>
 </div><!--header-->
 <div class="contents">
-
-<p>This is the complete list of members for <a class="el" href="class_random_walk_node_animator.html">RandomWalkNodeAnimator</a>, including all inherited members.</p>
-<table class="directory">
-  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>animateNode</b>(irr::scene::ISceneNode *node, irr::u32 timeMs) (defined in <a class="el" href="class_random_walk_node_animator.html">RandomWalkNodeAnimator</a>)</td><td class="entry"><a class="el" href="class_random_walk_node_animator.html">RandomWalkNodeAnimator</a></td><td class="entry"></td></tr>
-  <tr bgcolor="#f0f0f0"><td class="entry"><b>createClone</b>(irr::scene::ISceneNode *node, irr::scene::ISceneManager *newManager) (defined in <a class="el" href="class_random_walk_node_animator.html">RandomWalkNodeAnimator</a>)</td><td class="entry"><a class="el" href="class_random_walk_node_animator.html">RandomWalkNodeAnimator</a></td><td class="entry"></td></tr>
-  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>is_following_main_character</b> (defined in <a class="el" href="class_random_walk_node_animator.html">RandomWalkNodeAnimator</a>)</td><td class="entry"><a class="el" href="class_random_walk_node_animator.html">RandomWalkNodeAnimator</a></td><td class="entry"></td></tr>
-  <tr bgcolor="#f0f0f0"><td class="entry"><b>position_main_character</b> (defined in <a class="el" href="class_random_walk_node_animator.html">RandomWalkNodeAnimator</a>)</td><td class="entry"><a class="el" href="class_random_walk_node_animator.html">RandomWalkNodeAnimator</a></td><td class="entry"></td></tr>
-  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>RandomWalkNodeAnimator</b>(f32 vitesse_run_param, f32 vitesse_walk_param, irr::IRandomizer *rand) (defined in <a class="el" href="class_random_walk_node_animator.html">RandomWalkNodeAnimator</a>)</td><td class="entry"><a class="el" href="class_random_walk_node_animator.html">RandomWalkNodeAnimator</a></td><td class="entry"></td></tr>
-</table></div><!-- contents -->
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#ifndef CONSTANTES_H</span></div><div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#define CONSTANTES_H</span></div><div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &lt;irrlicht.h&gt;</span></div><div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;</div><div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="keyword">const</span> irr::f32 WALK_VITESSE_ENEMY = 1.0f;</div><div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="keyword">const</span> irr::f32 RUN_VITESSE_ENEMY = 1.9f;</div><div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="keyword">const</span> irr::f32 DISTANCE_MIN_TO_CHASE_MAIN_CHARACTER= 0;</div><div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="keyword">const</span> irr::u32 TIME_BEFORE_CHANGING_RANDOM_WALK_DIRECTION = 1000;</div><div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="keyword">const</span> irr::f32 RUN_VITESSE_MAIN_CHARACTER = 3.7f;</div><div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="keyword">const</span> irr::f32 WALK_VITESSE_MAIN_CHARACTER = 2.0f;</div><div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#endif // CONSTANTES_H</span></div></div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 Generated by &#160;<a href="http://www.doxygen.org/index.html">
