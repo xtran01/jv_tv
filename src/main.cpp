@@ -280,7 +280,6 @@ int main()
     }
 
 
-    receiver.set_gui(gui);
     receiver.set_personnage(&main_character);
     receiver.set_pnj(&rohmer);
     receiver.set_textures(textures);
