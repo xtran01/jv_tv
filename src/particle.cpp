@@ -58,6 +58,7 @@ void Particle::addParticleToScene(is::ISceneManager *smgr, ic::vector3df positio
                 80,100,
                 video::SColor(10,255,255,255), video::SColor(10,255,255,255),
                 400,1100);
+    // Size of the emitter at the beginning and at the end
     em->setMinStartSize(core::dimension2d<f32>(8.0f, 11.0f));
     em->setMaxStartSize(core::dimension2d<f32>(8.0f, 11.0f));
 
