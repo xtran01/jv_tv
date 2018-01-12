@@ -21,8 +21,7 @@ Character::Character()
 /*------------------------------------------------------------------------*\
  * Character::getReloading_cooldown
  * Get the cooldown of the reloading
- *  Param:
- *  Return :
+ *  Return : reloading_cooldown
 \*------------------------------------------------------------------------*/
 u32 Character::getReloading_cooldown() const
 {
@@ -32,8 +31,7 @@ u32 Character::getReloading_cooldown() const
 /*------------------------------------------------------------------------*\
  * Character::getHealth_point
  * Get health point
- *  Param:
- *  Return :
+ *  Return : health_point
 \*------------------------------------------------------------------------*/
 u32 Character::getHealth_point() const
 {
@@ -41,10 +39,9 @@ u32 Character::getHealth_point() const
 }
 
 /*------------------------------------------------------------------------*\
- * Character::addCharacterMeshToScene
- * Add the meshes to the scene and set the correct position
- *  Param:
- *  Return :
+ * EventReceiver::addCharacterMeshToScene
+ * Add the meshes (body, head, weapon,mf) to the scene and set the correct position
+ *  Param : Scene Manager / Array of textures
 \*------------------------------------------------------------------------*/
 void Character::addCharacterMeshToScene(is::ISceneManager *smgr, std::vector<iv::ITexture*> textures){
 
@@ -80,26 +77,24 @@ void Character::addCharacterMeshToScene(is::ISceneManager *smgr, std::vector<iv:
 /*------------------------------------------------------------------------*\
  * Character::addCharacterCollider
  * Add the collider to the node of the main character
- *  Param:
- *  Return :
+ * Param: Scene Manager / Selector
 \*------------------------------------------------------------------------*/
 void Character::addCharacterCollider(is::ISceneManager *smgr, scene::ITriangleSelector *selector){
     const core::aabbox3d<f32>& box = body -> getBoundingBox();
     core::vector3df radius = 1.2*(box.MaxEdge - box.getCenter());
     scene::ISceneNodeAnimator *anim;
     anim = smgr->createCollisionResponseAnimator(selector,
-                                                  body,  // Le noeud que l'on veut gérer
-                                                  radius, // "rayons" de la caméra
-                                                  ic::vector3df(0, -10, 0),  // gravité
-                                                  ic::vector3df(0, -32, 0));  // décalage du centre
+                                                  body,  // Node we want to use
+                                                  radius, // raidus around the node
+                                                  ic::vector3df(0, -10, 0),  // gravity
+                                                  ic::vector3df(0, -32, 0));  // center shift
     body->addAnimator(anim);
 }
 
 /*------------------------------------------------------------------------*\
  * Character::setAnimation
  * Set the proper animation (frame loop and speed) depending on the context
- *  Param: anim
- *  Return :
+ * Param: anim
 \*------------------------------------------------------------------------*/
 void Character::setAnimation(Animation anim)
 {
@@ -153,8 +148,7 @@ void Character::setAnimation(Animation anim)
 /*------------------------------------------------------------------------*\
  * Character::change_texture_weapon_fire
  * Change the texture of the weapon when the character is attacking
- *  Param: textures
- *  Return :
+ * Param: textures
 \*------------------------------------------------------------------------*/
 void Character::change_texture_weapon_fire(std::vector<iv::ITexture*>& textures)
 {
@@ -163,8 +157,7 @@ void Character::change_texture_weapon_fire(std::vector<iv::ITexture*>& textures)
 /*------------------------------------------------------------------------*\
  * Character::change_texture_weapon_rest
  * Change the texture of the weapon when the character is not attacking
- *  Param:
- *  Return :
+ * Param : textures
 \*------------------------------------------------------------------------*/
 void Character::change_texture_weapon_rest(std::vector<iv::ITexture*>& textures)
 {
@@ -173,8 +166,7 @@ void Character::change_texture_weapon_rest(std::vector<iv::ITexture*>& textures)
 /*------------------------------------------------------------------------*\
  * Character::get_nb_stock
  * Get the number of bullet in stock
- *  Param:
- *  Return :
+ * Return : stock
 \*------------------------------------------------------------------------*/
 u32 Character::get_nb_stock() const
 {
@@ -183,8 +175,7 @@ u32 Character::get_nb_stock() const
 /*------------------------------------------------------------------------*\
  * Character::get_nb_munition
  * Change the number of munition in the cartridge
- *  Param:
- *  Return :
+ * Return : munition
 \*------------------------------------------------------------------------*/
 u32 Character::get_nb_munition() const
 {
@@ -193,8 +184,6 @@ u32 Character::get_nb_munition() const
 /*------------------------------------------------------------------------*\
  * Character::use_munition
  * Decrement the number of ammunition
- *  Param:
- *  Return :
 \*------------------------------------------------------------------------*/
 void Character::use_munition()
 {
@@ -203,13 +192,11 @@ void Character::use_munition()
 /*------------------------------------------------------------------------*\
  * Character::reload
  * Function to reload : update the number of ammo in cartridge and in stock
- *  Param:
- *  Return :
 \*------------------------------------------------------------------------*/
 void Character::reload()
 {
-
-    if(reloading_cooldown == 0 && munition !=munition_max && stock !=0){
+    // if there is still ammunition in stock, if cartridge is not full and if not already reloading
+    if(reloading_cooldown == 0 && munition != munition_max && stock !=0){
         if (stock >= munition_max-munition-1){
             stock -= (munition_max - munition);
             munition = munition_max;
@@ -218,20 +205,20 @@ void Character::reload()
             munition += stock;
             stock = 0;
         }
+        //set a cooldown of X frames;
         reloading_cooldown = 45;
     }
 }
 /*------------------------------------------------------------------------*\
  * Character::is_reloading
  * Update the cooldown for the reloading phase : to reload it will take some frame
- *  Param:
- *  Return :
+ * The character can't fire if he is reloading
+ * Return : True if he is reloading
 \*------------------------------------------------------------------------*/
 bool Character::is_reloading()
 {
     if(reloading_cooldown>0){
         reloading_cooldown--;
-
         return true;
     }
     return false;
@@ -241,17 +228,18 @@ bool Character::is_reloading()
  * Character::is_invincible
  * Set the correct textures and decrement the counter for the invincibility frame
  * After the character has been hit there is a few frame where it is unvunerable
- *  Param:
- *  Return :
+ * Param: Array of textures
 \*------------------------------------------------------------------------*/
 void Character::is_invincible(std::vector<iv::ITexture*>& textures)
 {
     if(invincibility_frame==1){
+        //Set normal textures
         body->setMaterialTexture(0, textures[0]);
         head->setMaterialTexture(0, textures[2]);
         invincibility_frame--;
     }
     if(invincibility_frame>1){
+        //Set injured textures
         body->setMaterialTexture(0, textures[5]);
         head->setMaterialTexture(0, textures[6]);
         invincibility_frame--;
@@ -262,8 +250,7 @@ void Character::is_invincible(std::vector<iv::ITexture*>& textures)
 /*------------------------------------------------------------------------*\
  * Character::take_damage
  * Update the health point of the character if it has been hit
- *  Param:
- *  Return :
+ * And Make the character invulnerable during the invincibility_frame
 \*------------------------------------------------------------------------*/
 void Character::take_damage()
 {

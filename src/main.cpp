@@ -328,6 +328,18 @@ int main()
     // Create an array of enemy instance
     Enemy enemies[NB_ENEMY_MAX];
     // Create the first enemy ID
+    ic::vector3df positions[NB_ENEMY_MAX];
+    positions[0] = ic::vector3df(438.975f,27.7503f,-1136.55f);
+    positions[1] = ic::vector3df(-507.795f,-100.25f,-95.9944f);
+    positions[2] = ic::vector3df(208.724f, 311.75f,-459.435f);
+    positions[3] = ic::vector3df(270.737f,-100.25f,484.942f);
+    positions[4] = ic::vector3df(334.649f,-100.25f,-85.9876f);
+    positions[5] = ic::vector3df(517.309f,931.75f,-576.492f);
+    positions[6] = ic::vector3df(-498.964f,311.742f,-417.19f);
+    positions[7] = ic::vector3df(-725.969f,219.75f,-2045.89f);
+    positions[8] = ic::vector3df(1191.59f,91.7503f,-2235.39f);
+    positions[9] = ic::vector3df(1619.04f,27.7503f,-670.765f);
+
     u32 id = FIRST_ENEMY_ID;
     // For loop to create all the enemies
     for(u32 i = 0; i<NB_ENEMY_MAX; i++){
@@ -337,15 +349,7 @@ int main()
         enemies[i].setTexture(driver->getTexture("../data/Baron/baron.jpg"));
         enemies[i].create_collision_with_map(selector);
 
-
-        f32 radius = 50.0f;
-        f32 r = device->getRandomizer()->frand() * radius;
-        f32 teta = device->getRandomizer()->frand() * M_PI * 2.0f;
-        ic::vector3df pos(r*cos(teta),0,r*sin(teta));
-
-        // Set the position of the enemy
-        enemies[i].setPosition(pos);
-        // Set the rotation as random
+        enemies[i].setPosition(positions[i]);
         f32 angle_enemy = device->getRandomizer()->frand() * 360;
         enemies[i].setRotation(ic::vector3df(0,angle_enemy,0));
 
