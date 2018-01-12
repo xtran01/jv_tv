@@ -1,15 +1,39 @@
 # jv_tv
 Projet_JeuVideo_5ETI
+Camille Farineau
+Ahmed Loudghiri
+Xuan-Vinh Tran
 
-Definir les différents modes de jeu -> Time Attack, Boss Run, Shoot Them All
+# Autorisations
+Autorisation de diffuser sur la page dédié et que nos noms y soient affichés
 
-Objectifs:
-1. Tir TPS (disparition des balles, fire gun)
-2. Mort des ennemies (disparition)
-3. IA Ennemies
-4. Barre de vie pour le joueur
-5. Debut de jeu / Fin de jeu (gui)
-6. Munitions limitées / à récuperer
-7. Bonus (antigravité, autre arme etc.)
-8. Autre niveau / map
-9. 
+# Comment Compiler :
+$. cd jv_tv
+$. mkdir build
+$. cd build
+$. cmake ..
+$. make
+$. ./jv_tv
+
+OU
+
+Ouvrir le CMakelists.txt avec QTCreator
+
+# Commandes
+Z => Avancer
+S => Reculer
+Q => Strafer à gauche
+D => Strafer à droite
+
+A => Sprinter (appuyer une seule fois)
+R => Recharger
+
+P => Debloque la souris de l'ecran de jeu
+Entree => Passer les fenêtres de dialogue / Menu
+Echap => Quitter le jeu
+
+
+# Objectifs:
+1. Chercher Rohmer dans le château
+2. Quand il esst trouvé, l'emmener au sommet de la tour, son l'extraction
+3. C'est gagné !
