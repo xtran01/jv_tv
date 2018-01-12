@@ -73,7 +73,7 @@ public:
      * @brief setID : Set the node ID of the Enemy
      * @param id : An ID number
      */
-    void setID(int id);
+    void setID(u32 id);
 
     /**
      * @brief being_hit : Set a texture / Decrease  health point / Set blink frame

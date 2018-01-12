@@ -201,10 +201,6 @@ int main()
     node_map->setPosition (core::vector3df( 200 , -100 , -500));
     //node_map->setRotation(core::vector3df( 0 , 180 , 0));
     node_map->setID(MAP_ID);
-    ic::aabbox3df map_box = node_map->getBoundingBox();
-
-
-
 
     // Création du triangle selector
     scene::ITriangleSelector *selector;
@@ -249,12 +245,6 @@ int main()
         enemies[i].setTexture(driver->getTexture("../data/Baron/baron.jpg"));
         enemies[i].create_collision_with_map(selector);
 
-//        f32 x = (2*device->getRandomizer()->frand() - 1) * 12000;
-//        f32 y = 10;
-//        f32 z =(2*device->getRandomizer()->frand() - 1) * 12000;
-
-//        ic::vector3df pos(x,y,z);
-
         f32 radius = 50.0f;
         f32 r = device->getRandomizer()->frand() * radius;
         f32 teta = device->getRandomizer()->frand() * M_PI * 2.0f;
@@ -293,7 +283,7 @@ int main()
     is::ISceneCollisionManager *collision_manager = smgr->getSceneCollisionManager();
 
     Particle list_part[NB_PARTICULE_MAX];
-    for(int i=0;i<NB_PARTICULE_MAX;i++){
+    for(u32 i=0;i<NB_PARTICULE_MAX;i++){
         list_part[i].initializeParticle(driver->getTexture("../data/particlered.bmp"), driver->getTexture("../data/fireball.bmp"));
     }
     int i_FIFO = 0;
@@ -369,16 +359,18 @@ int main()
 
                         if(selected_scene_node_id == MAP_ID){
                             if (list_part_rempli){ list_part[i_FIFO].remove();}
-                            list_part[i_FIFO].addParticleToScene(smgr,main_character.body->getPosition(),intersection,selected_scene_node);
+                            list_part[i_FIFO].addParticleToScene(smgr,main_character.body->getPosition(),intersection);
                             i_FIFO++;
                             if (i_FIFO==NB_PARTICULE_MAX){i_FIFO = 0; list_part_rempli = true;}
 
                         }
 
                         for(u32 i=0; i<NB_ENEMY_MAX; i++){
-                            if(enemies[i].node->getID() == selected_scene_node_id){
+                            //if is an enemi
+                            if(enemies[i].node->getID() == selected_scene_node_id &&
+                                    selected_scene_node->getAbsolutePosition().getDistanceFrom(main_character.body->getAbsolutePosition())<1000){
                                 if (list_part_rempli){ list_part[i_FIFO].remove();}
-                                list_part[i_FIFO].addParticleToScene(smgr,main_character.body->getPosition(),intersection,selected_scene_node);
+                                list_part[i_FIFO].addParticleToScene(smgr,main_character.body->getPosition(),intersection);
                                 i_FIFO++;
                                 if (i_FIFO==NB_PARTICULE_MAX){i_FIFO = 0; list_part_rempli = true;}
                                 enemies[i].being_hit(driver->getTexture("../data/Baron/baronlight.jpg"));
@@ -393,7 +385,7 @@ int main()
                 }
             }
 
-            for (int k = 0; k<NB_PARTICULE_MAX; k++){
+            for (u32 k = 0; k<NB_PARTICULE_MAX; k++){
                 list_part[k].frame_time_life--;
                 if(list_part[k].frame_time_life == 0)
                     list_part[k].remove();
@@ -404,7 +396,7 @@ int main()
                 enemies[i].attack(&main_character);
             }
 
-            main_character.invincibility_counting(textures);
+            main_character.is_invincible(textures);
             last_attack = receiver.button_pressed;
 
 

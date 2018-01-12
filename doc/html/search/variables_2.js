@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['mf',['mf',['../class_character.html#a1aa6b01cdcc1dac95171a73fe260a13e',1,'Character']]]
+  ['is_5ffollowing_5fmain_5fcharacter',['is_following_main_character',['../class_random_walk_node_animator.html#a216ed840b595a62ed8fbd219c4a2acd1',1,'RandomWalkNodeAnimator']]]
 ];

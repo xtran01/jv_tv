@@ -52,8 +52,6 @@ public:
      */
     is::IAnimatedMeshSceneNode *mf;
 
-
-
     /**
      * @brief addCharacterMeshToScene : Add the Character to the scene
      * @param smgr : pointer to the scene manager
@@ -92,23 +90,44 @@ public:
      */
     u32 get_nb_munition()const;
     /**
-     * @brief use_munition : Reduce the number of munition by 1
+     * @brief use_munition : Decrement the number of munition by 1
      */
     void use_munition();
     /**
      * @brief reload : Take ammo in the sotck to the cartridge
      */
     void reload();
+    /**
+     * @brief is_reloading : Decrement the reloading_cooldown
+     * @return  true if the character is reloading (if reloading_cooldown > 0)
+     */
     bool is_reloading();
-    void die();
 
-    void invincibility_counting(std::vector<iv::ITexture*>& textures);
+    /**
+     * @brief is_invincible : Decrement the invincibility_frame
+     * @param textures : textures applied when the charater is invincible or not
+     */
+    void is_invincible(std::vector<iv::ITexture*>& textures);
+    /**
+     * @brief take_damage : Reduce the health_point if the character is not invincible
+     */
     void take_damage();
+
+    /**
+     * @brief getReloading_cooldown : Getter
+     * @return reloading_cooldown
+     */
+    u32 getReloading_cooldown() const;
+    /**
+     * @brief getHealth_point : Getter
+     * @return health_point
+     */
+    u32 getHealth_point() const;
+
     /**
      * @brief Character : Default constructor
      */
     Character();
-    u32 getReloading_cooldown() const;
-    u32 getHealth_point() const;
+
 };
 #endif // CHARACTER_H
