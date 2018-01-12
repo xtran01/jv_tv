@@ -26,6 +26,10 @@ OU
 
 Ouvrir le CMakelists.txt avec QTCreator
 
+# Doc:
+Utiliser la documentation Doxygen fournie (/jv_tv/doc/index.html) (Non complète - Travail en cours)
+Le code est commenté (en anglais)
+
 # Commandes
 Z => Avancer
 S => Reculer
