@@ -14,7 +14,7 @@ void RandomWalkNodeAnimator::animateNode(irr::scene::ISceneNode *node,irr::u32 t
     ic::vector3df position = node->getPosition();
     ic::vector3df rotation = node->getRotation();
 
-    if(time_to_change_sign > 100){
+    if(time_to_change_sign > 15){
         time_to_change_sign = 0;
         if(floor(2 * randomizer->frand() - 1) == 0){
             plus_or_minus =1;
@@ -23,6 +23,8 @@ void RandomWalkNodeAnimator::animateNode(irr::scene::ISceneNode *node,irr::u32 t
             plus_or_minus = -1;
         }
     }
+
+
     if(time_to_change_angle > TIME_BEFORE_CHANGING_RANDOM_WALK_DIRECTION){
         //change direction of walking
         time_to_change_angle = 0;
@@ -35,8 +37,7 @@ void RandomWalkNodeAnimator::animateNode(irr::scene::ISceneNode *node,irr::u32 t
         //random walk
 
 
-        std::cout<<"PLUS OR MINUS"<<plus_or_minus<<std::endl;
-        rotation.Y+= plus_or_minus * 0.2;
+        rotation.Y+= plus_or_minus * 1.1;
         node->setRotation(rotation);
 
         position.X += vitesse_walk * cos(rotation.Y * M_PI / 180.0);

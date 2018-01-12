@@ -201,6 +201,10 @@ int main()
     node_map->setPosition (core::vector3df( 200 , -100 , -500));
     //node_map->setRotation(core::vector3df( 0 , 180 , 0));
     node_map->setID(MAP_ID);
+    ic::aabbox3df map_box = node_map->getBoundingBox();
+
+
+
 
     // Création du triangle selector
     scene::ITriangleSelector *selector;
@@ -235,7 +239,6 @@ int main()
     rohmer.addPNJMeshToScene(smgr,textures);
     rohmer.addPNJCollider(smgr,selector);
     rohmer.setAnimation(rohmer.STAND);
-    //rohmer.body->setPosition(core::vector3df(-1269.31,155.75,-2033.84));
 
 
     Enemy enemies[NB_ENEMY_MAX];
@@ -245,11 +248,22 @@ int main()
         enemies[i].addEnemyMeshToScene(smgr, main_character.body,device->getRandomizer());
         enemies[i].setTexture(driver->getTexture("../data/Baron/baron.jpg"));
         enemies[i].create_collision_with_map(selector);
-        f32 radius = 500.0f;
+
+//        f32 x = (2*device->getRandomizer()->frand() - 1) * 12000;
+//        f32 y = 10;
+//        f32 z =(2*device->getRandomizer()->frand() - 1) * 12000;
+
+//        ic::vector3df pos(x,y,z);
+
+        f32 radius = 50.0f;
         f32 r = device->getRandomizer()->frand() * radius;
         f32 teta = device->getRandomizer()->frand() * M_PI * 2.0f;
         ic::vector3df pos(r*cos(teta),0,r*sin(teta));
+
+
         enemies[i].setPosition(pos);
+        f32 angle_enemy = device->getRandomizer()->frand() * 360;
+        enemies[i].setRotation(ic::vector3df(0,angle_enemy,0));
         enemies[i].move_randomely_arround_waiting_position();
         enemies[i].setID(id);
         id++;
