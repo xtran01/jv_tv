@@ -8,12 +8,21 @@ RandomWalkNodeAnimator::RandomWalkNodeAnimator(f32 vitesse_run_param, f32 vitess
     randomizer =rand;
 }
 
-
+/**
+ * Function animateNode
+ * ********************
+ * We created our own aanimator for the enemy to create a random walk
+ * @brief RandomWalkNodeAnimator::animateNode
+ * @param node
+ * @param timeMs
+ */
 void RandomWalkNodeAnimator::animateNode(irr::scene::ISceneNode *node,irr::u32 timeMs){
 
     ic::vector3df position = node->getPosition();
     ic::vector3df rotation = node->getRotation();
 
+    //Every time the counter of sign go over 25 we randomely pick between -1 and 1 and put it
+    // in the variable plus_or_minus
     if(time_to_change_sign > 25){
         time_to_change_sign = 0;
         if(floor(2 * randomizer->frand() - 1) == 0){
@@ -24,22 +33,22 @@ void RandomWalkNodeAnimator::animateNode(irr::scene::ISceneNode *node,irr::u32 t
         }
     }
 
-
+    //After a certain time of walking we change randomely an angle of rotation between 0 and 60
     if(time_to_change_angle > TIME_BEFORE_CHANGING_RANDOM_WALK_DIRECTION){
         //change direction of walking
         time_to_change_angle = 0;
-        rotation.Y = randomizer->frand() * 60;
+        rotation.Y += randomizer->frand() * 60;
     }
     time_to_change_angle ++;
     time_to_change_sign++;
 
+    //If we are not following the main character
     if(!is_following_main_character){
-        //random walk
 
 
+        //=> random walk
         rotation.Y+= plus_or_minus * 1.1;
         node->setRotation(rotation);
-
         position.X += vitesse_walk * cos(rotation.Y * M_PI / 180.0);
         position.Z += -vitesse_walk * sin(rotation.Y * M_PI / 180.0);
         node->setPosition(position);
@@ -69,7 +78,7 @@ void RandomWalkNodeAnimator::animateNode(irr::scene::ISceneNode *node,irr::u32 t
             angle = M_PI_2 + angle;
         }
 
-
+//        enemy_to_main.Y += 5.0f;
         position+= vitesse_run * enemy_to_main;
         rotation.Y=(angle * 180.0f) / M_PI ;
         node->setRotation(rotation);

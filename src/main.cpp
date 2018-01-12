@@ -332,16 +332,16 @@ int main()
     // Create an array of enemy instance
     Enemy enemies[NB_ENEMY_MAX];
     ic::vector3df positions[NB_ENEMY_MAX];
-    positions[0] = ic::vector3df(438.975f,27.7503f,-1136.55f);
-    positions[1] = ic::vector3df(-507.795f,-100.25f,-95.9944f);
-    positions[2] = ic::vector3df(208.724f, 311.75f,-459.435f);
-    positions[3] = ic::vector3df(270.737f,-100.25f,484.942f);
-    positions[4] = ic::vector3df(334.649f,-100.25f,-85.9876f);
-    positions[5] = ic::vector3df(517.309f,931.75f,-576.492f);
-    positions[6] = ic::vector3df(-498.964f,311.742f,-417.19f);
-    positions[7] = ic::vector3df(-725.969f,219.75f,-2045.89f);
-    positions[8] = ic::vector3df(1191.59f,91.7503f,-2235.39f);
-    positions[9] = ic::vector3df(1777.36f,27.7503f,-1784.f);
+    positions[0] = ic::vector3df(438.975f,29.0f,-1136.55f);
+    positions[1] = ic::vector3df(-507.795f,-99,-95.9944f);
+    positions[2] = ic::vector3df(208.724f, 315,-459.435f);
+    positions[3] = ic::vector3df(270.737f,-98.25f,484.942f);
+    positions[4] = ic::vector3df(334.649f,-98,-85.9876f);
+    positions[5] = ic::vector3df(517.309f,935,-576.492f);
+    positions[6] = ic::vector3df(-498.964f,315,-417.19f);
+    positions[7] = ic::vector3df(-725.969f,220,-2045.89f);
+    positions[8] = ic::vector3df(1191.59f,92,-2235.39f);
+    positions[9] = ic::vector3df(1777.36f,29,-1784.f);
 
     //Load the textures for the enemies
     std::vector<iv::ITexture*> textures_enemy;
@@ -357,7 +357,7 @@ int main()
         enemies[i].addEnemyMeshToScene(smgr, main_character.body,device->getRandomizer());
         enemies[i].setTexture(textures_enemy[0]);
         enemies[i].create_collision_with_map(selector);
-
+        positions[i].Y += 10;
         enemies[i].setPosition(positions[i]);
         f32 angle_enemy = device->getRandomizer()->frand() * 360;
         enemies[i].setRotation(ic::vector3df(0,angle_enemy,0));
@@ -567,7 +567,7 @@ int main()
                 bloody_screen->setImage(bloody_screen_tex);
 
                 break;
-            //Set a redder border when the player is injured
+                //Set a redder border when the player is injured
             case 1 :
                 bloody_screen->setImage(bloodier_screen_tex);
                 break;

@@ -23,9 +23,9 @@ private:
     u32 blink_frame = 0;
     enum Animation { RUN, WALK, ATTACK, DEATH, STAND };
 
+    //This is our custom world collision respone
     EnemyCollisionHandler world_collision_response;
 
-    ic::vector3df waiting_position_center;
 
     RandomWalkNodeAnimator *random_walk_animator;
 

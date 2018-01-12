@@ -2,15 +2,18 @@
 
 Enemy::Enemy()
 {
-
-    waiting_position_center = {0.0f,0.0f,0.0f};
     vitesse_run = RUN_VITESSE_ENEMY;
     vitesse_walk = WALK_VITESSE_ENEMY;
     distance_min_to_trigger_chasing = DISTANCE_MIN_TO_CHASE_MAIN_CHARACTER;
-
 }
 
-
+/**
+ * Called to add an enemy mesh to the scene
+ * @brief Enemy::addEnemyMeshToScene
+ * @param smgr => scene manager related to the game
+ * @param main_character_node_param => node related to the main character of the game
+ * @param randomizer_param => randomizer to create random numbers
+ */
 void Enemy::addEnemyMeshToScene(is::ISceneManager* smgr,
                                 is::IAnimatedMeshSceneNode *main_character_node_param,
                                 irr::IRandomizer *randomizer_param){
@@ -27,6 +30,7 @@ void Enemy::addEnemyMeshToScene(is::ISceneManager* smgr,
     is::ITriangleSelector *selector = smgr->createTriangleSelector(node);
     node->setTriangleSelector(selector);
     selector->drop();
+    // adding a random walk to the enemy
     random_walk_animator = new RandomWalkNodeAnimator(vitesse_run,vitesse_walk,randomizer_param);
 }
 
@@ -43,6 +47,7 @@ void Enemy::setTexture(iv::ITexture *texture){
     node->setMaterialTexture(0, texture);
     hand->setMaterialTexture(0,texture);
 }
+
 void Enemy::setID(u32 id){
     node ->setID(id);
 }
@@ -58,7 +63,10 @@ void Enemy::being_hit(iv::ITexture* texture_hit){
     }
 }
 
-
+/**
+ * Add the random walk animator to the node of the enemy
+ * @brief Enemy::move_randomely_arround_waiting_position
+ */
 void Enemy::move_randomely_arround_waiting_position()
 {
     (this)->setAnimation((this)->RUN);
@@ -78,19 +86,24 @@ void Enemy::make_blink(video::ITexture *texture)
 void Enemy::attack(Character *perso)
 {
     if(health_point > 0){
-    ic::vector3df pos_player = perso->body->getPosition();
+        ic::vector3df pos_player = perso->body->getPosition();
 
-    if (pos_player.getDistanceFrom(node->getPosition())< 60.0){
-        perso->take_damage();
-        if((this)->anim != (this)->ATTACK)
-            (this)->setAnimation((this)->ATTACK);
+        if (pos_player.getDistanceFrom(node->getPosition())< 60.0){
+            perso->take_damage();
+            if((this)->anim != (this)->ATTACK)
+                (this)->setAnimation((this)->ATTACK);
 
 
-    }
+        }
 
     }
 }
 
+/**
+ * Create an animator that will handle the collision with the worlkdaa
+ * @brief Enemy::create_collision_with_map
+ * @param world
+ */
 void Enemy::create_collision_with_map(is::ITriangleSelector *world)
 {
     const ic::aabbox3d<f32>& box = node->getBoundingBox();
@@ -100,10 +113,9 @@ void Enemy::create_collision_with_map(is::ITriangleSelector *world)
     is::ISceneNodeAnimatorCollisionResponse *world_collision_anim_response = node->getSceneManager()
             ->createCollisionResponseAnimator(world,node,radius+10,
                                               ic::vector3df(0,-10,0),ic::vector3df(0,-52,0));
-
+    //We have customize the collision response in the class  EnemyCollisionHandler
     world_collision_anim_response->setCollisionCallback(&world_collision_response);
     node->addAnimator(world_collision_anim_response);
-    //TODO drop the world_collision_anim_response when not needed anymore
 }
 
 void Enemy::handle_walking(){
@@ -171,25 +183,4 @@ void Enemy::setAnimation(Animation anim)
     }
 }
 
-
-
-/*
-bool Enemy::getCollision()
-{
-        ic::list< scene::ISceneNodeAnimator*>::ConstIterator begin = mesh->getAnimators().begin();
-        ic::list< scene::ISceneNodeAnimator*>::ConstIterator end   = mesh->getAnimators().end();
-
-        for(; begin != end; ++begin)
-        {
-                 scene::ISceneNodeAnimator* anm = *begin;
-
-                if(anm->getType() == ESNAT_COLLISION_RESPONSE)
-                {
-                        if( ((scene::ISceneNodeAnimatorCollisionResponse*)anm)->collisionOccurred())
-                                return true;
-                }
-        }
-
-        return false;
-}*/
 

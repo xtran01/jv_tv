@@ -79,8 +79,7 @@ void Character::addCharacterMeshToScene(is::ISceneManager *smgr, std::vector<iv:
     mf->setVisible(false);
 
     // Set the correct position and rotation for the main_character
-    //body->setPosition(core::vector3df(-1596.96, 95.7503, -983.472));
-    body->setPosition(core::vector3df(-79, 156, 265));
+    body->setPosition(core::vector3df(-1596.96, 95.7503, -983.472));
     body->setRotation(core::vector3df(0.0, 0.0, 0.0));
 }
 
