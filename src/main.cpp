@@ -327,7 +327,6 @@ int main()
     // ENEMIES
     // Create an array of enemy instance
     Enemy enemies[NB_ENEMY_MAX];
-    // Create the first enemy ID
     ic::vector3df positions[NB_ENEMY_MAX];
     positions[0] = ic::vector3df(438.975f,27.7503f,-1136.55f);
     positions[1] = ic::vector3df(-507.795f,-100.25f,-95.9944f);
@@ -340,6 +339,7 @@ int main()
     positions[8] = ic::vector3df(1191.59f,91.7503f,-2235.39f);
     positions[9] = ic::vector3df(1619.04f,27.7503f,-670.765f);
 
+    // Create the first enemy ID
     u32 id = FIRST_ENEMY_ID;
     // For loop to create all the enemies
     for(u32 i = 0; i<NB_ENEMY_MAX; i++){
