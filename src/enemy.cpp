@@ -88,8 +88,8 @@ void Enemy::attack(Character *perso)
 
 
     }
-//    else
-//        node ->setMD2Animation(is::EMAT_STAND);
+    else
+        node ->setMD2Animation(is::EMAT_RUN);
 
     }
 }

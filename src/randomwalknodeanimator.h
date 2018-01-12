@@ -16,8 +16,10 @@ class RandomWalkNodeAnimator : public irr::scene::ISceneNodeAnimator
 private:
     f32 vitesse_run;
     f32 vitesse_walk;
-    f32 time_to_change=0;
+    f32 time_to_change_angle=0;
+    f32 time_to_change_sign=0;
     irr::IRandomizer *randomizer;
+    irr::f32 plus_or_minus = 1;
 public:
     RandomWalkNodeAnimator(f32 vitesse_run_param, f32 vitesse_walk_param,
                            irr::IRandomizer *rand);

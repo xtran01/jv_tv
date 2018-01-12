@@ -256,7 +256,8 @@ int main()
 
     }
 
-
+    std::cout<<"floor"<<floor(-0.5f)<<std::endl;
+    std::cout<<"floor"<<floor(0.5f)<<std::endl;
 
     receiver.set_gui(gui);
     receiver.set_personnage(&main_character);
