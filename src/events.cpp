@@ -1,10 +1,8 @@
 // events.cpp
 
-#include <irrlicht.h>
 #include <iostream>
 #include "events.hpp"
-#include "gui_ids.h"
-#include "particle.h"
+
 
 #define HAUTEUR_SAUT 14
 
@@ -38,8 +36,8 @@ bool EventReceiver::keyboard_handler(bool death, bool follow)
     if(death)
         return false;
 
-    if(is_running) vitesse_deplacement = 3.7f;
-    else vitesse_deplacement = 2.0f;
+    if(is_running) vitesse_deplacement = RUN_VITESSE_MAIN_CHARACTER;
+    else vitesse_deplacement = WALK_VITESSE_MAIN_CHARACTER;
 
     if(IsKeyDown(KEY_KEY_R)){ // Recharge
         personnage->reload();
