@@ -7,7 +7,10 @@ Xuan-Vinh Tran
 # Autorisations
 Autorisation de diffuser sur la page dédié et que nos noms y soient affichés
 
-#Sources
+# Sources
+Toutes les sources peuvent etre trouvees ici : https://github.com/xtran01/jv_tv
+
+# Copyright
 Tous les models 3D et la map ne nous appartiennent pas.
 - La map peut etre trouver sur ce lien : https://quakearea.com/site/index.php/map/download
 - Tous les models 3D (MD2) proviennent de ce site : http://www.md2.sitters-electronics.nl/models.htm
@@ -25,6 +28,10 @@ $. ./jv_tv
 OU
 
 Ouvrir le CMakelists.txt avec QTCreator
+
+# Doc:
+Utiliser la documentation Doxygen fournie (/jv_tv/doc/index.html) (Non complète - Travail en cours)
+Le code est commenté (en anglais)
 
 # Commandes
 Z => Avancer
