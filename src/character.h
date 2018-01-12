@@ -4,6 +4,16 @@
 #include <string>
 #include <assert.h>
 #include <iostream>
+/*
+**    TP CPE Lyon
+**    Copyright (C) 2018 Camille FARINEAU / Ahmed LOUDGHIRI / Xuan-Vinh TRAN
+**
+**    Video Games Module - Sauver le soldat Rohmer
+**
+**    character.h
+**    Handle the main character
+*/
+
 #include <vector>
 
 using namespace irr;
