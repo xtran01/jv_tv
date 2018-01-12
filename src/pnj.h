@@ -39,12 +39,18 @@ public:
      * @brief The Animation enum contains all the different action possible for the Character
      */
     enum Animation { RUN, WALK, ATTACK, DEATH, STAND };
+    /**
+     * @brief position_prev_character : Previous position of the character
+     */
     core::vector3df position_prev_character;
     /**
      * @brief body : Noeud qui mermet de manipuler le maillage
      */
     is::IAnimatedMeshSceneNode *body;
 
+    /**
+     * @brief health_point : HP of the player
+     */
     u32 health_point = 3;
     /**
      * @brief addPNJMeshToScene

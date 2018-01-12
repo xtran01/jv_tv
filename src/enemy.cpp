@@ -43,7 +43,7 @@ void Enemy::setTexture(iv::ITexture *texture){
     node->setMaterialTexture(0, texture);
     hand->setMaterialTexture(0,texture);
 }
-void Enemy::setID(int id){
+void Enemy::setID(u32 id){
     node ->setID(id);
 }
 

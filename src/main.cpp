@@ -201,10 +201,6 @@ int main()
     node_map->setPosition (core::vector3df( 200 , -100 , -500));
     //node_map->setRotation(core::vector3df( 0 , 180 , 0));
     node_map->setID(MAP_ID);
-    ic::aabbox3df map_box = node_map->getBoundingBox();
-
-
-
 
     // Création du triangle selector
     scene::ITriangleSelector *selector;
@@ -249,12 +245,6 @@ int main()
         enemies[i].setTexture(driver->getTexture("../data/Baron/baron.jpg"));
         enemies[i].create_collision_with_map(selector);
 
-//        f32 x = (2*device->getRandomizer()->frand() - 1) * 12000;
-//        f32 y = 10;
-//        f32 z =(2*device->getRandomizer()->frand() - 1) * 12000;
-
-//        ic::vector3df pos(x,y,z);
-
         f32 radius = 50.0f;
         f32 r = device->getRandomizer()->frand() * radius;
         f32 teta = device->getRandomizer()->frand() * M_PI * 2.0f;
@@ -294,7 +284,7 @@ int main()
     is::ISceneCollisionManager *collision_manager = smgr->getSceneCollisionManager();
 
     Particle list_part[NB_PARTICULE_MAX];
-    for(int i=0;i<NB_PARTICULE_MAX;i++){
+    for(u32 i=0;i<NB_PARTICULE_MAX;i++){
         list_part[i].initializeParticle(driver->getTexture("../data/particlered.bmp"), driver->getTexture("../data/fireball.bmp"));
     }
     int i_FIFO = 0;
@@ -396,7 +386,7 @@ int main()
                 }
             }
 
-            for (int k = 0; k<NB_PARTICULE_MAX; k++){
+            for (u32 k = 0; k<NB_PARTICULE_MAX; k++){
                 list_part[k].frame_time_life--;
                 if(list_part[k].frame_time_life == 0)
                     list_part[k].remove();
