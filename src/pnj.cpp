@@ -17,7 +17,7 @@ pnj::pnj()
 }
 
 /*------------------------------------------------------------------------*\
- * EventReceiver::addPNJMeshToScene
+ * pnj::addPNJMeshToScene
  * Add the mesh to the scene and set the correct position
  *  Param: smgr and textures
  *  Return :
@@ -36,7 +36,7 @@ void pnj::addPNJMeshToScene(is::ISceneManager *smgr, std::vector<iv::ITexture*> 
 }
 
 /*------------------------------------------------------------------------*\
- * EventReceiver::addPNJCollider
+ * pnj::addPNJCollider
  * Add the collider to handle the behaviour of the 3d model with the scene
  *  Param: smgr and selector
  *  Return :
@@ -56,7 +56,7 @@ void pnj::addPNJCollider(is::ISceneManager *smgr, scene::ITriangleSelector *sele
 }
 
 /*------------------------------------------------------------------------*\
- * EventReceiver::setAnimation
+ * pnj::setAnimation
  * Set the correct animation frames and speed depending on the context
  *  Param: anim (enum of anim)
  *  Return :
@@ -90,7 +90,7 @@ void pnj::setAnimation(Animation anim)
 }
 
 /*------------------------------------------------------------------------*\
- * EventReceiver::follow
+ * pnj::follow
  * Handle the behaviour and movement of the pnj character while following the main character
  *  Param: position_character and orientation_character
  *  Return :

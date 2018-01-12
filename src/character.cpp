@@ -19,7 +19,7 @@ Character::Character()
 }
 
 /*------------------------------------------------------------------------*\
- * EventReceiver::getReloading_cooldown
+ * Character::getReloading_cooldown
  * Get the cooldown of the reloading
  *  Return : reloading_cooldown
 \*------------------------------------------------------------------------*/
@@ -29,7 +29,7 @@ u32 Character::getReloading_cooldown() const
 }
 
 /*------------------------------------------------------------------------*\
- * EventReceiver::getHealth_point
+ * Character::getHealth_point
  * Get health point
  *  Return : health_point
 \*------------------------------------------------------------------------*/
@@ -75,7 +75,7 @@ void Character::addCharacterMeshToScene(is::ISceneManager *smgr, std::vector<iv:
 }
 
 /*------------------------------------------------------------------------*\
- * EventReceiver::addCharacterCollider
+ * Character::addCharacterCollider
  * Add the collider to the node of the main character
  * Param: Scene Manager / Selector
 \*------------------------------------------------------------------------*/
@@ -92,7 +92,7 @@ void Character::addCharacterCollider(is::ISceneManager *smgr, scene::ITriangleSe
 }
 
 /*------------------------------------------------------------------------*\
- * EventReceiver::setAnimation
+ * Character::setAnimation
  * Set the proper animation (frame loop and speed) depending on the context
  * Param: anim
 \*------------------------------------------------------------------------*/
@@ -146,7 +146,7 @@ void Character::setAnimation(Animation anim)
 }
 
 /*------------------------------------------------------------------------*\
- * EventReceiver::change_texture_weapon_fire
+ * Character::change_texture_weapon_fire
  * Change the texture of the weapon when the character is attacking
  * Param: textures
 \*------------------------------------------------------------------------*/
@@ -155,7 +155,7 @@ void Character::change_texture_weapon_fire(std::vector<iv::ITexture*>& textures)
     weapon->setMaterialTexture(0, textures[3]);
 }
 /*------------------------------------------------------------------------*\
- * EventReceiver::change_texture_weapon_rest
+ * Character::change_texture_weapon_rest
  * Change the texture of the weapon when the character is not attacking
  * Param : textures
 \*------------------------------------------------------------------------*/
@@ -164,7 +164,7 @@ void Character::change_texture_weapon_rest(std::vector<iv::ITexture*>& textures)
     weapon->setMaterialTexture(0, textures[1]);
 }
 /*------------------------------------------------------------------------*\
- * EventReceiver::get_nb_stock
+ * Character::get_nb_stock
  * Get the number of bullet in stock
  * Return : stock
 \*------------------------------------------------------------------------*/
@@ -173,7 +173,7 @@ u32 Character::get_nb_stock() const
     return stock;
 }
 /*------------------------------------------------------------------------*\
- * EventReceiver::get_nb_munition
+ * Character::get_nb_munition
  * Change the number of munition in the cartridge
  * Return : munition
 \*------------------------------------------------------------------------*/
@@ -182,7 +182,7 @@ u32 Character::get_nb_munition() const
     return munition;
 }
 /*------------------------------------------------------------------------*\
- * EventReceiver::use_munition
+ * Character::use_munition
  * Decrement the number of ammunition
 \*------------------------------------------------------------------------*/
 void Character::use_munition()
@@ -190,7 +190,7 @@ void Character::use_munition()
     munition--;
 }
 /*------------------------------------------------------------------------*\
- * EventReceiver::reload
+ * Character::reload
  * Function to reload : update the number of ammo in cartridge and in stock
 \*------------------------------------------------------------------------*/
 void Character::reload()
@@ -210,7 +210,7 @@ void Character::reload()
     }
 }
 /*------------------------------------------------------------------------*\
- * EventReceiver::is_reloading
+ * Character::is_reloading
  * Update the cooldown for the reloading phase : to reload it will take some frame
  * The character can't fire if he is reloading
  * Return : True if he is reloading
@@ -225,7 +225,7 @@ bool Character::is_reloading()
 
 }
 /*------------------------------------------------------------------------*\
- * EventReceiver::is_invincible
+ * Character::is_invincible
  * Set the correct textures and decrement the counter for the invincibility frame
  * After the character has been hit there is a few frame where it is unvunerable
  * Param: Array of textures
@@ -248,7 +248,7 @@ void Character::is_invincible(std::vector<iv::ITexture*>& textures)
 
 }
 /*------------------------------------------------------------------------*\
- * EventReceiver::take_damage
+ * Character::take_damage
  * Update the health point of the character if it has been hit
  * And Make the character invulnerable during the invincibility_frame
 \*------------------------------------------------------------------------*/
