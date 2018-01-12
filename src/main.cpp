@@ -418,6 +418,8 @@ int main()
                 start_anim_death = true;
                 if(cpt_anim_death<=60)
                 {
+                    scope->setVisible(false); // ENLEVER RETICULE A LA MORT
+
                     if(start_anim_death == true && anim_death == false)
                     {
                         main_character.setAnimation(main_character.DEATH);
@@ -429,7 +431,6 @@ int main()
                 else if(cpt_anim_death>50)
                 {
                     bloody_screen->setImage(gameover_screen_tex);
-                    scope->setVisible(false);
                     objectif->setVisible(false);
                 }
                 break;

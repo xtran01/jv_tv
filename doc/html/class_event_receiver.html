@@ -113,9 +113,9 @@ Public Member Functions</h2></td></tr>
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_event_receiver.html#aedad995f4bda0149f57ca8b4c97a1681">init_Key</a> ()</td></tr>
 <tr class="memdesc:aedad995f4bda0149f57ca8b4c97a1681"><td class="mdescLeft">&#160;</td><td class="mdescRight">init_Key : Initialize all the key in the arrays <br /></td></tr>
 <tr class="separator:aedad995f4bda0149f57ca8b4c97a1681"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af7b016c7bfa9ebb4584a1cbd77c55e72"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_event_receiver.html#af7b016c7bfa9ebb4584a1cbd77c55e72">keyboard_handler</a> ()</td></tr>
-<tr class="memdesc:af7b016c7bfa9ebb4584a1cbd77c55e72"><td class="mdescLeft">&#160;</td><td class="mdescRight">keyboard_handler : Handle all the action linked to a key  <a href="#af7b016c7bfa9ebb4584a1cbd77c55e72">More...</a><br /></td></tr>
-<tr class="separator:af7b016c7bfa9ebb4584a1cbd77c55e72"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a51759009f3b897cfb398f8af25e55145"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_event_receiver.html#a51759009f3b897cfb398f8af25e55145">keyboard_handler</a> (bool death, bool follow)</td></tr>
+<tr class="memdesc:a51759009f3b897cfb398f8af25e55145"><td class="mdescLeft">&#160;</td><td class="mdescRight">keyboard_handler : Handle all the action linked to a key  <a href="#a51759009f3b897cfb398f8af25e55145">More...</a><br /></td></tr>
+<tr class="separator:a51759009f3b897cfb398f8af25e55145"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a456dba3f7fb9c7d15973bce9f073003f"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_event_receiver.html#a456dba3f7fb9c7d15973bce9f073003f">mouse_handler</a> (const irr::SEvent &amp;event)</td></tr>
 <tr class="memdesc:a456dba3f7fb9c7d15973bce9f073003f"><td class="mdescLeft">&#160;</td><td class="mdescRight">mouse_handler : Handle all the action linked to the mouse  <a href="#a456dba3f7fb9c7d15973bce9f073003f">More...</a><br /></td></tr>
 <tr class="separator:a456dba3f7fb9c7d15973bce9f073003f"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -128,6 +128,9 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>OnEvent</b> (const ir
 <tr class="memitem:a117e442304aca548bcfd9f532e471212"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_event_receiver.html#a117e442304aca548bcfd9f532e471212">set_personnage</a> (<a class="el" href="class_character.html">Character</a> *perso)</td></tr>
 <tr class="memdesc:a117e442304aca548bcfd9f532e471212"><td class="mdescLeft">&#160;</td><td class="mdescRight">set_personnage  <a href="#a117e442304aca548bcfd9f532e471212">More...</a><br /></td></tr>
 <tr class="separator:a117e442304aca548bcfd9f532e471212"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa0abe8fef2d0f840aa3cb3489e8ebdfc"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_event_receiver.html#aa0abe8fef2d0f840aa3cb3489e8ebdfc">set_pnj</a> (<a class="el" href="classpnj.html">pnj</a> *rohmer)</td></tr>
+<tr class="memdesc:aa0abe8fef2d0f840aa3cb3489e8ebdfc"><td class="mdescLeft">&#160;</td><td class="mdescRight">set_personnage  <a href="#aa0abe8fef2d0f840aa3cb3489e8ebdfc">More...</a><br /></td></tr>
+<tr class="separator:aa0abe8fef2d0f840aa3cb3489e8ebdfc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a03f9746760ddd99d83054b12618dbe0f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_event_receiver.html#a03f9746760ddd99d83054b12618dbe0f">set_textures</a> (const std::vector&lt; irr::video::ITexture * &gt; &amp;tex)</td></tr>
 <tr class="memdesc:a03f9746760ddd99d83054b12618dbe0f"><td class="mdescLeft">&#160;</td><td class="mdescRight">set_textures  <a href="#a03f9746760ddd99d83054b12618dbe0f">More...</a><br /></td></tr>
 <tr class="separator:a03f9746760ddd99d83054b12618dbe0f"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -152,6 +155,9 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>attack</b> = false</t
 <tr class="memitem:ad403260b8b385bb927fa95de973c46a8"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad403260b8b385bb927fa95de973c46a8"></a>
 bool&#160;</td><td class="memItemRight" valign="bottom"><b>attack_inter</b> = false</td></tr>
 <tr class="separator:ad403260b8b385bb927fa95de973c46a8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4acfd53799654cd0525e56c8ef5e743c"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4acfd53799654cd0525e56c8ef5e743c"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>show_menu</b> = 1</td></tr>
+<tr class="separator:a4acfd53799654cd0525e56c8ef5e743c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af672c14ce8adde856565892199c718b5"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af672c14ce8adde856565892199c718b5"></a>
 f32&#160;</td><td class="memItemRight" valign="bottom"><b>rotation_cam</b> =0.0f</td></tr>
 <tr class="separator:af672c14ce8adde856565892199c718b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -161,6 +167,9 @@ irr::scene::IAnimatedMeshSceneNode *&#160;</td><td class="memItemRight" valign="
 <tr class="memitem:addab0c02a95a2b9e9835be12b1c9a4ee"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="addab0c02a95a2b9e9835be12b1c9a4ee"></a>
 <a class="el" href="class_character.html">Character</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>personnage</b></td></tr>
 <tr class="separator:addab0c02a95a2b9e9835be12b1c9a4ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac7c940d44b73a08470b5f9fa2bebbd33"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ac7c940d44b73a08470b5f9fa2bebbd33"></a>
+<a class="el" href="classpnj.html">pnj</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>rohmer</b></td></tr>
+<tr class="separator:ac7c940d44b73a08470b5f9fa2bebbd33"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aced41028672afb85bdf9b8b016da2e3f"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aced41028672afb85bdf9b8b016da2e3f"></a>
 irr::scene::ICameraSceneNode *&#160;</td><td class="memItemRight" valign="bottom"><b>camera_node</b></td></tr>
 <tr class="separator:aced41028672afb85bdf9b8b016da2e3f"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -171,15 +180,26 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>is_mouse_camera_tool_
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>The <a class="el" href="class_event_receiver.html" title="The EventReceiver class. ">EventReceiver</a> class. </p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="af7b016c7bfa9ebb4584a1cbd77c55e72"></a>
+<a class="anchor" id="a51759009f3b897cfb398f8af25e55145"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">bool EventReceiver::keyboard_handler </td>
           <td>(</td>
-          <td class="paramname"></td><td>)</td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>death</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>follow</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -247,6 +267,30 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>is_mouse_camera_tool_
           <td>(</td>
           <td class="paramtype"><a class="el" href="class_character.html">Character</a> *&#160;</td>
           <td class="paramname"><em>perso</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>set_personnage </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">perso</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="aa0abe8fef2d0f840aa3cb3489e8ebdfc"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void EventReceiver::set_pnj </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classpnj.html">pnj</a> *&#160;</td>
+          <td class="paramname"><em>rohmer</em></td><td>)</td>
           <td></td>
         </tr>
       </table>

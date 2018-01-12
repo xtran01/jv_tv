@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['reload',['reload',['../class_character.html#ac822a115d54e071c269db136b1a4a938',1,'Character']]],
-  ['remove',['remove',['../class_particle.html#a6da608d7ebddeb737d483f31c93663e1',1,'Particle']]]
+  ['oncollision',['onCollision',['../class_enemy_collision_handler.html#a06c296ca9f31404856afcce371713764',1,'EnemyCollisionHandler']]]
 ];
