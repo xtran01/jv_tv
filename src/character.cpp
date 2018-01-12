@@ -158,13 +158,7 @@ bool Character::is_reloading()
 
 }
 
-void Character::die()
-{
-    std::cout<<"GAME OVER"<<std::endl;
-
-}
-
-void Character::invincibility_counting(std::vector<iv::ITexture*>& textures)
+void Character::is_invincible(std::vector<iv::ITexture*>& textures)
 {
     if(invincibility_frame==1){
         body->setMaterialTexture(0, textures[0]);
@@ -184,7 +178,6 @@ void Character::take_damage()
 {
     if (health_point == 1 && invincibility_frame == 0){
         health_point--;
-        die();
     }
     else if (health_point>1 && invincibility_frame == 0){
         health_point--;

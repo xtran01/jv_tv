@@ -139,34 +139,32 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a791a51d188dbd98341185759a9dde204"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adc45c8ce0702072c6dab8ebaf1bd5168"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="adc45c8ce0702072c6dab8ebaf1bd5168"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_character.html#adc45c8ce0702072c6dab8ebaf1bd5168">use_munition</a> ()</td></tr>
-<tr class="memdesc:adc45c8ce0702072c6dab8ebaf1bd5168"><td class="mdescLeft">&#160;</td><td class="mdescRight">use_munition : Reduce the number of munition by 1 <br /></td></tr>
+<tr class="memdesc:adc45c8ce0702072c6dab8ebaf1bd5168"><td class="mdescLeft">&#160;</td><td class="mdescRight">use_munition : Decrement the number of munition by 1 <br /></td></tr>
 <tr class="separator:adc45c8ce0702072c6dab8ebaf1bd5168"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac822a115d54e071c269db136b1a4a938"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ac822a115d54e071c269db136b1a4a938"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_character.html#ac822a115d54e071c269db136b1a4a938">reload</a> ()</td></tr>
 <tr class="memdesc:ac822a115d54e071c269db136b1a4a938"><td class="mdescLeft">&#160;</td><td class="mdescRight">reload : Take ammo in the sotck to the cartridge <br /></td></tr>
 <tr class="separator:ac822a115d54e071c269db136b1a4a938"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4632c3750d355f700d7962b915c6b470"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4632c3750d355f700d7962b915c6b470"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>is_reloading</b> ()</td></tr>
+<tr class="memitem:a4632c3750d355f700d7962b915c6b470"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_character.html#a4632c3750d355f700d7962b915c6b470">is_reloading</a> ()</td></tr>
+<tr class="memdesc:a4632c3750d355f700d7962b915c6b470"><td class="mdescLeft">&#160;</td><td class="mdescRight">is_reloading : Decrement the reloading_cooldown  <a href="#a4632c3750d355f700d7962b915c6b470">More...</a><br /></td></tr>
 <tr class="separator:a4632c3750d355f700d7962b915c6b470"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a112ffb75592be9e1e9cf78b1428ffedf"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a112ffb75592be9e1e9cf78b1428ffedf"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>die</b> ()</td></tr>
-<tr class="separator:a112ffb75592be9e1e9cf78b1428ffedf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab231f3cd99b7713e850bf49a2d81cd5c"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ab231f3cd99b7713e850bf49a2d81cd5c"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>invincibility_counting</b> (std::vector&lt; iv::ITexture * &gt; &amp;textures)</td></tr>
-<tr class="separator:ab231f3cd99b7713e850bf49a2d81cd5c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a05360c1962174c7d2af3da42d43b7075"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_character.html#a05360c1962174c7d2af3da42d43b7075">is_invincible</a> (std::vector&lt; iv::ITexture * &gt; &amp;textures)</td></tr>
+<tr class="memdesc:a05360c1962174c7d2af3da42d43b7075"><td class="mdescLeft">&#160;</td><td class="mdescRight">is_invincible : Decrement the invincibility_frame  <a href="#a05360c1962174c7d2af3da42d43b7075">More...</a><br /></td></tr>
+<tr class="separator:a05360c1962174c7d2af3da42d43b7075"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6a06c51c81fb8561842972af42d9a362"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a6a06c51c81fb8561842972af42d9a362"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>take_damage</b> ()</td></tr>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_character.html#a6a06c51c81fb8561842972af42d9a362">take_damage</a> ()</td></tr>
+<tr class="memdesc:a6a06c51c81fb8561842972af42d9a362"><td class="mdescLeft">&#160;</td><td class="mdescRight">take_damage : Reduce the health_point if the character is not invincible <br /></td></tr>
 <tr class="separator:a6a06c51c81fb8561842972af42d9a362"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0efe553fafb22f8ac5e55de456b59bf4"><td class="memItemLeft" align="right" valign="top">u32&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_character.html#a0efe553fafb22f8ac5e55de456b59bf4">getReloading_cooldown</a> () const </td></tr>
+<tr class="memdesc:a0efe553fafb22f8ac5e55de456b59bf4"><td class="mdescLeft">&#160;</td><td class="mdescRight">getReloading_cooldown : Getter  <a href="#a0efe553fafb22f8ac5e55de456b59bf4">More...</a><br /></td></tr>
+<tr class="separator:a0efe553fafb22f8ac5e55de456b59bf4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a711aa42e377e6b48e4f40701e0769c0c"><td class="memItemLeft" align="right" valign="top">u32&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_character.html#a711aa42e377e6b48e4f40701e0769c0c">getHealth_point</a> () const </td></tr>
+<tr class="memdesc:a711aa42e377e6b48e4f40701e0769c0c"><td class="mdescLeft">&#160;</td><td class="mdescRight">getHealth_point : Getter  <a href="#a711aa42e377e6b48e4f40701e0769c0c">More...</a><br /></td></tr>
+<tr class="separator:a711aa42e377e6b48e4f40701e0769c0c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adc27bdd255876169bad2ed0bae0cffb5"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="adc27bdd255876169bad2ed0bae0cffb5"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_character.html#adc27bdd255876169bad2ed0bae0cffb5">Character</a> ()</td></tr>
 <tr class="memdesc:adc27bdd255876169bad2ed0bae0cffb5"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="class_character.html" title="The Character class. ">Character</a> : Default constructor. <br /></td></tr>
 <tr class="separator:adc27bdd255876169bad2ed0bae0cffb5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0efe553fafb22f8ac5e55de456b59bf4"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a0efe553fafb22f8ac5e55de456b59bf4"></a>
-u32&#160;</td><td class="memItemRight" valign="bottom"><b>getReloading_cooldown</b> () const </td></tr>
-<tr class="separator:a0efe553fafb22f8ac5e55de456b59bf4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a711aa42e377e6b48e4f40701e0769c0c"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a711aa42e377e6b48e4f40701e0769c0c"></a>
-u32&#160;</td><td class="memItemRight" valign="bottom"><b>getHealth_point</b> () const </td></tr>
-<tr class="separator:a711aa42e377e6b48e4f40701e0769c0c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
@@ -341,6 +339,84 @@ is::IAnimatedMeshSceneNode *&#160;</td><td class="memItemRight" valign="bottom">
 
 <p>get_nb_stock : Get the number of munition in stock remaining </p>
 <dl class="section return"><dt>Returns</dt><dd>the stock </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a711aa42e377e6b48e4f40701e0769c0c"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">u32 Character::getHealth_point </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>getHealth_point : Getter </p>
+<dl class="section return"><dt>Returns</dt><dd>health_point </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a0efe553fafb22f8ac5e55de456b59bf4"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">u32 Character::getReloading_cooldown </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>getReloading_cooldown : Getter </p>
+<dl class="section return"><dt>Returns</dt><dd>reloading_cooldown </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a05360c1962174c7d2af3da42d43b7075"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Character::is_invincible </td>
+          <td>(</td>
+          <td class="paramtype">std::vector&lt; iv::ITexture * &gt; &amp;&#160;</td>
+          <td class="paramname"><em>textures</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>is_invincible : Decrement the invincibility_frame </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">textures</td><td>: textures applied when the charater is invincible or not </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="a4632c3750d355f700d7962b915c6b470"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool Character::is_reloading </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>is_reloading : Decrement the reloading_cooldown </p>
+<dl class="section return"><dt>Returns</dt><dd>true if the character is reloading (if reloading_cooldown &gt; 0) </dd></dl>
 
 </div>
 </div>

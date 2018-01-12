@@ -370,16 +370,18 @@ int main()
 
                         if(selected_scene_node_id == MAP_ID){
                             if (list_part_rempli){ list_part[i_FIFO].remove();}
-                            list_part[i_FIFO].addParticleToScene(smgr,main_character.body->getPosition(),intersection,selected_scene_node);
+                            list_part[i_FIFO].addParticleToScene(smgr,main_character.body->getPosition(),intersection);
                             i_FIFO++;
                             if (i_FIFO==NB_PARTICULE_MAX){i_FIFO = 0; list_part_rempli = true;}
 
                         }
 
                         for(u32 i=0; i<NB_ENEMY_MAX; i++){
-                            if(enemies[i].node->getID() == selected_scene_node_id){
+                            //if is an enemi
+                            if(enemies[i].node->getID() == selected_scene_node_id &&
+                                    selected_scene_node->getAbsolutePosition().getDistanceFrom(main_character.body->getAbsolutePosition())<1000){
                                 if (list_part_rempli){ list_part[i_FIFO].remove();}
-                                list_part[i_FIFO].addParticleToScene(smgr,main_character.body->getPosition(),intersection,selected_scene_node);
+                                list_part[i_FIFO].addParticleToScene(smgr,main_character.body->getPosition(),intersection);
                                 i_FIFO++;
                                 if (i_FIFO==NB_PARTICULE_MAX){i_FIFO = 0; list_part_rempli = true;}
                                 enemies[i].being_hit(driver->getTexture("../data/Baron/baronlight.jpg"));
@@ -405,7 +407,7 @@ int main()
                 enemies[i].attack(&main_character);
             }
 
-            main_character.invincibility_counting(textures);
+            main_character.is_invincible(textures);
             last_attack = receiver.button_pressed;
 
 
