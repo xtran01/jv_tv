@@ -7,9 +7,12 @@ Xuan-Vinh Tran
 # Autorisations
 Autorisation de diffuser sur la page dédié et que nos noms y soient affichés
 
-# Sources
-http://irrlicht.sourceforge.net/docu/
+#Sources
+Tous les models 3D et la map ne nous appartiennent pas.
+- La map peut etre trouver sur ce lien : https://quakearea.com/site/index.php/map/download
+- Tous les models 3D (MD2) proviennent de ce site : http://www.md2.sitters-electronics.nl/models.htm
 http://irrlicht.sleek-think.ovh/viewtopic.php?pid=11506 (camera control)
+http://irrlicht.sourceforge.net/docu/
 # Comment Compiler :
 $. cd jv_tv
 $. mkdir build
