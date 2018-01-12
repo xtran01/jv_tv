@@ -212,10 +212,12 @@ int main()
 
     /*******************************************/
     // TEXTURES
-    // Vector of textures for the textures of the characters
-    std::vector<iv::ITexture*> textures;
-    // Texture for the billboard use at the end
-    iv::ITexture* texture_fin;
+    // Textures for the billboard use at the end and the different screen and menus
+    iv::ITexture *texture_dialogue, *texture_objectif2, *texture_particle_green, *texture_win_menu;
+    texture_dialogue = driver->getTexture("../data/dialogue_menu.png");
+    texture_objectif2 = driver->getTexture("../data/objectif2.png");
+    texture_particle_green = driver->getTexture("../data/particlegreen.jpg");
+    texture_win_menu = driver->getTexture("../data/win_menu.png");
 
     // Textures for the digit
     iv::ITexture *digits[10];
@@ -262,19 +264,7 @@ int main()
     ig::IGUIImage *objectif   = gui->addImage(ic::rect<s32>(0,0, WIDTH_WINDOW,HEIGHT_WINDOW)); objectif->setScaleImage(true);
     ig::IGUIImage *menu   = gui->addImage(ic::rect<s32>(0,0, WIDTH_WINDOW,HEIGHT_WINDOW)); menu->setScaleImage(true);
 
-    // Push the textures in a vector of textures for the main character and the pnj character
-    textures.push_back(driver->getTexture("../data/Chaingunner/chaingunner_body.png"));
-    textures.push_back(driver->getTexture("../data/Chaingunner/chaingunner_weapon.png"));
-    textures.push_back(driver->getTexture("../data/Chaingunner/chaingunner_head1.png"));
-    textures.push_back(driver->getTexture("../data/Chaingunner/chaingunner_fire_weapon.png"));
-    textures.push_back(driver->getTexture("../data/Chaingunner/chaingunner_mf0.png"));
-    textures.push_back(driver->getTexture("../data/Chaingunner/chaingunner_pain_body.png"));
-    textures.push_back(driver->getTexture("../data/Chaingunner/chaingunner_head2.png"));
-    textures.push_back(driver->getTexture("../data/Chaingunner/chaingunner_die_body.png"));
-    textures.push_back(driver->getTexture("../data/Warrior/warrior.jpg"));
 
-    // A different texture object for the billboard use at the end of the game
-    texture_fin = driver->getTexture("../data/particlegreen.jpg");
 
     /*******************************************/
     // MAP
@@ -300,6 +290,18 @@ int main()
 
     /*******************************************/
     // MAIN CHARACTER
+    // Vector of textures for the textures of the characters
+    std::vector<iv::ITexture*> textures;
+    // Push the textures in a vector of textures for the main character and the pnj character
+    textures.push_back(driver->getTexture("../data/Chaingunner/chaingunner_body.png"));
+    textures.push_back(driver->getTexture("../data/Chaingunner/chaingunner_weapon.png"));
+    textures.push_back(driver->getTexture("../data/Chaingunner/chaingunner_head1.png"));
+    textures.push_back(driver->getTexture("../data/Chaingunner/chaingunner_fire_weapon.png"));
+    textures.push_back(driver->getTexture("../data/Chaingunner/chaingunner_mf0.png"));
+    textures.push_back(driver->getTexture("../data/Chaingunner/chaingunner_pain_body.png"));
+    textures.push_back(driver->getTexture("../data/Chaingunner/chaingunner_head2.png"));
+    textures.push_back(driver->getTexture("../data/Chaingunner/chaingunner_die_body.png"));
+
     //create Main character
     Character main_character;
     // Add the character mesh to the scene
@@ -316,6 +318,8 @@ int main()
     // Create pnj
     // His name is Rohmer because of our fabulous assistant professor we had at CPE. This is a tribute to him.
     pnj rohmer;
+    //Texture for the pnj character
+    textures.push_back(driver->getTexture("../data/Warrior/warrior.jpg"));
     // Add the mesh to the scene and add a collider
     rohmer.addPNJMeshToScene(smgr,textures);
     rohmer.addPNJCollider(smgr,selector);
@@ -339,6 +343,11 @@ int main()
     positions[8] = ic::vector3df(1191.59f,91.7503f,-2235.39f);
     positions[9] = ic::vector3df(1777.36f,27.7503f,-1784.f);
 
+    //Load the textures for the enemies
+    std::vector<iv::ITexture*> textures_enemy;
+    textures_enemy.push_back(driver->getTexture("../data/Baron/baron.jpg"));
+    textures_enemy.push_back(driver->getTexture("../data/Baron/baronlight.jpg"));
+
     // Create the first enemy ID
     u32 id = FIRST_ENEMY_ID;
     // For loop to create all the enemies
@@ -346,7 +355,7 @@ int main()
         //create enemy
         // Add it the the scene and add texture and collider with the map
         enemies[i].addEnemyMeshToScene(smgr, main_character.body,device->getRandomizer());
-        enemies[i].setTexture(driver->getTexture("../data/Baron/baron.jpg"));
+        enemies[i].setTexture(textures_enemy[0]);
         enemies[i].create_collision_with_map(selector);
 
         enemies[i].setPosition(positions[i]);
@@ -388,8 +397,10 @@ int main()
     /*******************************************/
     // SCOPE
     // Get the texture for the scope
-    iv::ITexture *scope_tex;
-    scope_tex= driver->getTexture("../data/scope.png");
+    iv::ITexture *scope_tex, *scope_red, *scope_green;
+    scope_tex = driver->getTexture("../data/scope.png");
+    scope_red = driver->getTexture("../data/scope.png");
+    scope_green = driver->getTexture("../data/scope_not.png");
     /*******************************************/
 
     // Create the collision manager
@@ -446,11 +457,11 @@ int main()
             }
             // If is reloading or not enough ammunition, the scope become green
             if(main_character.getReloading_cooldown()>0 || main_character.get_nb_munition() == 0){
-                scope_tex= driver->getTexture("../data/scope_not.png");
+                scope_tex= scope_green;
             }
             // Red scope
             else{
-                scope_tex= driver->getTexture("../data/scope.png");
+                scope_tex= scope_red;
             }
             // Set the right textures to the fire efect of the weapon
             is_attacking(main_character, textures, receiver, compteur_attack);
@@ -500,8 +511,7 @@ int main()
 
                         for(u32 i=0; i<NB_ENEMY_MAX; i++){
                             //if is an enemy and distance is inferior form range_max
-                            if(enemies[i].node->getID() == selected_scene_node_id &&
-                                    selected_scene_node->getAbsolutePosition().getDistanceFrom(main_character.body->getAbsolutePosition())<RANGE_MAX){
+                            if(enemies[i].node->getID() == selected_scene_node_id){
                                 // Remove the first particle, if the array is full
                                 if (list_part_rempli){ list_part[i_FIFO].remove();}
                                 // Add the particle to the scene
@@ -509,8 +519,11 @@ int main()
                                 i_FIFO++;
                                 //Set the flag list_part_rempli to true
                                 if (i_FIFO==NB_PARTICULE_MAX){i_FIFO = 0; list_part_rempli = true;}
-                                //Decrement the life of the enenmy and change his texture
-                                enemies[i].being_hit(driver->getTexture("../data/Baron/baronlight.jpg"));
+                                if(selected_scene_node->getAbsolutePosition().getDistanceFrom(main_character.body->getAbsolutePosition())<RANGE_MAX)
+                                {
+                                    //Decrement the life of the enenmy and change his texture
+                                    enemies[i].being_hit(textures_enemy[1]);
+                                }
                             }
                         }
 
@@ -530,7 +543,7 @@ int main()
             // Set the normal back texture to the enemy if he was injured
             // and calculate if the enemy can attack the player
             for(u32 i=0;i<NB_ENEMY_MAX ; i++){
-                enemies[i].make_blink(driver->getTexture("../data/Baron/baron.jpg"));
+                enemies[i].make_blink(textures_enemy[0]);
                 enemies[i].attack(&main_character);
             }
             // Calculate if the player is still invincible after he was injured
@@ -597,7 +610,7 @@ int main()
             {
                 follow = true;
                 create_window_pnj_follow(&receiver);
-                create_exit(smgr,texture_fin);
+                create_exit(smgr,texture_particle_green);
             }
 
             // If the pnj is following, make him follow
@@ -629,19 +642,19 @@ int main()
         }
         // Show the dialogue menu
         if (receiver.show_menu == 2){
-            menu_tex = driver->getTexture("../data/dialogue_menu.png");
+            menu_tex = texture_dialogue;
             scope->setVisible(false);
 
             menu->setVisible(true);
             menu->setImage(menu_tex);
             receiver.keyboard_handler(true, follow);
-            objectif_tex = driver->getTexture("../data/objectif2.png");
+            objectif_tex = texture_objectif2;
 
             main_character.setInvincibility_frame(80);
         }
         // if the player wins
         if (win){
-            menu_tex = driver->getTexture("../data/win_menu.png");
+            menu_tex = texture_win_menu;
             scope->setVisible(false);
             menu->setVisible(true);
             menu->setImage(menu_tex);
