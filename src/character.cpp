@@ -37,6 +37,15 @@ u32 Character::getHealth_point() const
 {
     return health_point;
 }
+/*------------------------------------------------------------------------*\
+ * Character::setInvincibility_frame
+ * Set invincibility_frame
+ * Param : Number of frame
+\*------------------------------------------------------------------------*/
+void Character::setInvincibility_frame(const u32 &value)
+{
+    invincibility_frame = value;
+}
 
 /*------------------------------------------------------------------------*\
  * EventReceiver::addCharacterMeshToScene

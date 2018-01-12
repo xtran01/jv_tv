@@ -138,6 +138,10 @@ public:
      * @brief Character : Default constructor
      */
     Character();
-
+    /**
+     * @brief setInvincibility_frame : Setter
+     * @param value : Number of frame
+     */
+    void setInvincibility_frame(const u32 &value);
 };
 #endif // CHARACTER_H

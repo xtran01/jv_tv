@@ -337,7 +337,7 @@ int main()
     positions[6] = ic::vector3df(-498.964f,311.742f,-417.19f);
     positions[7] = ic::vector3df(-725.969f,219.75f,-2045.89f);
     positions[8] = ic::vector3df(1191.59f,91.7503f,-2235.39f);
-    positions[9] = ic::vector3df(1619.04f,27.7503f,-670.765f);
+    positions[9] = ic::vector3df(2396.48f,173.75f,-1155.48f);
 
     // Create the first enemy ID
     u32 id = FIRST_ENEMY_ID;
@@ -636,6 +636,8 @@ int main()
             menu->setImage(menu_tex);
             receiver.keyboard_handler(true, follow);
             objectif_tex = driver->getTexture("../data/objectif2.png");
+
+            main_character.setInvincibility_frame(80);
         }
         // if the player wins
         if (win){
