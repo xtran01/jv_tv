@@ -1,3 +1,22 @@
+/*
+**    TP CPE Lyon
+**    Copyright (C) 2018 Camille FARINEAU / Ahmed LOUDGHIRI / Xuan-Vinh TRAN
+**
+**    This program is free software: you can redistribute it and/or modify
+**    it under the terms of the GNU General Public License as published by
+**    the Free Software Foundation, either version 3 of the License, or
+**    (at your option) any later version.
+**
+**   This program is distributed in the hope that it will be useful,
+**    but WITHOUT ANY WARRANTY; without even the implied warranty of
+**    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+**    GNU General Public License for more details.
+**
+**    You should have received a copy of the GNU General Public License
+**    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
+
 #include <irrlicht.h>
 #include "events.hpp"
 #include "gui_ids.h"
@@ -305,7 +324,8 @@ int main()
     {
         driver->beginScene(true, true, iv::SColor(100,150,200,255));
         ig::IGUIImage *scope = gui->addImage(ic::rect<s32>(driver->getScreenSize().Width/2 -15,driver->getScreenSize().Height/2-15,  driver->getScreenSize().Width/2+15,driver->getScreenSize().Height/2+15)); scope->setScaleImage(true);
-
+        //set image for the "viseur"
+        scope->setImage(scope_tex);
 
         if(receiver.show_menu == 0 && !win){
             menu->setVisible(false);
@@ -314,19 +334,12 @@ int main()
             for(u32 i = 0; i<NB_ENEMY_MAX; i++){
                 enemies[i].handle_walking();
             }
-            //set image for the "viseur"
-
-
-            scope->setImage(scope_tex); scope->setVisible(true);
-
-
 
             if(main_character.getReloading_cooldown()>0 || main_character.get_nb_munition() == 0){
                 scope_tex= driver->getTexture("../data/scope_not.png");
             }
             else{
                 scope_tex= driver->getTexture("../data/scope.png");
-
             }
 
             is_attacking(main_character, textures, receiver, compteur_attack);
@@ -367,9 +380,9 @@ int main()
                         }
 
                         for(u32 i=0; i<NB_ENEMY_MAX; i++){
-                            //if is an enemi
+                            //if is an enemy and distance is inferior form range_max
                             if(enemies[i].node->getID() == selected_scene_node_id &&
-                                    selected_scene_node->getAbsolutePosition().getDistanceFrom(main_character.body->getAbsolutePosition())<1000){
+                                    selected_scene_node->getAbsolutePosition().getDistanceFrom(main_character.body->getAbsolutePosition())<RANGE_MAX){
                                 if (list_part_rempli){ list_part[i_FIFO].remove();}
                                 list_part[i_FIFO].addParticleToScene(smgr,main_character.body->getPosition(),intersection);
                                 i_FIFO++;
@@ -378,7 +391,7 @@ int main()
                             }
                         }
 
-                        attack_one_tic =false;
+                        attack_one_tic = false;
                         main_character.use_munition();
 
                     }
@@ -408,22 +421,24 @@ int main()
 
             stock_10->setImage(digits[(main_character.get_nb_stock() / 10) % 10]);
             stock_1->setImage(digits[(main_character.get_nb_stock() / 1) % 10]);
-
             slash->setImage(slash_tex);
 
             switch(main_character.getHealth_point()){
             case 2 :
                 bloody_screen->setVisible(true);
                 bloody_screen->setImage(bloody_screen_tex);
+
                 break;
             case 1 :
                 bloody_screen->setImage(bloodier_screen_tex);
                 break;
             case 0 :
+                scope->setVisible(false); // ENLEVER RETICULE A LA MORT
+
                 start_anim_death = true;
                 if(cpt_anim_death<=60)
                 {
-                    scope->setVisible(false); // ENLEVER RETICULE A LA MORT
+
 
                     if(start_anim_death == true && anim_death == false)
                     {
@@ -435,18 +450,19 @@ int main()
                 }
                 else if(cpt_anim_death>50)
                 {
-                    bloody_screen->setImage(gameover_screen_tex);
                     objectif->setVisible(false);
+                    bloody_screen->setImage(gameover_screen_tex);
                 }
                 break;
             default: bloody_screen->setVisible(false);
+                scope->setVisible(true);
+                break;
             }
 
             // Gestion suivi PNJ
             compteur_follow++;
             if(compteur_follow > 10)
                 meeting = is_character_meets_pnj(main_character,rohmer);
-            //std::cout<<"meeting: "<<meeting<<std::endl;
             if(meeting == true && follow == false)
             {
                 follow = true;

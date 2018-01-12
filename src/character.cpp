@@ -182,7 +182,6 @@ void Character::take_damage()
     else if (health_point>1 && invincibility_frame == 0){
         health_point--;
         invincibility_frame = 50;
-        std::cout<<"Vie joueur restant: "<<health_point<<std::endl;
     }
 
 }

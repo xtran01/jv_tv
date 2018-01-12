@@ -49,7 +49,6 @@ void Enemy::setID(u32 id){
 
 void Enemy::being_hit(iv::ITexture* texture_hit){
     if (health_point > 0){
-        std::cout<<health_point<<std::endl;
         health_point--;
         blink_frame = 15;
         node->setMaterialTexture(0, texture_hit);
