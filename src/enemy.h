@@ -19,7 +19,7 @@ namespace ic = irr::core;
 class Enemy
 {
 private:
-    u32 health_point = 4;
+    u32 health_point = 5;
     u32 blink_frame = 0;
     enum Animation { RUN, WALK, ATTACK, DEATH, STAND };
 
