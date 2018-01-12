@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['keyboard_5fhandler',['keyboard_handler',['../class_event_receiver.html#af7b016c7bfa9ebb4584a1cbd77c55e72',1,'EventReceiver']]]
+  ['handle_5fwalking',['handle_walking',['../class_enemy.html#a0474892876410229a8fab8cc2ac15ddb',1,'Enemy']]]
 ];

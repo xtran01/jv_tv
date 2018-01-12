@@ -151,12 +151,12 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>is_reloading</b> ()</
 <tr class="memitem:a112ffb75592be9e1e9cf78b1428ffedf"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a112ffb75592be9e1e9cf78b1428ffedf"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>die</b> ()</td></tr>
 <tr class="separator:a112ffb75592be9e1e9cf78b1428ffedf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab231f3cd99b7713e850bf49a2d81cd5c"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ab231f3cd99b7713e850bf49a2d81cd5c"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>invincibility_counting</b> (std::vector&lt; iv::ITexture * &gt; &amp;textures)</td></tr>
+<tr class="separator:ab231f3cd99b7713e850bf49a2d81cd5c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6a06c51c81fb8561842972af42d9a362"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a6a06c51c81fb8561842972af42d9a362"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>take_damage</b> ()</td></tr>
 <tr class="separator:a6a06c51c81fb8561842972af42d9a362"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af80b545c0b6e684381cdc26e6602994f"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_character.html#af80b545c0b6e684381cdc26e6602994f">Character</a> (is::ISceneManager *smgr)</td></tr>
-<tr class="memdesc:af80b545c0b6e684381cdc26e6602994f"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="class_character.html" title="The Character class. ">Character</a> : Constructor of the character in the smgr.  <a href="#af80b545c0b6e684381cdc26e6602994f">More...</a><br /></td></tr>
-<tr class="separator:af80b545c0b6e684381cdc26e6602994f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adc27bdd255876169bad2ed0bae0cffb5"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="adc27bdd255876169bad2ed0bae0cffb5"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_character.html#adc27bdd255876169bad2ed0bae0cffb5">Character</a> ()</td></tr>
 <tr class="memdesc:adc27bdd255876169bad2ed0bae0cffb5"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="class_character.html" title="The Character class. ">Character</a> : Default constructor. <br /></td></tr>
@@ -164,6 +164,9 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>take_damage</b> ()</t
 <tr class="memitem:a0efe553fafb22f8ac5e55de456b59bf4"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a0efe553fafb22f8ac5e55de456b59bf4"></a>
 u32&#160;</td><td class="memItemRight" valign="bottom"><b>getReloading_cooldown</b> () const </td></tr>
 <tr class="separator:a0efe553fafb22f8ac5e55de456b59bf4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a711aa42e377e6b48e4f40701e0769c0c"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a711aa42e377e6b48e4f40701e0769c0c"></a>
+u32&#160;</td><td class="memItemRight" valign="bottom"><b>getHealth_point</b> () const </td></tr>
+<tr class="separator:a711aa42e377e6b48e4f40701e0769c0c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
@@ -186,32 +189,7 @@ is::IAnimatedMeshSceneNode *&#160;</td><td class="memItemRight" valign="bottom">
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>The <a class="el" href="class_character.html" title="The Character class. ">Character</a> class. </p>
-</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a class="anchor" id="af80b545c0b6e684381cdc26e6602994f"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">Character::Character </td>
-          <td>(</td>
-          <td class="paramtype">is::ISceneManager *&#160;</td>
-          <td class="paramname"><em>smgr</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p><a class="el" href="class_character.html" title="The Character class. ">Character</a> : Constructor of the character in the smgr. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">smgr</td><td>: pointer to the scene manager </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-<h2 class="groupheader">Member Function Documentation</h2>
+</div><h2 class="groupheader">Member Function Documentation</h2>
 <a class="anchor" id="a95f1db6618037ab2443bbdfba1fe7352"></a>
 <div class="memitem">
 <div class="memproto">
