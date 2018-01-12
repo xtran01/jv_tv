@@ -1,5 +1,11 @@
 #include "particle.h"
-
+/*------------------------------------------------------------------------*\
+ * Particle::Particle
+ * Set the correct textures and decrement the counter for the invincibility frame
+ * After the character has been hit there is a few frame where it is unvunerable
+ *  Param:
+ *  Return :
+\*------------------------------------------------------------------------*/
 Particle::Particle()
 {
 

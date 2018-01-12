@@ -116,13 +116,13 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <tr class="memdesc:a0c3ff29879405049867d53963754d2a9"><td class="mdescLeft">&#160;</td><td class="mdescRight">addPNJMeshToScene <br /></td></tr>
 <tr class="separator:a0c3ff29879405049867d53963754d2a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af4b5301ce298d5fea514fbd637b3fb03"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classpnj.html#af4b5301ce298d5fea514fbd637b3fb03">addPNJCollider</a> (is::ISceneManager *smgr, scene::ITriangleSelector *selector)</td></tr>
-<tr class="memdesc:af4b5301ce298d5fea514fbd637b3fb03"><td class="mdescLeft">&#160;</td><td class="mdescRight">setPosition : Set the position of the enemy  <a href="#af4b5301ce298d5fea514fbd637b3fb03">More...</a><br /></td></tr>
+<tr class="memdesc:af4b5301ce298d5fea514fbd637b3fb03"><td class="mdescLeft">&#160;</td><td class="mdescRight">addPNJCollider : Add a collision box to the pnj character  <a href="#af4b5301ce298d5fea514fbd637b3fb03">More...</a><br /></td></tr>
 <tr class="separator:af4b5301ce298d5fea514fbd637b3fb03"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a215d3c00fc823bdf5f7df16cfc7485c0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classpnj.html#a215d3c00fc823bdf5f7df16cfc7485c0">setAnimation</a> (<a class="el" href="classpnj.html#a9d83535d338c31e1622609fc351000cf">Animation</a> anim)</td></tr>
 <tr class="memdesc:a215d3c00fc823bdf5f7df16cfc7485c0"><td class="mdescLeft">&#160;</td><td class="mdescRight">setAnimation : Set the animation of the character  <a href="#a215d3c00fc823bdf5f7df16cfc7485c0">More...</a><br /></td></tr>
 <tr class="separator:a215d3c00fc823bdf5f7df16cfc7485c0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa4a3c8641af10c43183606db57fb7fc0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classpnj.html#aa4a3c8641af10c43183606db57fb7fc0">follow</a> (core::vector3df position_character, core::vector3df orientation_character)</td></tr>
-<tr class="memdesc:aa4a3c8641af10c43183606db57fb7fc0"><td class="mdescLeft">&#160;</td><td class="mdescRight">meeting: look if the character has joined the PNJ  <a href="#aa4a3c8641af10c43183606db57fb7fc0">More...</a><br /></td></tr>
+<tr class="memdesc:aa4a3c8641af10c43183606db57fb7fc0"><td class="mdescLeft">&#160;</td><td class="mdescRight">follow: handle the movement of the pnj character if it is following the main character  <a href="#aa4a3c8641af10c43183606db57fb7fc0">More...</a><br /></td></tr>
 <tr class="separator:aa4a3c8641af10c43183606db57fb7fc0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad836793e81fa6c36e572f068247cd2b6"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad836793e81fa6c36e572f068247cd2b6"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classpnj.html#ad836793e81fa6c36e572f068247cd2b6">pnj</a> ()</td></tr>
@@ -133,16 +133,12 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 Public Attributes</h2></td></tr>
 <tr class="memitem:a3abade10e0a6b3b498e2656d6fa86ec3"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a3abade10e0a6b3b498e2656d6fa86ec3"></a>
 core::vector3df&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classpnj.html#a3abade10e0a6b3b498e2656d6fa86ec3">position_prev_character</a></td></tr>
-<tr class="memdesc:a3abade10e0a6b3b498e2656d6fa86ec3"><td class="mdescLeft">&#160;</td><td class="mdescRight">position_prev_character : Previous position of the character <br /></td></tr>
+<tr class="memdesc:a3abade10e0a6b3b498e2656d6fa86ec3"><td class="mdescLeft">&#160;</td><td class="mdescRight">position_prev_character : Previous position of the main character <br /></td></tr>
 <tr class="separator:a3abade10e0a6b3b498e2656d6fa86ec3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae90700d06a107812262cbcd6ec90e2b9"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae90700d06a107812262cbcd6ec90e2b9"></a>
 is::IAnimatedMeshSceneNode *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classpnj.html#ae90700d06a107812262cbcd6ec90e2b9">body</a></td></tr>
-<tr class="memdesc:ae90700d06a107812262cbcd6ec90e2b9"><td class="mdescLeft">&#160;</td><td class="mdescRight">body : Noeud qui mermet de manipuler le maillage <br /></td></tr>
+<tr class="memdesc:ae90700d06a107812262cbcd6ec90e2b9"><td class="mdescLeft">&#160;</td><td class="mdescRight">body : node to handl mesh of the body <br /></td></tr>
 <tr class="separator:ae90700d06a107812262cbcd6ec90e2b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3e15fd4771364fbc00dd915732616087"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a3e15fd4771364fbc00dd915732616087"></a>
-u32&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classpnj.html#a3e15fd4771364fbc00dd915732616087">health_point</a> = 3</td></tr>
-<tr class="memdesc:a3e15fd4771364fbc00dd915732616087"><td class="mdescLeft">&#160;</td><td class="mdescRight">health_point : HP of the player <br /></td></tr>
-<tr class="separator:a3e15fd4771364fbc00dd915732616087"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Member Function Documentation</h2>
 <a class="anchor" id="af4b5301ce298d5fea514fbd637b3fb03"></a>
@@ -169,11 +165,9 @@ u32&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
       </table>
 </div><div class="memdoc">
 
-<p>setPosition : Set the position of the enemy </p>
+<p>addPNJCollider : Add a collision box to the pnj character </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">vec3</td><td>: New position of the mesh create_collision_with_map </td></tr>
-    <tr><td class="paramname">world</td><td>addCharacterCollider : Add a collision box to the character </td></tr>
     <tr><td class="paramname">smgr</td><td>: pointer to the scene manager </td></tr>
     <tr><td class="paramname">selector</td><td>: </td></tr>
   </table>
@@ -206,7 +200,7 @@ u32&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
       </table>
 </div><div class="memdoc">
 
-<p>meeting: look if the character has joined the PNJ </p>
+<p>follow: handle the movement of the pnj character if it is following the main character </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">smgr</td><td></td></tr>
