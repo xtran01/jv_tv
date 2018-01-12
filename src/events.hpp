@@ -4,10 +4,11 @@
 #define EVENTS_HPP
 
 #include <vector>
-
-#include <irrlicht.h>
+#include "constantes.h"
 #include "character.h"
 #include "pnj.h"
+#include "gui_ids.h"
+#include "particle.h"
 
 using namespace irr;
 

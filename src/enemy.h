@@ -1,6 +1,6 @@
 #ifndef ENEMY_H
 #define ENEMY_H
-#include <irrlicht.h>
+#include "constantes.h"
 #include <string>
 #include <assert.h>
 #include <iostream>
@@ -54,7 +54,8 @@ public:
     is::IAnimatedMeshSceneNode *hand;
 
     void addEnemyMeshToScene(is::ISceneManager* smgr,
-                             is::IAnimatedMeshSceneNode *main_character_node_param);
+                             is::IAnimatedMeshSceneNode *main_character_node_param,
+                             irr::IRandomizer *randomizer_param);
     /**
      * @brief setPosition : Set the position of the enemy
      * @param vec3 : New position of the mesh

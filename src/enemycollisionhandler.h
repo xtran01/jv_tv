@@ -1,6 +1,6 @@
 #ifndef ENEMYCOLLISIONHANDLER_H
 #define ENEMYCOLLISIONHANDLER_H
-#include <irrlicht.h>
+#include "constantes.h"
 #include <iostream>
 
 namespace iv = irr::video;
@@ -16,9 +16,8 @@ class EnemyCollisionHandler : public irr::scene::ICollisionCallback
 
 
 private:
-    ic::vector3df previous_resulting_position;
 
-
+    ic::vector3df previous_calculated_pos;
 
 public:
     /**

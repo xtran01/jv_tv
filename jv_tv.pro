@@ -28,7 +28,8 @@ HEADERS += src/events.hpp \
     src/enemycollisionhandler.h \
     src/particle.h \
     src/pnj.h \
-    src/randomwalknodeanimator.h
+    src/randomwalknodeanimator.h \
+    src/constantes.h
 
 
 
