@@ -14,7 +14,7 @@ void RandomWalkNodeAnimator::animateNode(irr::scene::ISceneNode *node,irr::u32 t
     ic::vector3df position = node->getPosition();
     ic::vector3df rotation = node->getRotation();
 
-    if(time_to_change_sign > 15){
+    if(time_to_change_sign > 25){
         time_to_change_sign = 0;
         if(floor(2 * randomizer->frand() - 1) == 0){
             plus_or_minus =1;

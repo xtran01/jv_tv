@@ -9,7 +9,7 @@ bool EnemyCollisionHandler::onCollision(
         const irr::scene::ISceneNodeAnimatorCollisionResponse &animator){
     is::ISceneNode *node_associated =  animator.getTargetNode();
 
-    const irr::f32 epsilon = 0.1;
+    const irr::f32 epsilon = 0.2;
     ic::vector3df new_calculated_pos = animator.getCollisionResultPosition();
 
     irr::f32 distance = new_calculated_pos.getDistanceFrom(previous_calculated_pos);
