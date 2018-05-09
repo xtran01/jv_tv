@@ -7,6 +7,8 @@ project(jv_tv)
 
 FIND_PACKAGE(OpenGL REQUIRED)
 set(QT_USE_OPENGL TRUE)
+FIND_PACKAGE(X11)
+
 
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
@@ -28,6 +30,6 @@ add_executable(
 )
 
 
-TARGET_LINK_LIBRARIES(jv_tv -lm -ldl -lGLEW -lGL -lIrrlicht  ${OPENGL_LIBRARIES} ${QT_LIBRARIES} ${QT_GL_LIBRARIES} ${QT_QTOPENGL_LIBRARY})
+TARGET_LINK_LIBRARIES(jv_tv -lm -ldl -lGLEW -lGL -lIrrlicht  ${OPENGL_LIBRARIES} ${QT_LIBRARIES} ${QT_GL_LIBRARIES} ${QT_QTOPENGL_LIBRARY} ${X11_LIBRARIES} /usr/lib/x86_64-linux-gnu/libXxf86vm.so.1)
 
 
